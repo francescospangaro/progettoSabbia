@@ -7,7 +7,7 @@ package sabbiapallina;
 
 /**
  *
- * @author Galimberti Francesco
+ * @author Spangaro Francesco
  */
 public class DatiCondivisi {
     private Sabbia[] sabbie;
