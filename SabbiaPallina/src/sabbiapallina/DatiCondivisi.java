@@ -11,6 +11,7 @@ package sabbiapallina;
  */
 public class DatiCondivisi {
     private Sabbia[] sabbie;
+    private boolean gioco;
     private int running;
     private int inclinazioneX;
     private int inclinazioneY;
@@ -29,6 +30,7 @@ public class DatiCondivisi {
         this.red = red;
         this.green = green;
         this.blue = blue;
+        this.gioco = false;
     }
 
     public Sabbia[] getSabbie() {
@@ -101,5 +103,13 @@ public class DatiCondivisi {
     
     public void diminuisciInclY(){
         this.inclinazioneY--;
+    }
+    
+    public void setGioco(boolean gioco){
+        this.gioco = gioco;
+    }
+    
+    public boolean getGioco(){
+        return this.gioco;
     }
 }

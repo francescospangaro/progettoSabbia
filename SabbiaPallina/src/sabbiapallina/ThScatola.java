@@ -24,6 +24,7 @@ public class ThScatola extends Thread {
     int larghezza;
 
     Sabbia sabbia;
+    Pallina pallina;
 
     //Pallina pallina;
     public ThScatola(DatiCondivisi dati, int idScatola, int lunghezza, int larghezza) {
@@ -34,7 +35,7 @@ public class ThScatola extends Thread {
         this.larghezza = larghezza;
 
         sabbia = dati.getSabbiaById(idScatola);
-        //pallina = new Pallina();
+        pallina = new Pallina();
     }
 
     public ThScatola() {
@@ -42,7 +43,7 @@ public class ThScatola extends Thread {
 
     public void run() {
         try {
-            while (dati.isRunning()) {
+            while (dati.getGioco()) {
 
                 Thread.sleep(10);
                 simulazioneMovimento();

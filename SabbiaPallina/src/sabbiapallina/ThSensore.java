@@ -11,7 +11,7 @@ package sabbiapallina;
  */
 public class ThSensore extends Thread{
     private DatiCondivisi ptrDati;
-    private primoFrame frame;
+    private SwingGui gui;
     
     public ThSensore(DatiCondivisi ptrDati) {
         this.ptrDati = ptrDati;
@@ -20,7 +20,7 @@ public class ThSensore extends Thread{
     
     @Override
     public void run(){
-        while(ptrDati.isRunning()){
+        while(ptrDati.getGioco()){
             
             
         }
