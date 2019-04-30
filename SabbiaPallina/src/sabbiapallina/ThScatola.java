@@ -53,7 +53,7 @@ public class ThScatola extends Thread {
     }
 
     public void aggiornaInformazioni() {
-        sabbia.aggiornaSabbia(dati.giroscopio.getInclinazioneX());
+        sabbia.aggiornaSabbia(dati.getInclinazioneX());
         //aggiornamento pallina
     }
 

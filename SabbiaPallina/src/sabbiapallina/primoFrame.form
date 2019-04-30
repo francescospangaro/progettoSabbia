@@ -72,16 +72,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Incrementa x"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIncXActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnDimY">
       <Properties>
         <Property name="text" type="java.lang.String" value="Diminuisci y"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDimYActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnIncY">
       <Properties>
         <Property name="text" type="java.lang.String" value="Incrementa y"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIncYActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

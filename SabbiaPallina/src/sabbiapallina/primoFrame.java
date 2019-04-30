@@ -10,12 +10,13 @@ package sabbiapallina;
  * @author franc_000
  */
 public class primoFrame extends javax.swing.JFrame {
-
+    DatiCondivisi ptrDati;
     /**
      * Creates new form primoFrame
      */
-    public primoFrame() {
+    public primoFrame(DatiCondivisi ptrDati) {
         initComponents();
+        this.ptrDati = ptrDati;
     }
 
     /**
@@ -42,10 +43,25 @@ public class primoFrame extends javax.swing.JFrame {
         });
 
         btnIncX.setText("Incrementa x");
+        btnIncX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncXActionPerformed(evt);
+            }
+        });
 
         btnDimY.setText("Diminuisci y");
+        btnDimY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDimYActionPerformed(evt);
+            }
+        });
 
         btnIncY.setText("Incrementa y");
+        btnIncY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncYActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,10 +96,23 @@ public class primoFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
     private void btnDimXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDimXActionPerformed
-        // TODO add your handling code here:
+        ptrDati.diminuisciInclX();
     }//GEN-LAST:event_btnDimXActionPerformed
+
+    private void btnIncXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncXActionPerformed
+        ptrDati.incrementaInclX();
+    }//GEN-LAST:event_btnIncXActionPerformed
+
+    private void btnDimYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDimYActionPerformed
+        ptrDati.diminuisciInclY();
+    }//GEN-LAST:event_btnDimYActionPerformed
+
+    private void btnIncYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncYActionPerformed
+        ptrDati.incrementaInclY();
+    }//GEN-LAST:event_btnIncYActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,8 +143,13 @@ public class primoFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run(DatiCondivisi ptrDati) {
+                new primoFrame(ptrDati).setVisible(true);
+            }
+
+            @Override
             public void run() {
-                new primoFrame().setVisible(true);
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
     }
