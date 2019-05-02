@@ -23,9 +23,11 @@ import javax.swing.event.ChangeListener;
 public class SwingGui {
     private DatiCondivisi ptrDati;
     private JFrame frame;
+    private Sensore sensore;
 
-    public SwingGui(DatiCondivisi ptrDati) {
+    public SwingGui(DatiCondivisi ptrDati, Sensore sensore) {
         this.ptrDati = ptrDati;
+        this.sensore = sensore;
         
         frame = new JFrame("Controlli");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,10 +75,50 @@ public class SwingGui {
             
         });
         
+        JButton btnIncrX = new JButton("INCREMENTA X");
+        btnIncrX.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                sensore.incrInclX();
+            }
+        });
+        
+        JButton btnDecrX = new JButton("DECREMENTA X");
+        btnDecrX.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                sensore.decrInclX();
+            }
+        });
+        
+        JButton btnIncrY = new JButton("INCREMENTA Y");
+        btnIncrY.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                sensore.incrInclY();
+            }
+        });
+        
+        JButton btnDecrY = new JButton("DECREMENTA Y");
+        btnDecrY.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                sensore.decrInclY();
+            }
+        });
+        
         controls.add(inclinazione);
         controls.add(valIncl);
         controls.add(btnStart);
         controls.add(btnStop);
+        controls.add(btnIncrX);
+        controls.add(btnDecrX);
+        controls.add(btnIncrY);
+        controls.add(btnDecrY);
         
         frame.add(controls);
         frame.setSize(400, 80);

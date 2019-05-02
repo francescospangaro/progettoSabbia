@@ -13,8 +13,8 @@ public class DatiCondivisi {
     private Sabbia[] sabbie;
     private boolean gioco;
     private int running;
-    private int inclinazioneX;
-    private int inclinazioneY;
+    private double inclinazioneX;
+    private double inclinazioneY;
     private float red, green, blue;
     
     /* methods */
@@ -22,7 +22,7 @@ public class DatiCondivisi {
     public DatiCondivisi() {
     }
 
-    public DatiCondivisi(Sabbia[] sabbie, int running, int inclinazioneX, int inclinazioneY, float red, float green, float blue) {
+    public DatiCondivisi(Sabbia[] sabbie, int running, double inclinazioneX, double inclinazioneY, float red, float green, float blue) {
         this.sabbie = sabbie;
         this.running = running;
         this.inclinazioneX = inclinazioneX;
@@ -49,19 +49,19 @@ public class DatiCondivisi {
         this.running = running;
     }
 
-    public int getInclinazioneX() {
+    public double getInclinazioneX() {
         return inclinazioneX;
     }
 
-    public void setInclinazioneX(int inclinazioneX) {
+    public void setInclinazioneX(double inclinazioneX) {
         this.inclinazioneX = inclinazioneX;
     }
 
-    public int getInclinazioneY() {
+    public double getInclinazioneY() {
         return inclinazioneY;
     }
 
-    public void setInclinazioneY(int inclinazioneY) {
+    public void setInclinazioneY(double inclinazioneY) {
         this.inclinazioneY = inclinazioneY;
     }
 
