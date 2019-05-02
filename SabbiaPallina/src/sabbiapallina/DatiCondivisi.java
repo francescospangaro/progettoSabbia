@@ -10,6 +10,7 @@ package sabbiapallina;
  * @author Spangaro Francesco
  */
 public class DatiCondivisi {
+    private int numScatole;
     private Sabbia[] sabbie;
     private boolean gioco;
     private int running;
@@ -22,7 +23,8 @@ public class DatiCondivisi {
     public DatiCondivisi() {
     }
 
-    public DatiCondivisi(Sabbia[] sabbie, int running, double inclinazioneX, double inclinazioneY, float red, float green, float blue) {
+    public DatiCondivisi(int numScatole, Sabbia[] sabbie, int running, double inclinazioneX, double inclinazioneY, float red, float green, float blue) {
+        this.numScatole = numScatole;
         this.sabbie = sabbie;
         this.running = running;
         this.inclinazioneX = inclinazioneX;
