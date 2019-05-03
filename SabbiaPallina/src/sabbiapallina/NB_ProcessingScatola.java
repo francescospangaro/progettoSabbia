@@ -48,7 +48,11 @@ public class NB_ProcessingScatola extends PApplet {
         box[1].sabbia.setPercentuale(0);//dx
         /*scatolaSx.sabbia.setPercentuale(100);
         scatolaDx.sabbia.setPercentuale(0);*/
-        
+        box[0].sabbia.setDati(dati);//sx
+        box[1].sabbia.setDati(dati);//dx
+        /*do alla sabbia presente in entrambe 
+        le scatole gli stessi dati condivisi
+        */
         for(int i=0;i<dati.numScatole;i++){
             box[i].start();
         }
@@ -75,12 +79,20 @@ public class NB_ProcessingScatola extends PApplet {
         PImage b;
         b = loadImage("image/sabbia.png");
         
-        if (id == 0) {
-            for (int x = 0; x < (s.widthSabbia); x++) {
+        if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))) {
+            for (int x = 0; x < (s.widthSabbia); x++){
                 image(b, x, 0);
             }
-        }else{
+        }if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
             for (int x = width/2; x < (s.widthSabbia)+ width/2; x++) {
+                image(b, x, 0);
+            }
+        }if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
+            for (int x = width/2; x < (s.widthSabbia)+width; x--){
+                image(b, x, 0);
+            }
+        }if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
+            for (int x = 0; x < (s.widthSabbia); x++) {
                 image(b, x, 0);
             }
         }

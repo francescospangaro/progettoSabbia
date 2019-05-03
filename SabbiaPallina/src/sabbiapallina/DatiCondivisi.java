@@ -14,6 +14,7 @@ import java.util.Random;
 public class DatiCondivisi {
     int numScatole;
     boolean running;
+    boolean positivoX;
     
     Sabbia[] sabbie;
     
@@ -22,6 +23,7 @@ public class DatiCondivisi {
     public DatiCondivisi(int numScatole) {
         this.numScatole = numScatole;
         running=true;
+        positivoX = true;
         
         giroscopio=new Sensore();
         
@@ -32,6 +34,16 @@ public class DatiCondivisi {
             sabbie[i] = new Sabbia();
         }
     }
+
+    public synchronized boolean isPositivoX() {
+        return positivoX;
+    }
+
+    public synchronized void setPositivoX(boolean positivoX) {
+        this.positivoX = positivoX;
+    }
+    
+    
     
     public synchronized Sabbia getSabbiaById(int idScatola){
         return sabbie[idScatola];

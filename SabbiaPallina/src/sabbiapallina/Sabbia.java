@@ -24,6 +24,7 @@ public class Sabbia{
     //dimensione sabbia
     int widthSabbia;
     int heightSabbia;
+    DatiCondivisi dati;
 
     public Sabbia(int percentuale,int xdirection, int widthScreen, int heightScreen, int widthSabbia, int heightSabbia) {
         this.percentuale = percentuale;
@@ -48,9 +49,18 @@ public class Sabbia{
         this.heightSabbia = 0;
         this.widthSabbia = 0;
     }
+    
+    public void setDati(DatiCondivisi dati){
+        this.dati = dati;
+    }
+    
+    public DatiCondivisi getDati(){
+        return this.dati;
+    }
 
     public void aggiornaSabbia(int inclinazioneX, int idScatola) {
             if (inclinazioneX > 20) {
+                this.dati.setPositivoX(true);
                 switch(idScatola){
                     case 0:
                         percentuale = percentuale - (int) (0.025 * inclinazioneX);
@@ -61,6 +71,7 @@ public class Sabbia{
                 }
                 
             }else if(inclinazioneX < -20) {
+                this.dati.setPositivoX(false);
                 switch(idScatola){
                     case 0:
                         percentuale = percentuale + (int) (0.025 * inclinazioneX);
