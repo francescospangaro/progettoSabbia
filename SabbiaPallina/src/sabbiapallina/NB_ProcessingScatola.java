@@ -79,20 +79,20 @@ public class NB_ProcessingScatola extends PApplet {
         PImage b;
         b = loadImage("image/sabbia.png");
         
-        if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))) {
+        if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))) {
             for (int x = 0; x < (s.widthSabbia); x++){
                 image(b, x, 0);
             }
         }if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
-            for (int x = width/2; x < (s.widthSabbia)+ width/2; x++) {
+            for (int x = width/2; x < (s.widthSabbia)+width/2; x--) {
                 image(b, x, 0);
             }
-        }if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
-            for (int x = width/2; x < (s.widthSabbia)+ width /2; x++){
+        }if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))){
+            for (int x = width/2; x < (s.widthSabbia)+width/2; x++){
                 image(b, x, 0);
             }
         }if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
-            for (int x = 0; x < (s.widthSabbia); x++) {
+            for (int x = width/2; x < (s.widthSabbia)+width/2; x++) {
                 image(b, x, 0);
             }
         }

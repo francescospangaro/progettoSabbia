@@ -69,20 +69,20 @@ public class Sabbia{
             if (inclinazioneX > 20) {
                 switch(idScatola){
                     case 0:
-                        percentuale = percentuale - (int) (0.025 * inclinazioneX);
+                        percentuale = percentuale - (int) (0.05 * inclinazioneX);
                         break;
                     case 1:
-                        percentuale = percentuale + (int) (0.025 * inclinazioneX);
+                        percentuale = percentuale + (int) (0.05 * inclinazioneX);
                         break;
                 }
                 
             }else if(inclinazioneX < -20) {
                 switch(idScatola){
                     case 0:
-                        percentuale = percentuale + (int) (0.025 * inclinazioneX);
+                        percentuale = percentuale + (int) (0.05 * inclinazioneX);
                         break;
                     case 1:
-                        percentuale = percentuale - (int) (0.025 * inclinazioneX);
+                        percentuale = percentuale - (int) (0.05 * inclinazioneX);
                         break;
                 }
             }                    

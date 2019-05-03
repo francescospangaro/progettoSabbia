@@ -23,7 +23,7 @@ public class DatiCondivisi {
     public DatiCondivisi(int numScatole) {
         this.numScatole = numScatole;
         running=true;
-        positivoX = true;
+        positivoX = false;
         
         giroscopio=new Sensore();
         
@@ -42,8 +42,6 @@ public class DatiCondivisi {
     public synchronized void setPositivoX(boolean positivoX) {
         this.positivoX = positivoX;
     }
-    
-    
     
     public synchronized Sabbia getSabbiaById(int idScatola){
         return sabbie[idScatola];
