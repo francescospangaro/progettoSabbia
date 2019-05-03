@@ -43,20 +43,20 @@ public class ThScatola extends Thread {
             while (dati.isRunning()) {
 
                 Thread.sleep(10);
-                simulazioneMovimento();
+                simulazioneMovimento(dati.giroscopio.getInclinazioneX());
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(ThScatola.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void simulazioneMovimento() {
-        aggiornaInformazioni();
+    public void simulazioneMovimento(int inclinazioneX) {
+        aggiornaInformazioni(inclinazioneX);
         visualizzazioneScatola();
     }
 
-    public void aggiornaInformazioni() {
-        sabbia.aggiornaSabbia(dati.giroscopio.getInclinazioneX());
+    public void aggiornaInformazioni(int inclinazioneX) {
+        sabbia.aggiornaSabbia(inclinazioneX,idScatola);
         //aggiornamento pallina
     }
 

@@ -64,21 +64,18 @@ public class NB_ProcessingScatola extends PApplet {
         if (!dati.isRunning()) {
             exit();
         }
-        
+        background(0, 0, 0);
         for(int i=0;i<dati.numScatole;i++){
             displaySabbia(box[i].sabbia,i);
         }
     }
 
-    void displaySabbia(Sabbia s, int i) {
+    void displaySabbia(Sabbia s, int id) {
         noStroke();
-
-        background(0, 0, 0);
-
         PImage b;
         b = loadImage("image/sabbia.png");
         
-        if (i == 0) {
+        if (id == 0) {
             for (int x = 0; x < (s.widthSabbia); x++) {
                 image(b, x, 0);
             }

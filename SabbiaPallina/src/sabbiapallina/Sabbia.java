@@ -27,7 +27,6 @@ public class Sabbia{
 
     public Sabbia(int percentuale,int xdirection, int widthScreen, int heightScreen, int widthSabbia, int heightSabbia) {
         this.percentuale = percentuale;
-        this.diminuzione = 0;
         this.widthScreen = widthScreen;
         this.heightScreen = heightScreen;
         this.widthSabbia = widthSabbia;
@@ -36,7 +35,6 @@ public class Sabbia{
 
     public Sabbia(int percentuale) {
         this.percentuale = percentuale;
-        this.diminuzione = 0;
         this.widthScreen = 0;
         this.heightScreen = 0;
         this.heightSabbia = 0;
@@ -45,24 +43,34 @@ public class Sabbia{
     
     public Sabbia() {
         this.percentuale = 0;
-        this.diminuzione = 0;
         this.widthScreen = 0;
         this.heightScreen = 0;
         this.heightSabbia = 0;
         this.widthSabbia = 0;
     }
 
-    public void aggiornaSabbia(int inclinazioneX) {
-        if(percentuale>30){
+    public void aggiornaSabbia(int inclinazioneX, int idScatola) {
             if (inclinazioneX > 20) {
-                diminuzione = (int) (0.2 * inclinazioneX);
-                percentuale = percentuale - diminuzione;
+                switch(idScatola){
+                    case 0:
+                        percentuale = percentuale - (int) (0.025 * inclinazioneX);
+                        break;
+                    case 1:
+                        percentuale = percentuale + (int) (0.025 * inclinazioneX);
+                        break;
+                }
+                
             }else if(inclinazioneX < -20) {
-                diminuzione = (int) (0.2 * inclinazioneX);
-                percentuale = percentuale + diminuzione;
-            }            
-        }        
-    }
+                switch(idScatola){
+                    case 0:
+                        percentuale = percentuale + (int) (0.025 * inclinazioneX);
+                        break;
+                    case 1:
+                        percentuale = percentuale - (int) (0.025 * inclinazioneX);
+                        break;
+                }
+            }                    
+        }
     
     //draw
     public void visualizzazioneSabbia() {
