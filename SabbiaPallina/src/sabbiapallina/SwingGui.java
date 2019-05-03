@@ -5,7 +5,9 @@
  */
 package sabbiapallina;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -15,119 +17,115 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 /**
  *
  * @author Galimberti Francesco
  */
 public class SwingGui {
-    private DatiCondivisi ptrDati;
+    private DatiCondivisi dati;    
     private JFrame frame;
-    private Sensore sensore;
 
-    public SwingGui(DatiCondivisi ptrDati, Sensore sensore) {
-        this.ptrDati = ptrDati;
-        this.sensore = sensore;
+    public SwingGui(DatiCondivisi ptrDati) {
+        this.dati = ptrDati;
         
         frame = new JFrame("Controlli");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+/*
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight())/1.5 );
+        frame.setLocation(x, y);*/
         
-        JPanel controls= new JPanel();
+        JPanel controls = new JPanel();  //aggiunge un pannello su cui aggiungere bottoni
         controls.setLayout(new FlowLayout());
-        
-        JSlider inclinazione = new JSlider();
+
+        JSlider inclinazione = new JSlider();  //slider che regola l'inclinazione delle scatole
         inclinazione.setValue(0);
-        inclinazione.setMaximum(90);
         inclinazione.setMinimum(-90);
-        JLabel valIncl = new JLabel(String.valueOf(inclinazione.getValue()));
+        inclinazione.setMaximum(90);
+        JLabel valInclinazione = new JLabel(String.valueOf(inclinazione.getValue())+"° ");
         
         inclinazione.addChangeListener(new ChangeListener() {
-            
             @Override
-            public void stateChanged(ChangeEvent ce){
-                int valore = inclinazione.getValue();
-                ptrDati.setInclinazioneX(valore);
-                valIncl.setText(String.valueOf(valore)+"° ");
+            public void stateChanged(ChangeEvent ce) {
+                int val = inclinazione.getValue();
+                
+                /*
+                //se l'inclinazione è maggiore di quella precedente la vel aumenta altrimenti diminuisce
+                if(val>0 && val>=dati.getGiroscopio().getInclinazioneX()){
+                    dati.incVelocita();
+                }else if(val >0 && val<dati.getGiroscopio().getInclinazioneX()){
+                    dati.decVelocita();
+                }else if(val<0 && val>=dati.getGiroscopio().getInclinazioneX()){
+                    dati.decVelocita();
+                }else if(val <0 && val<dati.getGiroscopio().getInclinazioneX()){
+                    dati.incVelocita();
+                }*/
+                
+                dati.giroscopio.scriviInclinazioneX(val);
+                valInclinazione.setText(String.valueOf(val)+"° ");
             }
         });
         
-        //crea un bottone stop, che ha il compito, tramite una variabile condivisa,
-        //di fermare il gioco e chiudere la canvas
-        JButton btnStop = new JButton("STOP");
-        btnStop.addActionListener(new ActionListener() {
-            
-           @Override
-           public void actionPerformed(ActionEvent e){
-               ptrDati.setGioco(false);
-           }
-            
-        });
-        
-        //crea un bottone start che avvia il canvas con il gioco
-        //e aggiorna una variabile in dati condivisi
-        JButton btnStart = new JButton("START");
-        btnStop.addActionListener(new ActionListener() {
-            
-           @Override
-           public void actionPerformed(ActionEvent e){
-               ptrDati.setGioco(true);
-           }
-            
-        });
-        
-        JButton btnIncrX = new JButton("INCREMENTA X");
-        btnIncrX.addActionListener(new ActionListener() {
-            
+        /**
+         *
+         * Creazione del bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazione sull'asse delle y e setta con il nuovo valore lo slider.
+         *
+         */
+        JButton AddValue = new JButton("Aumenta");
+        AddValue.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                sensore.incrInclX();
+            public void actionPerformed(ActionEvent e) {
+                inclinazione.setValue((int) (dati.giroscopio.getInclinazioneX() + 1));
+            }
+        });
+
+        /**
+         *
+         * Creazione del bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle y e setta con il nuovo valore lo slider.
+         *
+         */
+        JButton DecValue = new JButton("Decrementa");
+        DecValue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inclinazione.setValue((int) (dati.giroscopio.getInclinazioneX() - 1));
+            }
+        });
+
+        JButton reset = new JButton("Reset");
+        reset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inclinazione.setValue(0);
             }
         });
         
-        JButton btnDecrX = new JButton("DECREMENTA X");
-        btnDecrX.addActionListener(new ActionListener() {
-            
+        JButton stop = new JButton("STOP");
+        stop.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e){
-                sensore.decrInclX();
+            public void actionPerformed(ActionEvent e) {
+               dati.stop();
             }
         });
         
-        JButton btnIncrY = new JButton("INCREMENTA Y");
-        btnIncrY.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e){
-                sensore.incrInclY();
-            }
-        });
-        
-        JButton btnDecrY = new JButton("DECREMENTA Y");
-        btnDecrY.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e){
-                sensore.decrInclY();
-            }
-        });
         
         controls.add(inclinazione);
-        controls.add(valIncl);
-        controls.add(btnStart);
-        controls.add(btnStop);
-        controls.add(btnIncrX);
-        controls.add(btnDecrX);
-        controls.add(btnIncrY);
-        controls.add(btnDecrY);
+        controls.add(valInclinazione);
+        controls.add(AddValue);
+        controls.add(DecValue);        
+        controls.add(reset);
+        controls.add(stop);
         
         frame.add(controls);
-        frame.setSize(400, 80);
-        
+        frame.setSize(500, 120);
+                
+
     }
     
-    public void show(){
-        this.frame.setVisible(true);
+    public void show() {
+        frame.setVisible(true);
     }
-    
-    
+
 }

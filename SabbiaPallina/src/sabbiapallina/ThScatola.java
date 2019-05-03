@@ -5,10 +5,8 @@
  */
 package sabbiapallina;
 
-import java.awt.FlowLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
 import processing.core.PApplet;
 
 /**
@@ -20,22 +18,21 @@ public class ThScatola extends Thread {
     DatiCondivisi dati;
     int idScatola;
 
-    int lunghezza;
-    int larghezza;
+    //int lunghezzaScatola;
+    //int larghezzaScatola;
 
     Sabbia sabbia;
-    Pallina pallina;
-
     //Pallina pallina;
-    public ThScatola(DatiCondivisi dati, int idScatola, int lunghezza, int larghezza) {
+    
+    public ThScatola(DatiCondivisi dati, int idScatola) {
         this.dati = dati;
         this.idScatola = idScatola;
 
-        this.lunghezza = lunghezza;
-        this.larghezza = larghezza;
+        //this.lunghezzaScatola = lunghezza;
+        //this.larghezzaScatola = larghezza;
 
         sabbia = dati.getSabbiaById(idScatola);
-        pallina = new Pallina();
+        //pallina = new Pallina();
     }
 
     public ThScatola() {
@@ -43,7 +40,7 @@ public class ThScatola extends Thread {
 
     public void run() {
         try {
-            while (dati.getGioco()) {
+            while (dati.isRunning()) {
 
                 Thread.sleep(10);
                 simulazioneMovimento();
@@ -52,34 +49,34 @@ public class ThScatola extends Thread {
             Logger.getLogger(ThScatola.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void simulazioneMovimento() {
+        aggiornaInformazioni();
+        visualizzazioneScatola();
+    }
 
     public void aggiornaInformazioni() {
-        sabbia.aggiornaSabbia(dati.getInclinazioneX());
+        sabbia.aggiornaSabbia(dati.giroscopio.getInclinazioneX());
         //aggiornamento pallina
     }
 
     public void visualizzazioneScatola() {
         sabbia.visualizzazioneSabbia();
         //visualizzazione pallina
-    }
-
-    public void simulazioneMovimento() {
-        aggiornaInformazioni();
-        visualizzazioneScatola();
-    }
+    }    
 
     public int getIdScatola() {
         return idScatola;
     }
-
+    /*
     public int getLunghezza() {
-        return lunghezza;
+        return lunghezzaScatola;
     }
 
     public int getLarghezza() {
-        return larghezza;
+        return larghezzaScatola;
     }
-
+*/
     public Sabbia getSabbia() {
         return sabbia;
     }

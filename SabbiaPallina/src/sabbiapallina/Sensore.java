@@ -7,58 +7,31 @@ package sabbiapallina;
 
 /**
  *
- * @author franc
+ * @author Galimberti Francesco
  */
-public class Sensore {
-    private double inclX;
-    private double inclY;
-    private DatiCondivisi ptrDati;
+public class Sensore{
+    int inclinazioneX;
+    int inclinazioneY;
 
-    public Sensore(double inclX, double inclY, DatiCondivisi ptrDati) {
-        this.inclX = inclX;
-        this.inclY = inclY;
-        this.ptrDati = ptrDati;
+    public Sensore() {
+        this.inclinazioneX = 0;
+        this.inclinazioneY = 0;
     }
 
-    public Sensore(DatiCondivisi ptrDati) {
-        this.ptrDati = ptrDati;
+    public void scriviInclinazioneX(int inclinazioneX) {
+        this.inclinazioneX = inclinazioneX;
     }
 
-    public double getInclX() {
-        return ptrDati.getInclinazioneX();
+    public void scriviInclinazioneY(int inclinazioneY) {
+        this.inclinazioneY = inclinazioneY;
     }
 
-    public void setInclX(double inclX) {
-        this.inclX = inclX;
-        this.ptrDati.setInclinazioneX(this.inclX);
+    public int getInclinazioneX() {
+        return inclinazioneX;
     }
 
-    public double getInclY() {
-        return ptrDati.getInclinazioneY();
-    }
-
-    public void setInclY(double inclY) {
-        this.inclY = inclY;
-        this.ptrDati.setInclinazioneY(this.inclY);
+    public int getInclinazioneY() {
+        return inclinazioneY;
     }
     
-    public void incrInclX(){
-        this.inclX++;
-        this.ptrDati.incrementaInclX();
-    }
-    
-    public void incrInclY(){
-        this.inclY++;
-        this.ptrDati.incrementaInclY();
-    }
-    
-    public void decrInclX(){
-        this.inclX--;
-        this.ptrDati.diminuisciInclX();
-    }
-    
-    public void decrInclY(){
-        this.inclY--;
-        this.ptrDati.diminuisciInclY();
-    }
 }

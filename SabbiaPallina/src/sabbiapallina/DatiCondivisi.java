@@ -5,113 +5,54 @@
  */
 package sabbiapallina;
 
+import java.util.Random;
+
 /**
  *
- * @author Spangaro Francesco
+ * @author Galimberti Francesco
  */
 public class DatiCondivisi {
-    private int numScatole;
-    private Sabbia[] sabbie;
-    private boolean gioco;
-    private int running;
-    private double inclinazioneX;
-    private double inclinazioneY;
-    private float red, green, blue;
+    int numScatole;
+    boolean running;
     
-    /* methods */
+    Sabbia[] sabbie;
+    
+    Sensore giroscopio;
 
-    public DatiCondivisi() {
-    }
-
-    public DatiCondivisi(int numScatole, Sabbia[] sabbie, int running, double inclinazioneX, double inclinazioneY, float red, float green, float blue) {
+    public DatiCondivisi(int numScatole) {
         this.numScatole = numScatole;
-        this.sabbie = sabbie;
-        this.running = running;
-        this.inclinazioneX = inclinazioneX;
-        this.inclinazioneY = inclinazioneY;
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.gioco = false;
+        running=true;
+        
+        giroscopio=new Sensore();
+        
+        sabbie = new Sabbia[numScatole];
+        for(int i=0; i<numScatole; i++){  
+            //Random rand = new Random();
+            //sabbie[i] = new Sabbia(rand.nextInt(101));
+            sabbie[i] = new Sabbia();
+        }
     }
-
-    public Sabbia[] getSabbie() {
+    
+    public synchronized Sabbia getSabbiaById(int idScatola){
+        return sabbie[idScatola];
+    }
+    
+    public synchronized Sabbia[] getSabbie(){
         return sabbie;
     }
-
-    public void setSabbie(Sabbia[] sabbie) {
-        this.sabbie = sabbie;
+    
+    public void setScreen(int width, int height) {        
+        for (int i = 0; i < sabbie.length; i++) {
+            sabbie[i].setScreen(width, height);
+        }
     }
 
-    public int getRunning() {
+    public boolean isRunning() {
         return running;
     }
 
-    public void setRunning(int running) {
-        this.running = running;
-    }
-
-    public double getInclinazioneX() {
-        return inclinazioneX;
-    }
-
-    public void setInclinazioneX(double inclinazioneX) {
-        this.inclinazioneX = inclinazioneX;
-    }
-
-    public double getInclinazioneY() {
-        return inclinazioneY;
-    }
-
-    public void setInclinazioneY(double inclinazioneY) {
-        this.inclinazioneY = inclinazioneY;
-    }
-
-    public float getRed() {
-        return red;
-    }
-
-    public void setRed(float red) {
-        this.red = red;
-    }
-
-    public float getGreen() {
-        return green;
-    }
-
-    public void setGreen(float green) {
-        this.green = green;
-    }
-
-    public float getBlue() {
-        return blue;
-    }
-
-    public void setBlue(float blue) {
-        this.blue = blue;
-    }
+    public void stop() {
+        this.running = false;
+    }    
     
-    public void incrementaInclX(){
-        this.inclinazioneX++;
-    }
-    
-    public void incrementaInclY(){
-        this.inclinazioneY++;
-    }
-    
-    public void diminuisciInclX(){
-        this.inclinazioneX--;
-    }
-    
-    public void diminuisciInclY(){
-        this.inclinazioneY--;
-    }
-    
-    public void setGioco(boolean gioco){
-        this.gioco = gioco;
-    }
-    
-    public boolean getGioco(){
-        return this.gioco;
-    }
 }
