@@ -83,15 +83,15 @@ public class NB_ProcessingScatola extends PApplet {
             for (int x = 0; x < (s.widthSabbia); x++){
                 image(b, x, 0);
             }
-        }if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
+        }else if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
             for (int x = width/2; x < (s.widthSabbia)+width/2; x++) {
                 image(b, x, 0);
             }
-        }if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))){
-            for (int x = 0; x < (s.widthSabbia); x++){
+        }else if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))){
+            for (int x = width; x > width-(s.widthSabbia); x--){
                 image(b, x, 0);
             }
-        }if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
+        }else if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
             for (int x = width/2; x < (s.widthSabbia)+width/2; x++) {
                 image(b, x, 0);
             }
