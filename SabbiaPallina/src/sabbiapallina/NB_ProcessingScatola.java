@@ -79,23 +79,48 @@ public class NB_ProcessingScatola extends PApplet {
         PImage b;
         b = loadImage("image/sabbia.png");
         
-        if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))) {
+        switch(id){
+            case(0):
+                if(box[0].sabbia.dati.isPositivoX()){
+                    for(int x = 0; x < (s.widthSabbia)-width/2; x++){
+                        image(b, x, 0);
+                    }
+                }else{
+                    for (int x = 0; x < (s.widthSabbia); x++){
+                        image(b, x, 0);
+                    }
+                }
+                break;
+            case(1):
+                if(box[0].sabbia.dati.isPositivoX()){
+                    for(int x = width; x < width/2; x--){
+                        image(b, x, 0);
+                    }
+                }else{
+                    for (int x = width; x < (s.widthSabbia)-width/2; x--){
+                        image(b, x, 0);
+                    }
+                }
+                break;
+        }
+               
+        /*if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))) {
             for (int x = 0; x < (s.widthSabbia); x++){
                 image(b, x, 0);
             }
-        }else if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
+        }if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
+            for (int x = width; x < width/2; x--) {
+                image(b, x, 0);
+            }
+        }if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))){
+            for (int x = 0; x > width/2; x++){
+                image(b, x, 0);
+            }
+        }if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
             for (int x = width/2; x < (s.widthSabbia)+width/2; x++) {
                 image(b, x, 0);
             }
-        }else if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))){
-            for (int x = width; x > width-(s.widthSabbia); x--){
-                image(b, x, 0);
-            }
-        }else if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
-            for (int x = width/2; x < (s.widthSabbia)+width/2; x++) {
-                image(b, x, 0);
-            }
-        }
+        }*/
 
     }
 
