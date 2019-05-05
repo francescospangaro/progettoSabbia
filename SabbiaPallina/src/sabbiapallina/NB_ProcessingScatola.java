@@ -80,6 +80,8 @@ public class NB_ProcessingScatola extends PApplet {
         b = loadImage("image/sabbia.png");
         
         switch(id){
+            /*Lo switch divide i casi in maniera oridinata,
+            in modo da avere if divisi per scatola */
             case(0):
                 if(box[0].sabbia.dati.isPositivoX()){
                     for(int x = 0; x < (s.widthSabbia)-width/2; x++){
