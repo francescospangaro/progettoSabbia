@@ -57,8 +57,8 @@ public class DatiCondivisi {
         int yScatola = 0;      
         
         for (int i = 0; i < sabbie.length; i++) {
-            sabbie[i].setScreen(xScatola, yScatola, widthSchermo/numScatole);
-            xScatola = xScatola + widthSchermo/numScatole;
+            sabbie[i].setScreen(xScatola, yScatola, (widthSchermo/numScatole));
+            xScatola = xScatola + (widthSchermo/numScatole);
         }
     }
 

@@ -43,7 +43,7 @@ public class NB_ProcessingScatola extends PApplet {
         dati.setScreen(WScreen);
 
         for (int i = 0; i < dati.numScatole; i++) {
-            box[i] = new ThScatola(dati, i, WScreen/dati.numScatole, HScreen/dati.numScatole);
+            box[i] = new ThScatola(dati, i, WScreen / dati.numScatole, HScreen / dati.numScatole);
         }
 
         box[0].sabbia.setPercentuale(100);//sx
@@ -81,10 +81,22 @@ public class NB_ProcessingScatola extends PApplet {
         PImage b;
         b = loadImage("image/sabbia.png");
 
-        switch (id) {
-            /*Lo switch divide i casi in maniera oridinata,
+        int i = s.posVerticeX * (id);
+        if (dati.isPositivoX()) {
+            // disegno partendo da 
+            for (int x = s.posVerticeX + i; x > (s.posVerticeX - s.widthSabbia) + i; x--) {
+                image(b, x, 0);
+            }
+        } else {
+            for (int x = s.posVerticeX + i; x < ((s.posVerticeX + s.widthSabbia) + i); x++) {
+                image(b, x, 0);
+            }
+        }
+
+        //switch (id) {
+        /*Lo switch divide i casi in maniera oridinata,
             in modo da avere if divisi per scatola */
-            case 0:
+ /*case 0:
                 // scatola di sx
                 // disegno tante striscioline quanta è la larghezza della sabbia
                 if (dati.isPositivoX()) {
@@ -98,35 +110,19 @@ public class NB_ProcessingScatola extends PApplet {
                     }
                 }
                 break;
-            case 1:/*
-                // scatola di dx
+            case 1:
                 if (dati.isPositivoX()) {
-                    for (int x = width - (s.widthSabbia); x < width; x++) {
+                    // disegno partendo da 
+                    int i = s.posVerticeX*(id);
+                    for (int x = s.posVerticeX+i; x > (s.posVerticeX-s.widthSabbia)+i; x--) {
                         image(b, x, 0);
                     }
                 } else {
-                    for (int x = width / 2 + (s.widthSabbia); x < width / 2; x--) {
+                    for (int x = s.posVerticeX; x < s.posVerticeX+s.widthSabbia; x++) {
                         image(b, x, 0);
                     }
-                }*/
+                }
                 break;
-        }
-        /*if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))) {
-            for (int x = 0; x < (s.widthSabbia); x++){
-                image(b, x, 0);
-            }
-        }if ((id != 0)&&((box[0].sabbia.dati.isPositivoX()))){
-            for (int x = width; x < width/2; x--) {
-                image(b, x, 0);
-            }
-        }if ((id == 0)&&((box[0].sabbia.dati.isPositivoX()))){
-            for (int x = 0; x > width/2; x++){
-                image(b, x, 0);
-            }
-        }if ((id != 0)&&(!(box[0].sabbia.dati.isPositivoX()))){
-            for (int x = width/2; x < (s.widthSabbia)+width/2; x++) {
-                image(b, x, 0);
-            }
         }*/
     }
 
