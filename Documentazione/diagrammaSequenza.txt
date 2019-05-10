@@ -1,0 +1,28 @@
+@startuml
+
+title "Progetto - SabbiaPallina"
+
+actor Utente
+participant NB_ProcessingScatola
+entity DatiCondivisi
+participant ThScatola
+participant Pallina
+participant Sabbia
+participant Sensore
+participant SwingGui
+
+Utente --> NB_ProcessingScatola : Avvio programma
+
+NB_ProcessingScatola -> DatiCondivisi : Salvataggio dati
+NB_ProcessingScatola <- DatiCondivisi : Passaggio dati
+NB_ProcessingScatola -> ThScatola : Salvataggio dati
+NB_ProcessingScatola -> Sabbia : Aggiornamento dati
+NB_ProcessingScatola <- Sabbia : Passaggio dati
+DatiCondivisi <- Sabbia : Aggiornamento dati
+DatiCondivisi -> Sabbia : Passaggio dati
+DatiCondivisi <- SwingGui : Pasaggio dati
+DatiCondivisi <- ThScatola : Passaggio dati
+ThScatola -> Sabbia : Aggiornamento dati
+DatiCondivisi -> Sensore : Aggiornamento dati
+
+@enduml
