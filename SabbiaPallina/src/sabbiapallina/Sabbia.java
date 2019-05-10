@@ -17,35 +17,23 @@ public class Sabbia{
     //permette di calcolare la sabbia che sta uscendo dalla scatola
     int diminuzione;
 
-    //dimesione schermo
-    int widthScreen;
-    int heightScreen;
-
     //dimensione sabbia
     int widthSabbia;
     int heightSabbia;
+    
+    int posVerticeX;
+    int posVerticeY;
+    
     DatiCondivisi dati;
-
-    public Sabbia(int percentuale,int xdirection, int widthScreen, int heightScreen, int widthSabbia, int heightSabbia) {
-        this.percentuale = percentuale;
-        this.widthScreen = widthScreen;
-        this.heightScreen = heightScreen;
-        this.widthSabbia = widthSabbia;
-        this.heightSabbia = heightSabbia;
-    }
 
     public Sabbia(int percentuale) {
         this.percentuale = percentuale;
-        this.widthScreen = 0;
-        this.heightScreen = 0;
         this.heightSabbia = 0;
         this.widthSabbia = 0;
     }
     
     public Sabbia() {
         this.percentuale = 0;
-        this.widthScreen = 0;
-        this.heightScreen = 0;
         this.heightSabbia = 0;
         this.widthSabbia = 0;
     }
@@ -58,11 +46,15 @@ public class Sabbia{
         return this.dati;
     }
 
-    public void aggiornaSabbia(int inclinazioneX, int idScatola) {
+    public void aggiornaSabbia(int inclinazioneX, int idScatola, int wScatola) {
         if(inclinazioneX > 0){
             this.dati.setPositivoX(true);
+            posVerticeX=wScatola;
+            
         }else{
             this.dati.setPositivoX(false);
+            posVerticeX=0;
+            
         }
         /*Setta true in caso il piano si stia inclinando  
         nel primo quadrante, false se nel secondo*/
@@ -89,16 +81,16 @@ public class Sabbia{
         }
     
     //draw
-    public void visualizzazioneSabbia() {
+    public void visualizzazioneSabbia(int wS) {
         //se la sabbia esce dal contenitore
-        widthSabbia = (widthScreen * percentuale) / 100;
+        widthSabbia = (wS * percentuale) / 100;
     }
 
-    void setScreen(int width, int height) {
-        widthScreen = width / 2;
-        heightScreen = height;
+    void setScreen(int xScatola, int yScatola, int wS) {
+        posVerticeX = xScatola;
+        posVerticeY = yScatola;
         
-        widthSabbia = (int) (widthScreen * percentuale) / 100;
+        widthSabbia = (int) (wS * percentuale) / 100;
     }
 
     public int getPercentuale() {

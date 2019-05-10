@@ -51,9 +51,14 @@ public class DatiCondivisi {
         return sabbie;
     }
     
-    public void setScreen(int width, int height) {        
+    public void setScreen(int widthSchermo) {
+
+        int xScatola = 0;
+        int yScatola = 0;      
+        
         for (int i = 0; i < sabbie.length; i++) {
-            sabbie[i].setScreen(width, height);
+            sabbie[i].setScreen(xScatola, yScatola, widthSchermo/numScatole);
+            xScatola = xScatola + widthSchermo/numScatole;
         }
     }
 

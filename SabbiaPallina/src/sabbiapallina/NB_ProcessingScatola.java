@@ -18,6 +18,8 @@ public class NB_ProcessingScatola extends PApplet {
     /*static ThScatola scatolaSx;
     static ThScatola scatolaDx;*/
     static ThScatola box[];
+    private static int WScreen = 1000;
+    private static int HScreen = 1000;
 
     /**
      * @param args the command line arguments
@@ -25,8 +27,8 @@ public class NB_ProcessingScatola extends PApplet {
     public static void main(String[] args) {
         int numScatole = 2;
         dati = new DatiCondivisi(numScatole);
-        
-        box=new ThScatola[numScatole];
+
+        box = new ThScatola[numScatole];
         /*scatolaSx = new ThScatola(dati, 0);
         scatolaDx = new ThScatola(dati, 1);*/
 
@@ -37,13 +39,13 @@ public class NB_ProcessingScatola extends PApplet {
     }
 
     public void settings() {
-        size(1000, 1000);
-        dati.setScreen(width, height);
+        size(WScreen, HScreen);
+        dati.setScreen(WScreen);
 
-        for(int i=0;i<dati.numScatole;i++){
-            box[i]=new ThScatola(dati,i);
+        for (int i = 0; i < dati.numScatole; i++) {
+            box[i] = new ThScatola(dati, i, WScreen/dati.numScatole, HScreen/dati.numScatole);
         }
-        
+
         box[0].sabbia.setPercentuale(100);//sx
         box[1].sabbia.setPercentuale(0);//dx
         /*scatolaSx.sabbia.setPercentuale(100);
@@ -52,8 +54,8 @@ public class NB_ProcessingScatola extends PApplet {
         box[1].sabbia.setDati(dati);//dx
         /*do alla sabbia presente in entrambe 
         le scatole gli stessi dati condivisi
-        */
-        for(int i=0;i<dati.numScatole;i++){
+         */
+        for (int i = 0; i < dati.numScatole; i++) {
             box[i].start();
         }
     }
@@ -69,8 +71,8 @@ public class NB_ProcessingScatola extends PApplet {
             exit();
         }
         background(0, 0, 0);
-        for(int i=0;i<dati.numScatole;i++){
-            displaySabbia(box[i].sabbia,i);
+        for (int i = 0; i < dati.numScatole; i++) {
+            displaySabbia(box[i].sabbia, i);
         }
     }
 
@@ -78,34 +80,37 @@ public class NB_ProcessingScatola extends PApplet {
         noStroke();
         PImage b;
         b = loadImage("image/sabbia.png");
-        
-        switch(id){
+
+        switch (id) {
             /*Lo switch divide i casi in maniera oridinata,
             in modo da avere if divisi per scatola */
-            case(0):
-                if(box[0].sabbia.dati.isPositivoX()){
-                    for(int x = 0; x < (s.widthSabbia)-width/2; x++){
+            case 0:
+                // scatola di sx
+                // disegno tante striscioline quanta è la larghezza della sabbia
+                if (dati.isPositivoX()) {
+                    // disegno partendo da 
+                    for (int x = s.posVerticeX; x > s.posVerticeX-s.widthSabbia; x--) {
                         image(b, x, 0);
                     }
-                }else{
-                    for (int x = 0; x < (s.widthSabbia); x++){
+                } else {
+                    for (int x = s.posVerticeX; x < s.posVerticeX+s.widthSabbia; x++) {
                         image(b, x, 0);
                     }
                 }
                 break;
-            case(1):
-                if(box[0].sabbia.dati.isPositivoX()){
-                    for(int x = width; x < width/2; x--){
+            case 1:/*
+                // scatola di dx
+                if (dati.isPositivoX()) {
+                    for (int x = width - (s.widthSabbia); x < width; x++) {
                         image(b, x, 0);
                     }
-                }else{
-                    for (int x = width; x < (s.widthSabbia)-width/2; x--){
+                } else {
+                    for (int x = width / 2 + (s.widthSabbia); x < width / 2; x--) {
                         image(b, x, 0);
                     }
-                }
+                }*/
                 break;
         }
-               
         /*if ((id == 0)&&(!(box[0].sabbia.dati.isPositivoX()))) {
             for (int x = 0; x < (s.widthSabbia); x++){
                 image(b, x, 0);
@@ -123,7 +128,6 @@ public class NB_ProcessingScatola extends PApplet {
                 image(b, x, 0);
             }
         }*/
-
     }
 
 }

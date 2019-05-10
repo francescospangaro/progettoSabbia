@@ -24,9 +24,15 @@ public class ThScatola extends Thread {
     Sabbia sabbia;
     //Pallina pallina;
     
-    public ThScatola(DatiCondivisi dati, int idScatola) {
+    int widthScatola;
+    int heigthScatola;
+    
+    public ThScatola(DatiCondivisi dati, int idScatola, int wS, int hS) {
         this.dati = dati;
         this.idScatola = idScatola;
+        
+        this.heigthScatola=hS;
+        this.widthScatola=wS;
 
         //this.lunghezzaScatola = lunghezza;
         //this.larghezzaScatola = larghezza;
@@ -56,12 +62,12 @@ public class ThScatola extends Thread {
     }
 
     public void aggiornaInformazioni(int inclinazioneX) {
-        sabbia.aggiornaSabbia(inclinazioneX,idScatola);
+        sabbia.aggiornaSabbia(inclinazioneX,idScatola, widthScatola);
         //aggiornamento pallina
     }
 
     public void visualizzazioneScatola() {
-        sabbia.visualizzazioneSabbia();
+        sabbia.visualizzazioneSabbia(this.widthScatola);
         //visualizzazione pallina
     }    
 
