@@ -14,29 +14,29 @@ import processing.core.PApplet;
  * @author Galimberti Francesco
  */
 public class ThScatola extends Thread {
-    
+
     DatiCondivisi dati;
     int idScatola;
+    //salva l'id della sabbia in cui spostare la sabbia persa
+    int idTarget;
 
     //int lunghezzaScatola;
     //int larghezzaScatola;
-
     Sabbia sabbia;
     //Pallina pallina;
-    
+
     int widthScatola;
     int heigthScatola;
-    
+
     public ThScatola(DatiCondivisi dati, int idScatola, int wS, int hS) {
         this.dati = dati;
         this.idScatola = idScatola;
-        
-        this.heigthScatola=hS;
-        this.widthScatola=wS;
+
+        this.heigthScatola = hS;
+        this.widthScatola = wS;
 
         //this.lunghezzaScatola = lunghezza;
         //this.larghezzaScatola = larghezza;
-
         sabbia = dati.getSabbiaById(idScatola);
         //pallina = new Pallina();
     }
@@ -49,40 +49,46 @@ public class ThScatola extends Thread {
             while (dati.isRunning()) {
 
                 Thread.sleep(10);
+                
+                if (dati.giroscopio.getInclinazioneX() > 20) {
+                    idTarget = idScatola + 1;  
+                    if(idScatola==0 && sabbia.percentuale>0){
+                        sabbia.versoDestra(idTarget);                        
+                    }
+                    
+                } else if (dati.giroscopio.getInclinazioneX() < -20) {
+                    idTarget = idScatola - 1;
+                    if(idScatola==1 && sabbia.percentuale>0){
+                        sabbia.versoSinistra(idTarget);                        
+                    }
+                }               
+                
                 simulazioneMovimento(dati.giroscopio.getInclinazioneX());
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(ThScatola.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void simulazioneMovimento(int inclinazioneX) {
         aggiornaInformazioni(inclinazioneX);
         visualizzazioneScatola();
     }
 
     public void aggiornaInformazioni(int inclinazioneX) {
-        sabbia.aggiornaSabbia(inclinazioneX,idScatola, widthScatola);
+        sabbia.aggiornaSabbia(inclinazioneX, widthScatola);
         //aggiornamento pallina
     }
 
     public void visualizzazioneScatola() {
         sabbia.visualizzazioneSabbia(this.widthScatola);
         //visualizzazione pallina
-    }    
+    }
 
     public int getIdScatola() {
         return idScatola;
     }
-    /*
-    public int getLunghezza() {
-        return lunghezzaScatola;
-    }
 
-    public int getLarghezza() {
-        return larghezzaScatola;
-    }
-*/
     public Sabbia getSabbia() {
         return sabbia;
     }

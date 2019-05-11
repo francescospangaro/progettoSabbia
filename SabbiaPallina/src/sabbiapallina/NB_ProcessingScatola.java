@@ -40,18 +40,20 @@ public class NB_ProcessingScatola extends PApplet {
 
     public void settings() {
         size(WScreen, HScreen);
-        dati.setScreen(WScreen);
+        dati.setScreen(WScreen / dati.numScatole);
 
         for (int i = 0; i < dati.numScatole; i++) {
-            box[i] = new ThScatola(dati, i, WScreen / dati.numScatole, HScreen / dati.numScatole);
+            box[i] = new ThScatola(dati, i, WScreen / dati.numScatole, HScreen);
         }
 
         box[0].sabbia.setPercentuale(100);//sx
         box[1].sabbia.setPercentuale(0);//dx
         /*scatolaSx.sabbia.setPercentuale(100);
         scatolaDx.sabbia.setPercentuale(0);*/
+
         box[0].sabbia.setDati(dati);//sx
         box[1].sabbia.setDati(dati);//dx
+        
         /*do alla sabbia presente in entrambe 
         le scatole gli stessi dati condivisi
          */
@@ -79,16 +81,18 @@ public class NB_ProcessingScatola extends PApplet {
     void displaySabbia(Sabbia s, int id) {
         noStroke();
         PImage b;
-        b = loadImage("image/sabbia.png");
-
-        int i = s.posVerticeX * (id);
+        b = loadImage("image/sabbia.png");        
+        
+        int spostamento = (id)*(WScreen/dati.numScatole);
         if (dati.isPositivoX()) {
-            // disegno partendo da 
-            for (int x = s.posVerticeX + i; x > (s.posVerticeX - s.widthSabbia) + i; x--) {
+            for (int x = s.posVerticeX + spostamento; x > (s.posVerticeX + spostamento - s.widthSabbia); x--) {
                 image(b, x, 0);
             }
+            /*for (x = s.posVerticeX; x > (s.posVerticeX - s.widthSabbia); x--) {
+                image(b, x, 0);
+            }*/
         } else {
-            for (int x = s.posVerticeX + i; x < ((s.posVerticeX + s.widthSabbia) + i); x++) {
+            for (int x = s.posVerticeX + spostamento; x < (s.posVerticeX + spostamento + s.widthSabbia); x++) {
                 image(b, x, 0);
             }
         }
