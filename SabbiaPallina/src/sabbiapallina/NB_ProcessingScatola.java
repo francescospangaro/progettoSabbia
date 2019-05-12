@@ -14,120 +14,77 @@ import processing.core.PImage;
  */
 public class NB_ProcessingScatola extends PApplet {
 
-    static DatiCondivisi dati; // dati condivisi
-    /*static ThScatola scatolaSx;
-    static ThScatola scatolaDx;*/
+    static DatiCondivisi dati;
     static ThScatola box[];
-    private static int WScreen = 1000;
-    private static int HScreen = 1000;
+    private static int WScreen;
+    private static int HScreen;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int numScatole = 2;
-        dati = new DatiCondivisi(numScatole);
+        int numScatoleRighe = 1;
+        int numScatoleColonne = 2;
 
-        box = new ThScatola[numScatole];
-        /*scatolaSx = new ThScatola(dati, 0);
-        scatolaDx = new ThScatola(dati, 1);*/
+        dati = new DatiCondivisi(numScatoleColonne);
+
+        //creazione dei ThreadScatola
+        box = new ThScatola[numScatoleColonne];
+        for (int i = 0; i < dati.numScatoleColonne; i++) {
+            if (i == 0) {
+                box[i] = new ThScatola(100, dati, i, 200, 200);
+            } else {
+                box[i] = new ThScatola(0, dati, i, 200, 200);
+            }
+        }
+
+        WScreen = (numScatoleColonne * 200);
+        HScreen = (numScatoleRighe * 200);
 
         PApplet.main(new String[]{"sabbiapallina.NB_ProcessingScatola"});
-
         SwingGui swingGui = new SwingGui(dati);
         swingGui.show();
     }
 
     public void settings() {
         size(WScreen, HScreen);
-        dati.setScreen(WScreen / dati.numScatole);
-
-        for (int i = 0; i < dati.numScatole; i++) {
-            box[i] = new ThScatola(dati, i, WScreen / dati.numScatole, HScreen);
-        }
-
-        box[0].sabbia.setPercentuale(100);//sx
-        box[1].sabbia.setPercentuale(0);//dx
-        /*scatolaSx.sabbia.setPercentuale(100);
-        scatolaDx.sabbia.setPercentuale(0);*/
-
-        box[0].sabbia.setDati(dati);//sx
-        box[1].sabbia.setDati(dati);//dx
         
-        /*do alla sabbia presente in entrambe 
-        le scatole gli stessi dati condivisi
-         */
-        for (int i = 0; i < dati.numScatole; i++) {
+        for (int i = 0; i < dati.numScatoleColonne; i++) {
             box[i].start();
         }
     }
 
     public void setup() {
         noStroke();
-        frameRate(30);
-        //ellipseMode(RADIUS);
+        frameRate(60);
     }
 
     public void draw() {
         if (!dati.isRunning()) {
             exit();
         }
-        background(0, 0, 0);
-        for (int i = 0; i < dati.numScatole; i++) {
+        background(125, 100, 100);
+        for (int i = 0; i < dati.numScatoleColonne; i++) {
             displaySabbia(box[i].sabbia, i);
         }
     }
-
+    
     void displaySabbia(Sabbia s, int id) {
         noStroke();
         PImage b;
         b = loadImage("image/sabbia.png");        
         
-        int spostamento = (id)*(WScreen/dati.numScatole);
-        if (dati.isPositivoX()) {
-            for (int x = s.posVerticeX + spostamento; x > (s.posVerticeX + spostamento - s.widthSabbia); x--) {
+        int spostamento = id*200;
+        if (dati.giroscopio.getInclinazioneX() >= 0) {
+            for (int x = 200 + spostamento; x > (200 + spostamento - s.widthSabbia); x--) {
                 image(b, x, 0);
             }
-            /*for (x = s.posVerticeX; x > (s.posVerticeX - s.widthSabbia); x--) {
-                image(b, x, 0);
-            }*/
         } else {
-            for (int x = s.posVerticeX + spostamento; x < (s.posVerticeX + spostamento + s.widthSabbia); x++) {
+            for (int x = spostamento; x < (spostamento + s.widthSabbia); x++) {
                 image(b, x, 0);
             }
         }
-
-        //switch (id) {
-        /*Lo switch divide i casi in maniera oridinata,
-            in modo da avere if divisi per scatola */
- /*case 0:
-                // scatola di sx
-                // disegno tante striscioline quanta è la larghezza della sabbia
-                if (dati.isPositivoX()) {
-                    // disegno partendo da 
-                    for (int x = s.posVerticeX; x > s.posVerticeX-s.widthSabbia; x--) {
-                        image(b, x, 0);
-                    }
-                } else {
-                    for (int x = s.posVerticeX; x < s.posVerticeX+s.widthSabbia; x++) {
-                        image(b, x, 0);
-                    }
-                }
-                break;
-            case 1:
-                if (dati.isPositivoX()) {
-                    // disegno partendo da 
-                    int i = s.posVerticeX*(id);
-                    for (int x = s.posVerticeX+i; x > (s.posVerticeX-s.widthSabbia)+i; x--) {
-                        image(b, x, 0);
-                    }
-                } else {
-                    for (int x = s.posVerticeX; x < s.posVerticeX+s.widthSabbia; x++) {
-                        image(b, x, 0);
-                    }
-                }
-                break;
-        }*/
-    }
+    }  
+    
 
 }

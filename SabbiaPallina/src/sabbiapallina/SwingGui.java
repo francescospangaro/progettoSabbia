@@ -30,11 +30,6 @@ public class SwingGui {
         
         frame = new JFrame("Controlli");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-/*
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - frame.getHeight())/1.5 );
-        frame.setLocation(x, y);*/
         
         JPanel controls = new JPanel();  //aggiunge un pannello su cui aggiungere bottoni
         controls.setLayout(new FlowLayout());
@@ -49,18 +44,6 @@ public class SwingGui {
             @Override
             public void stateChanged(ChangeEvent ce) {
                 int val = inclinazione.getValue();
-                
-                /*
-                //se l'inclinazione è maggiore di quella precedente la vel aumenta altrimenti diminuisce
-                if(val>0 && val>=dati.getGiroscopio().getInclinazioneX()){
-                    dati.incVelocita();
-                }else if(val >0 && val<dati.getGiroscopio().getInclinazioneX()){
-                    dati.decVelocita();
-                }else if(val<0 && val>=dati.getGiroscopio().getInclinazioneX()){
-                    dati.decVelocita();
-                }else if(val <0 && val<dati.getGiroscopio().getInclinazioneX()){
-                    dati.incVelocita();
-                }*/
                 
                 dati.giroscopio.scriviInclinazioneX(val);
                 valInclinazione.setText(String.valueOf(val)+"° ");

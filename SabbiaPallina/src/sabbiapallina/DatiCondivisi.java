@@ -12,36 +12,25 @@ import java.util.Random;
  * @author Galimberti Francesco
  */
 public class DatiCondivisi {
-    int numScatole;
+    int numScatoleColonne;
     boolean running;
-    boolean positivoX;
     
     Sabbia[] sabbie;
     
     Sensore giroscopio;
 
-    public DatiCondivisi(int numScatole) {
-        this.numScatole = numScatole;
+    public DatiCondivisi(int numScatoleColonne) {
+        this.numScatoleColonne = numScatoleColonne;
         running=true;
-        positivoX = false;
         
         giroscopio=new Sensore();
         
-        sabbie = new Sabbia[numScatole];
-        for(int i=0; i<numScatole; i++){  
-            //Random rand = new Random();
-            //sabbie[i] = new Sabbia(rand.nextInt(101));
+        sabbie = new Sabbia[numScatoleColonne];
+        for(int i=0; i<numScatoleColonne; i++){  
             sabbie[i] = new Sabbia();
         }
     }
-
-    public synchronized boolean isPositivoX() {
-        return positivoX;
-    }
-
-    public synchronized void setPositivoX(boolean positivoX) {
-        this.positivoX = positivoX;
-    }
+    
     
     public synchronized Sabbia getSabbiaById(int idScatola){
         return sabbie[idScatola];
@@ -51,15 +40,6 @@ public class DatiCondivisi {
         return sabbie;
     }
     
-    public void setScreen(int widthScatola) {
-        int xScatola = 0;
-        int yScatola = 0;      
-        
-        for (int i = 0; i < sabbie.length; i++) {
-            sabbie[i].setScreen(xScatola, yScatola, widthScatola);
-            //xScatola = xScatola + widthScatola;
-        }
-    }
 
     public boolean isRunning() {
         return running;

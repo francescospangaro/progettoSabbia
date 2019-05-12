@@ -15,6 +15,7 @@ public class Sabbia {
 
     //indica quanta sabbia è contenuta nella scatola
     int percentuale;
+    float diminuzione;
 
     //dimensione sabbia
     int widthSabbia;
@@ -22,8 +23,6 @@ public class Sabbia {
 
     int posVerticeX;
     int posVerticeY;
-
-    DatiCondivisi dati;
 
     public Sabbia(int percentuale) {
         this.percentuale = percentuale;
@@ -35,76 +34,23 @@ public class Sabbia {
         this.percentuale = 0;
         this.heightSabbia = 0;
         this.widthSabbia = 0;
+        this.diminuzione = 0;
     }
 
-    public void setDati(DatiCondivisi dati) {
-        this.dati = dati;
+    public void aggiornaSabbia(int inclinazioneX) {
+        if (inclinazioneX >= 15) {
+            diminuzione = (float) (0.05 * inclinazioneX);
+        } else if (inclinazioneX <= -15) {
+            diminuzione = -1*((float) (0.05 * inclinazioneX));
+        }
     }
 
-    public DatiCondivisi getDati() {
-        return this.dati;
-    }
-
-    public void aggiornaSabbia(int inclinazioneX,int wScatola) {
-        if(inclinazioneX > 0){
-            dati.setPositivoX(true);
-            posVerticeX=wScatola;            
-        }else{
-            dati.setPositivoX(false);
-            posVerticeX=0;            
-        }
-        //Setta true in caso il piano si stia inclinando  
-        //nel primo quadrante, false se nel secondo
-            /*if (inclinazioneX > 20) {
-                switch(idScatola){
-                    case 0:
-                        percentuale = percentuale - (int) (0.05 * inclinazioneX);
-                        break;
-                    case 1:
-                        percentuale = percentuale + (int) (0.05 * inclinazioneX);
-                        break;
-                }
-                
-            }else if(inclinazioneX < -20) {
-                switch(idScatola){
-                    case 0:
-                        percentuale = percentuale + (int) (0.05 * inclinazioneX);
-                        break;
-                    case 1:
-                        percentuale = percentuale - (int) (0.05 * inclinazioneX);
-                        break;
-                }
-            }   */                 
-        }
-    
-    public void versoDestra(int idTarget){
-        int percPersa=(int) (0.05 * dati.giroscopio.getInclinazioneX());
-        if(percPersa>percentuale){
-            percPersa=percentuale;
-        }
-        percentuale-=percPersa;     
-        dati.sabbie[idTarget].setPercentuale(percPersa);
+    public void setDiminuzione(float diminuzione) {
+        this.diminuzione = diminuzione;
     }
     
-    public void versoSinistra(int idTarget){
-        int percPersa=(int) (0.05 * dati.giroscopio.getInclinazioneX());
-        if(percPersa>percentuale){
-            percPersa=percentuale;
-        }
-        percentuale-=percPersa;        
-        dati.sabbie[idTarget].setPercentuale(percPersa);
-    }
-
-    //draw
-    public void visualizzazioneSabbia(int wS) {
-        widthSabbia = (wS * percentuale) / 100;
-    }
-
-    void setScreen(int xScatola, int yScatola, int wS) {
-        posVerticeX = xScatola;
-        posVerticeY = yScatola;
-
-        widthSabbia = (int) (wS * percentuale) / 100;
+    public void visualizzazioneSabbia(int wScatola) {
+        widthSabbia = (int) (percentuale * (((float) wScatola) / 100));
     }
 
     public int getPercentuale() {
@@ -112,7 +58,21 @@ public class Sabbia {
     }
 
     public void setPercentuale(int percentuale) {
+        this.percentuale = percentuale;
+    }
+
+    public void aggiungiSabbia(int percentuale) {
         this.percentuale += percentuale;
+        if (this.percentuale > 100) {
+            this.percentuale = 100;
+        }
+    }
+
+    public void togliSabbia(int percentuale) {
+        this.percentuale -= percentuale;
+        if (this.percentuale < 0) {
+            this.percentuale = 0;
+        }
     }
 
 }

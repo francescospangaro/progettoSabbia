@@ -18,83 +18,97 @@ public class ThScatola extends Thread {
     DatiCondivisi dati;
     int idScatola;
     //salva l'id della sabbia in cui spostare la sabbia persa
-    int idTarget;
-
-    //int lunghezzaScatola;
-    //int larghezzaScatola;
+    int idDest;
+    
     Sabbia sabbia;
     //Pallina pallina;
 
     int widthScatola;
     int heigthScatola;
 
-    public ThScatola(DatiCondivisi dati, int idScatola, int wS, int hS) {
+    public ThScatola(int percSabbia, DatiCondivisi dati, int idScatola, int wS, int hS) {
         this.dati = dati;
         this.idScatola = idScatola;
 
         this.heigthScatola = hS;
         this.widthScatola = wS;
 
-        //this.lunghezzaScatola = lunghezza;
-        //this.larghezzaScatola = larghezza;
         sabbia = dati.getSabbiaById(idScatola);
-        //pallina = new Pallina();
-    }
+        sabbia.setPercentuale(percSabbia);
+        sabbia.visualizzazioneSabbia(widthScatola);
 
-    public ThScatola() {
+        //pallina = new Pallina();        
     }
 
     public void run() {
-        try {
-            while (dati.isRunning()) {
+        while (dati.isRunning()) {
 
-                Thread.sleep(10);
-                
-                if (dati.giroscopio.getInclinazioneX() > 20) {
-                    idTarget = idScatola + 1;  
-                    if(idScatola==0 && sabbia.percentuale>0){
-                        sabbia.versoDestra(idTarget);                        
-                    }
-                    
-                } else if (dati.giroscopio.getInclinazioneX() < -20) {
-                    idTarget = idScatola - 1;
-                    if(idScatola==1 && sabbia.percentuale>0){
-                        sabbia.versoSinistra(idTarget);                        
-                    }
-                }               
-                
-                simulazioneMovimento(dati.giroscopio.getInclinazioneX());
+            sabbia.aggiornaSabbia(dati.giroscopio.getInclinazioneX());
+
+            if (dati.giroscopio.getInclinazioneX() >= 15) {
+                idDest = idScatola + 1;
+                System.out.println("Th"+idScatola+"--> Dest"+idDest);
+                versoDestra(sabbia.diminuzione);
             }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ThScatola.class.getName()).log(Level.SEVERE, null, ex);
+
+            if (dati.giroscopio.getInclinazioneX() <= -15) {
+                idDest = idScatola - 1;
+                System.out.println("Th"+idScatola+"--> Dest"+idDest);
+                versoSinistra(sabbia.diminuzione);
+            }
+
+            sabbia.setDiminuzione(0);
+            
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThScatola.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+    
+    public void versoDestra(float sm) {
+        if (idDest != dati.numScatoleColonne) {
+            try {
+                if (((sm > 0) && (sabbia.percentuale == 100) && (dati.sabbie[idScatola - 1].percentuale == 0)) || ((sm > 0) && (sabbia.percentuale > 0) && (dati.sabbie[idDest].percentuale < 100))) {
+                    procedi(sm);
+                }
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                if ((sm > 0) && (sabbia.percentuale == 100)) {
+                    procedi(sm);
+                }
+            }
         }
     }
 
-    public void simulazioneMovimento(int inclinazioneX) {
-        aggiornaInformazioni(inclinazioneX);
-        visualizzazioneScatola();
+    public void versoSinistra(float sm) {
+        if (idDest != -1) {
+            try {
+                if (((sm > 0) && (sabbia.percentuale == 100) && (dati.sabbie[idScatola + 1].percentuale == 0)) || ((sm > 0) && (sabbia.percentuale > 0) && (dati.sabbie[idDest].percentuale < 100))) {
+                    procedi(sm);
+                }
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                if ((sm > 0) && (sabbia.percentuale == 100)) {
+                    procedi(sm);
+                }
+            }
+        }
     }
 
-    public void aggiornaInformazioni(int inclinazioneX) {
-        sabbia.aggiornaSabbia(inclinazioneX, widthScatola);
-        //aggiornamento pallina
-    }
+    private void procedi(float sm) {
+        int perc = sabbia.percentuale - (int) sm;
+        if (perc < 0) {
+            sabbia.setPercentuale(0);
+            sabbia.visualizzazioneSabbia(widthScatola);
+            dati.sabbie[idDest].setPercentuale(100);
+            dati.sabbie[idDest].visualizzazioneSabbia(widthScatola);
 
-    public void visualizzazioneScatola() {
-        sabbia.visualizzazioneSabbia(this.widthScatola);
-        //visualizzazione pallina
+        } else {
+            sabbia.setPercentuale(perc);
+            sabbia.visualizzazioneSabbia(widthScatola);
+            dati.sabbie[idDest].aggiungiSabbia((int) sm);
+            dati.sabbie[idDest].visualizzazioneSabbia(widthScatola);
+        }
     }
-
-    public int getIdScatola() {
-        return idScatola;
-    }
-
-    public Sabbia getSabbia() {
-        return sabbia;
-    }
-    /*
-    public Pallina getPallina() {
-        return pallina;
-    }*/
-
 }
