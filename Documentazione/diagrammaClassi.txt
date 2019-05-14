@@ -1,33 +1,44 @@
 @startuml
 class ThScatola{
+'oggetto che permette l'accesso agli elementi condivisi ai Thread
+DatiCondivisi dati
+'salva l'id della sabbia(che corrisponde a quello della scatola in cui e` contenuta) in cui spostare la sabbia persa
+int idDest
+'attributo che salva l`id assegnato alla scatola
+int idScatola
 'la scatola deve avere una certa dimesione
--int altezza
--int larghezza
--int lunghezza
-'la scatola gestisce la sabbia contenuta in essa e la pallina che si trova sulla sabbia
--Sabbia sabbia
--Pallina pallina
+int widthScatola
+int heightScatola
+'la scatola gestisce la sabbia contenuta in essa
+Sabbia sabbia
 
-'il metodo permette di visualizzare la sabbia e la pallina dopo ogni aggiornamento dell'inclinazione
-+void visualizzazioneScatola()
-'il metodo permette di modificare le informazioni della pallina e della sabbia in base all'inclinazione
-+void aggiornaInformazioni(int inclinazione)
-'il metodo permette di simulare il movimento della pallina e della sabbia in base all'inclinazione
-+boolean simulazioneMovimento(int inclinazione)
+'metodo rappresentatnte il main dei Thread
++void run()
+'metodo che gestisce il movimento della sabbia verso dx
+-void versoDestra(float diminuzione)
+'metodo che gestisce il movimento della sabbia verso sx
+-void versoSinistra(float diminuzione)
+'metodo che permette di continuare a gestire il movimento della sabbia(era comune ai metodi precedenti)
+-void procedi(float diminuzione)
 }
 
 class Sabbia{
 'la sabbia occupa un certo volume della scatola
--int volume
-'la sabbia ha una certa velocità sull'asse delle x che cambia in base all'inclinazione
--int velX
-'la sabbia ha una certa velocità sull'asse delle y che cambia in base all'inclinazione
--int velY
+int percentuale
+'serve a calcolare la percentuale di sabbia in spostamento
+float diminuzione
+'la scatola deve avere una certa dimesione
+int widthSabbia
+int heightSabbia
 
-'il metodo permette di aggiornare la velocità sugli assi della sabbia in base all'inclinazione
-+void aggiornaSabbia(int inclinazione)
-'il metodo permette di visualizzare la sabbia dopo ogni aggiornamento dell'inclinazione
-+void visualizzazioneSabbia()
+'il metodo permette di il movimento della sabbia in base all'inclinazione
++void aggiornaSabbia(int inclinazioneX)
+'il metodo riporta la diminuzione a 0
++void resetDiminuzione()
+'il metodo permette di aggiornare la larghezza della sabbia in base alla larghezza della scatola
++void visualizzazioneSabbia(int wScatola)
+'il metodo aggiorna la percentuale in base al valore passato come parametro
++void aggiungiSabbia(int percentuale)
 }
 
 class Pallina{
@@ -47,39 +58,36 @@ class Pallina{
 }
 
 class ThSensore{
-'l'attributo memorizza il valore dell'inclinazione sull'asseX che permetterà di modificare le informazioni della scatola e quindi di giocare
--int valInclinazioneX
-'l'attributo memorizza il valore dell'inclinazione sull'asseY che permetterà di modificare le informazioni della scatola e quindi di giocare
--int valInclinazioneY
+'l'attributo memorizza il valore dell'inclinazione sull'asseX che permetterà di modificare le informazioni della sabbia e quindi di giocare
+int valInclinazioneX
+'l'attributo memorizza il valore dell'inclinazione sull'asseY che permetterà di modificare le informazioni della sabbia e quindi di giocare
+int valInclinazioneY
 
-'il metodo permette di leggere le informazioni dell'inclinazione nei datiCondivisi
-+void leggi()
-'il metodo permette di apportare modifiche nelle informazioni legate all'inclinazione nei datiCondivisi
-+void scrivi()
+'il metodo permette di apportare modifiche nelle informazioni legate all'inclinazioneX
++void scriviInclinazioneX(int inclinazioneX)
+'il metodo permette di apportare modifiche nelle informazioni legate all'inclinazioneY
++void scriviInclinazioneX(int inclinazioneX)
 }
 
 class DatiCondivisi{
-'l'attributo indica un vettore per la gestione della sabbia contenuta nelle scatole
--Sabbia[] sabbie
-'l'attributo indica il numero di sabbia che sono in esecuzione
--int running
+'numero di colonne
+int numScatoleColonne
+'vettore di oggetti sabbia, contenute nelle scatola
+Sabbia[] sabbie
+'l'attributo indica se si e` in gioco
+boolean running
+'oggetto Sensore per salvare i valori dell'inclinazione
+Sensore giroscopio
 
-'l'attributo memorizza il valore dell'inclinazione sull'asseX che permetterà di modificare le informazioni della scatola e quindi di giocare
--int valInclinazioneX
-'l'attributo memorizza il valore dell'inclinazione sull'asseY che permetterà di modificare le informazioni della scatola e quindi di giocare
--int valInclinazioneY
-
-'l'attributo indica la quantità di rosso utilizzata per la visualizzazione dei componenti
--float red
-'l'attributo indica la quantità di verde utilizzata per la visualizzazione dei componenti
--float green
-'l'attributo indica la quantità di blu utilizzata per la visualizzazione dei componenti
--float blue
+'metodo che ferma il gioco
++void stop()
 }
 
 class SwingGui{
 'l'attributo serve a gestire la finestra per l'utente
--JFrame frame
+JFrame frame
+'oggetto che permette l'accesso agli elementi condivisi ai Thread
+DatiCondivisi dati
 
 'il metodo permette di rendere visibile la finestra
 +void show()
@@ -88,11 +96,13 @@ class SwingGui{
 
 class NB_ProcessingScatola{
 'l'attributo permette la gestione delle variabile condivise ai Thread
--DatiCondivisi datiC
+-static DatiCondivisi datiC
 'viene definito un vettore di ThreadScatola
--ThScatola[] scatole
-'l'attributo indica il numero di Thread
--int numScatole
+-static ThScatola[] box
+'larghezza della canvas
+-static int WScreen
+'altezza della canvas
+-static int WScreen
 
 'il metodo permette di inizializzare gli attributi, creare l'oggetto contenente i dati condivisi,creare i Thread,creare le finestre 
 +static void main()
@@ -102,13 +112,11 @@ class NB_ProcessingScatola{
 +void setup()
 'il metodo gestisce l'animazione
 +void draw()
+'il metodo gestisce l'animazione della sabbia in base all'inclinazioneX
+-void displaySabbia()
 }
 
-
-ThSensore "1" -- "1" ThScatola
-
 ThScatola "0..*" -- "1" Sabbia
-ThScatola "0..1" -- "1" Pallina
 DatiCondivisi "1" -- "1" ThSensore
 DatiCondivisi "1" -- "1" ThScatola
 
