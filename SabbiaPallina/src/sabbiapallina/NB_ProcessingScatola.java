@@ -14,9 +14,18 @@ import processing.core.PImage;
  */
 public class NB_ProcessingScatola extends PApplet {
 
+    /**
+     * @author Galimberti_Francesco
+     *
+     * Oggetto di tipo DatiCondivisi per accedere alle elementi condivisi ai Thread
+     */
     static DatiCondivisi dati;
+    //vettore dei ThreadScatola
     static ThScatola box[];
+    
+    //larghezza della canvas(schermo di gioco)
     private static int WScreen;
+    //altezza della canvas(schermo di gioco)
     private static int HScreen;
 
     /**
@@ -25,19 +34,21 @@ public class NB_ProcessingScatola extends PApplet {
     public static void main(String[] args) {
         int numScatoleRighe = 1;
         int numScatoleColonne = 2;
-
+        
+        //creazione dei dati condivisi
         dati = new DatiCondivisi(numScatoleColonne);
 
         //creazione dei ThreadScatola
         box = new ThScatola[numScatoleColonne];
         for (int i = 0; i < dati.numScatoleColonne; i++) {
-            if (i == 0) {
+            if (i == 0) {              //percentuale sabbia, datiCondivisi,larghezza e altezza scatola
                 box[i] = new ThScatola(100, dati, i, 200, 200);
             } else {
                 box[i] = new ThScatola(0, dati, i, 200, 200);
             }
         }
 
+        //le dimensioni della canvas dipendono dal numero di righe e colonne
         WScreen = (numScatoleColonne * 200);
         HScreen = (numScatoleRighe * 200);
 
@@ -46,6 +57,7 @@ public class NB_ProcessingScatola extends PApplet {
         swingGui.show();
     }
 
+    //metodo che setta le dimensioni della canvas e avvia i Thread
     public void settings() {
         size(WScreen, HScreen);
         
@@ -53,33 +65,41 @@ public class NB_ProcessingScatola extends PApplet {
             box[i].start();
         }
     }
-
+    
+    //metodo che inizializza la canvas
     public void setup() {
         noStroke();
         frameRate(60);
     }
 
+    //metodo che gestisce la grafica
     public void draw() {
         if (!dati.isRunning()) {
             exit();
         }
-        background(125, 100, 100);
+        background(0, 0, 0);
         for (int i = 0; i < dati.numScatoleColonne; i++) {
             displaySabbia(box[i].sabbia, i);
         }
     }
     
-    void displaySabbia(Sabbia s, int id) {
+    //metodo che permette di disegnare lo spostamneto della sabbia in base all`inclinazione
+    private void displaySabbia(Sabbia s, int id) {
         noStroke();
         PImage b;
         b = loadImage("image/sabbia.png");        
         
+        //lo spostamento serve a cambiare, in base alla scatola, i punti in cui disegnare la sabbia
         int spostamento = id*200;
+        //se inclinazione positiva(verso dx)
         if (dati.giroscopio.getInclinazioneX() >= 0) {
+            //la sabbia deve essere di segnata da dx verso sx, quindi dalla fine della scatola verso l`inizio in base alla larghezza della sabbia contenuta nella scatola
             for (int x = 200 + spostamento; x > (200 + spostamento - s.widthSabbia); x--) {
                 image(b, x, 0);
             }
+        //se inclinazione negativa(verso sx)
         } else {
+        //la sabbia deve essere di segnata da sx verso dx, quindi dall`inizio della scatola verso la fine in base alla larghezza della sabbia contenuta nella scatola
             for (int x = spostamento; x < (spostamento + s.widthSabbia); x++) {
                 image(b, x, 0);
             }
