@@ -46,7 +46,7 @@ public class ThScatola extends Thread {
         //richiama il metodo per aggiornare la larghezza della sabbia 
         sabbia.visualizzazioneSabbia(widthScatola);
         
-        dati.setPalline(idScatola, ballP);
+        this.dati.setPalline(idScatola, ballP);
     }
 
     public void run() {

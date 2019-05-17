@@ -66,14 +66,14 @@ public class NB_ProcessingScatola extends PApplet {
         //creazione dei ThreadScatola
         box = new ThScatola[numScatoleColonne];
         for (int i = 0; i < dati.getNumScatoleColonne(); i++) {
-            if (i == 0) {              //percentuale sabbia, datiCondivisi,larghezza e altezza scatola
+            if (i == 0) {              //percentuale sabbia, datiCondivisi,larghezza e altezza scatola,presenza pallina
                 box[i] = new ThScatola(100, dati, i, 200, 200, true);
             } else {
                 box[i] = new ThScatola(0, dati, i, 200, 200, false);
             }
         }
         
-        thPallina=new ThPallina(dati);
+        thPallina = new ThPallina(dati);
 
         //le dimensioni della canvas dipendono dal numero di righe e colonne
         WScreen = (numScatoleColonne * 200);

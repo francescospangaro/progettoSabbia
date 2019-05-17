@@ -131,7 +131,7 @@ public class DatiCondivisi {
         return pallineP[p];
     }
     
-    public boolean setPalline(int pos, boolean v) {
+    public synchronized boolean setPalline(int pos, boolean v) {
         return pallineP[pos]=v;
     }
     

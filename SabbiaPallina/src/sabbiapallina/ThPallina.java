@@ -13,6 +13,7 @@ import java.util.logging.Logger;
  * @author spangaro_francesco
  */
 public class ThPallina extends Thread {
+
     /**
      * @author spangaro_francesco
      *
@@ -20,10 +21,10 @@ public class ThPallina extends Thread {
      * della classe DatiCondivisi.
      */
     private DatiCondivisi dati;
-    
+
     private int idScatola;
-    private int idTarget;
-    
+    private int idDest;
+
     private Pallina pallina;
 
     /**
@@ -39,15 +40,8 @@ public class ThPallina extends Thread {
      */
     public ThPallina(DatiCondivisi ptrDati) {
         this.dati = ptrDati;
-        idScatola=0;
-        pallina=new Pallina(dati);
-        
-        idTarget=idScatola;
-        if(dati.getGiroscopio().getInclinazioneX()>10){
-            idTarget++;            
-        }else if(dati.getGiroscopio().getInclinazioneX()<-10){
-            idTarget--;
-        }
+        idScatola = 0;
+        pallina = new Pallina(dati);
     }
 
     /**
@@ -63,29 +57,31 @@ public class ThPallina extends Thread {
     @Override
     public void run() {
         while (true) {
-            
-            if (dati.getPalline(idScatola)) {                  //Se nella scatola è presente la pallina
-                pallina.Move(idScatola);             //La pallina viene mossa
-            }
-            
+
+            //if (dati.getPalline(idScatola)) {    //Se nella scatola è presente la pallina
+            pallina.Move(idScatola, dati.getGiroscopio().getInclinazioneX());         //La pallina viene mossa
+            //}
+
             try {
                 Thread.sleep(10);                        //provare 5 millisecondi
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThPallina.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            if (dati.getGiroscopio().getInclinazioneX() > 10) {
-                
-                GestionePallinaVersoDestra();
-                
+
+            if (dati.getGiroscopio().getInclinazioneX() >= 15) {
+
+                idDest = idScatola + 1;
+
+                VersoDestra();
+
             }
-            
-            if (dati.getGiroscopio().getInclinazioneX() < -10) {
-                
-                GestionePallinaVersoSinistra();
-                
+
+            if (dati.getGiroscopio().getInclinazioneX() <= -15) {
+                idDest = idScatola - 1;
+
+                VersoSinistra();
             }
-            
+
         }
     }
 
@@ -99,21 +95,52 @@ public class ThPallina extends Thread {
      * tocca il bordo ad una velocitá sufficiente e se la scatola di riferimento
      * é piena avviene lo spostamento nell'altra scatola.
      */
-    private void GestionePallinaVersoDestra() {
-        
-        idTarget = idScatola+1;
-        
-        if (dati.getPalline(idScatola)) {
-            pallina.IncrementaVelocitàX();      //incremento velocità pallina se presente nella scatola
-        }
-        if ((idTarget % dati.getNumScatoleColonne()) != 0) {
-            if ((dati.getPalline(idScatola)) && (dati.isSposta()) && (pallina.getPosX() == (200 + (200 * idScatola)) - (pallina.getRaggio() / 2)) && (dati.getSabbiaById(idScatola).getPercentuale()==100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
-                                
-                idScatola++;
-                pallina = new Pallina(dati, (idTarget * 200) + (pallina.getRaggio() / 2), 100);      //Creo nuova pallina in scatola successiva
+    private void VersoDestra() {
+        pallina.IncrementaVelocitàX();      //incremento velocità pallina se presente nella scatola
 
-                CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
+        if (idDest != dati.getNumScatoleColonne()) {
+
+            if (pallina.getPosX() == (200 + (200 * idScatola)) - (pallina.getRaggio() / 2)) {
+                if ((dati.getPalline(idScatola)) && (dati.isSposta()) && (dati.getSabbiaById(idScatola).getPercentuale() <= 100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
+                    System.out.println("idDest pallina" + idDest);
+                    CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
+
+                    pallina = new Pallina(dati, (idDest * 200) + (pallina.getRaggio() / 2), 100);      //Creo nuova pallina in scatola successiva
+                }
             }
+
+        }
+    }
+
+    /**
+     * @author spangaro_francesco
+     *
+     * @brief Metodo che si occupa di gestire lo spostamento della pallina.
+     *
+     * Metodo che prima verifica la presenza della pallina nella scatola, se
+     * presente decrementa la velocitá della pallina, in seguito se la pallina
+     * tocca il bordo ad una velocitá sufficiente e se la scatola di riferimento
+     * é piena avviene lo spostamento nell'altra scatola.
+     */
+    private void VersoSinistra() {
+        pallina.DecrementaVelocitàX();      //decremento velocità pallina se presente nella scatola
+
+        if (idDest != -1) {
+
+            if (pallina.getPosX() == (200 * idScatola) + (pallina.getRaggio() / 2)) {
+                if ((dati.getPalline(idScatola)) && (dati.isSposta()) && (dati.getSabbiaById(idScatola).getPercentuale() <= 100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
+                    System.out.println("idDest pallina" + idDest);
+                    CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina                
+                    /*               
+                if (idDest == 0) {
+                    pallina = new Pallina(dati, (200 + (idDest * 200)) - (pallina.getRaggio() / 2), 100);       //Creo nuova pallina in scatola precedente(se è la scatola con id=0)
+                } else {
+                    pallina = new Pallina(dati, (idScatola * 200) - (pallina.getRaggio() / 2), 100);       //Creo nuova pallina in scatola precedente
+                }*/
+                    pallina = new Pallina(dati, (200 + (idDest * 200)) - (pallina.getRaggio() / 2), 100);
+                }
+            }
+
         }
     }
 
@@ -129,47 +156,13 @@ public class ThPallina extends Thread {
      */
     private void CambioPallina() {
         dati.setPalline(idScatola, false);
-        dati.setPalline(idTarget, true);
+        dati.setPalline(idDest, true);
         dati.setSposta(false);
-    }
-
-    /**
-     * @author spangaro_francesco
-     *
-     * @brief Metodo che si occupa di gestire lo spostamento della pallina.
-     *
-     * Metodo che prima verifica la presenza della pallina nella scatola, se
-     * presente decrementa la velocitá della pallina, in seguito se la pallina
-     * tocca il bordo ad una velocitá sufficiente e se la scatola di riferimento
-     * é piena avviene lo spostamento nell'altra scatola.
-     */
-    private void GestionePallinaVersoSinistra() {
-        
-        idTarget=idScatola-1;
-        
-        if (dati.getPalline(idScatola)) {
-            pallina.DecrementaVelocitàX();      //decremento velocità pallina se presente nella scatola
-        }
-        if ((idScatola % dati.getNumScatoleColonne()) != 0) {
-            if ((dati.getPalline(idScatola)) && (dati.isSposta()) && (pallina.getPosX() == ((200 * idScatola)) + (pallina.getRaggio() / 2)) && (dati.getSabbiaById(idScatola).getPercentuale()==100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
-                                
-                idScatola--;
-                
-                if (idTarget == 0) {
-                    pallina = new Pallina(dati, (200 + (idTarget * 200)) - (pallina.getRaggio() / 2), 100);       //Creo nuova pallina in scatola precedente(se è la scatola con id=0)
-                } else {
-                    pallina = new Pallina(dati, (idScatola * 200) - (pallina.getRaggio() / 2), 100);       //Creo nuova pallina in scatola precedente
-                }
-                
-                CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
-            }
-        }
+        idScatola = idDest;
     }
 
     public Pallina getPallina() {
         return pallina;
     }
-    
-    
 
 }

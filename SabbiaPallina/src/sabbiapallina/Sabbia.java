@@ -74,9 +74,9 @@ public class Sabbia {
     //
     public void aggiornaSabbia(int inclinazioneX) {
         if (inclinazioneX >= 15) {
-            diminuzione = (float) (0.05 * inclinazioneX);
+            diminuzione = (float) (0.02 * inclinazioneX);
         } else if (inclinazioneX <= -15) {
-            diminuzione = -1*((float) (0.05 * inclinazioneX));//moltiplico per -1 altrimenti diminuzione sara` negativa
+            diminuzione = -1*((float) (0.02 * inclinazioneX));//moltiplico per -1 altrimenti diminuzione sara` negativa
         }
     }
 

@@ -111,14 +111,13 @@ public class Pallina {
         this.posY = posY;          //Cambiare in base a larghezza della scatola
         this.velX = 0;
         this.velY = 0;
-        /*Genero un numero random tra 0 e 2 (0,1), poi calcolo il resto della divisione con il numero 2 facendo il modulo(%),
-          in questo modo ho il 50% di possibilità che la direzione sia 1(da sinistra a destra) o -1(da destra a sinistra)
-         */
+        
         if (this.dati.getGiroscopio().getInclinazioneX() < 0) {
             direzioneX = -1;       //sinistra --> destra
         } else {
             direzioneX = 1;      //destra --> sinistra
         }
+        
         /*Uguale a sopra*/
  /*if((int) ((Math.random()*2)%2)==0) {
             direzioneY=1;       //sopra --> sotto
@@ -335,19 +334,19 @@ public class Pallina {
      * 
      * @param idBox Parametro che indica il codice identificativo della scatola in cui la pallina si muove.
      */
-    public void Move(int idBox) {
-        if (dati.getGiroscopio().getInclinazioneX() > 10) {
+    public void Move(int idBox, int inclinazioneX) {
+        if (inclinazioneX >= 15) {
             direzioneX = 1;
         }
-        if (dati.getGiroscopio().getInclinazioneX() < -10) {
+        if (inclinazioneX <= -15) {
             direzioneX = -1;
         }
 
-        posX = posX + (float) ((velX * direzioneX) * (dati.getGiroscopio().getInclinazioneX() / 10));      
+        posX = posX + (float) ((velX * direzioneX) * (inclinazioneX / 10));      
         posY = posY + (float) (velY * direzioneY);                                        
-        if (posX >= 200 + ((200 * idBox) - (Raggio / 2))) {             
+        if (posX >= (200 + ((200 * idBox) - (Raggio / 2)))) {             
 
-            if ((velX * (dati.getGiroscopio().getInclinazioneX() / 10)) > 1) {
+            if ((velX * (inclinazioneX / 10)) > 1) {
                 dati.setSposta(true);
             }
 
@@ -356,9 +355,9 @@ public class Pallina {
         }
 
 
-        if ((posX <= 0 + (200 * idBox) + (Raggio / 2))) {
+        if ((posX <= (0 + (200 * idBox) + (Raggio / 2)))) {
 
-            if (((velX * (dati.getGiroscopio().getInclinazioneX() / 10))* -1) < -1) {
+            if (((velX * (inclinazioneX / 10))* -1) < -1) {
                 dati.setSposta(true);
             }
             posX = 0 + (200 * idBox) + (Raggio / 2);
@@ -382,7 +381,7 @@ public class Pallina {
      */
     public void IncrementaVelocitàX() {
         if (cont == 10) {                          //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
-            velX += 0.1;
+            velX += 0.05;
             if (velX > 0.5) {
                 velX = 0.5;                       
             }
@@ -399,7 +398,7 @@ public class Pallina {
      * @brief Metodo che incrementa la velocità della pallina sull'asse delle y.
      */
     public void IncrementaVelocitàY() {
-        velY += 0.2;
+        velY += 0.3;
     }
     
     /**
@@ -413,7 +412,7 @@ public class Pallina {
      */
     public void DecrementaVelocitàX() {
         if (cont == 10) {                          //CONTATORE CHE SERVE PER DECREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
-            velX -= 0.1;                        //DecrementaVelocitàX(), IN QUESTO MODO SI EVITA CHE LA VELOCITA NON DIMINUISCA TROPPO VELOCEMENTE
+            velX -= 0.05;                        //DecrementaVelocitàX(), IN QUESTO MODO SI EVITA CHE LA VELOCITA NON DIMINUISCA TROPPO VELOCEMENTE
             if (velX < -0.5) {
                 velX = -0.5;                      
             }
@@ -429,7 +428,7 @@ public class Pallina {
      * @brief Metodo che decrementa la velocità della pallina sull'asse delle y.
      */
     public void DecrementaVelocitàY() {
-        velY -= 0.2;
+        velY -= 0.3;
         if (velY < 0) {
             velY = 0;
         }
