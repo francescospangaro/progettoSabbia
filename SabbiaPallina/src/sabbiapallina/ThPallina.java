@@ -112,7 +112,7 @@ public class ThPallina extends Thread {
                 idScatola++;
                 pallina = new Pallina(dati, (idTarget * 200) + (pallina.getRaggio() / 2), 100);      //Creo nuova pallina in scatola successiva
 
-                CambioPallina();        //Resetto ball e ballTF della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
+                CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
             }
         }
     }
@@ -161,7 +161,7 @@ public class ThPallina extends Thread {
                     pallina = new Pallina(dati, (idScatola * 200) - (pallina.getRaggio() / 2), 100);       //Creo nuova pallina in scatola precedente
                 }
                 
-                CambioPallina();        //Resetto ball e ballTF della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
+                CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
             }
         }
     }
