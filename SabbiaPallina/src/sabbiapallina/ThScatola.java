@@ -45,7 +45,7 @@ public class ThScatola extends Thread {
         sabbia.setPercentuale(percSabbia);
         //richiama il metodo per aggiornare la larghezza della sabbia 
         sabbia.visualizzazioneSabbia(widthScatola);
-        
+
         this.dati.setPalline(idScatola, ballP);
     }
 
@@ -55,6 +55,9 @@ public class ThScatola extends Thread {
 
                 //viene richiamato il metodo per aggiornare la sabbia "persa" in base all`inclinazioneX
                 sabbia.aggiornaSabbia(dati.getGiroscopio().getInclinazioneX());
+
+                //attendo 10ms
+                Thread.sleep(10);
 
                 //se inclinazione positiva(verso dx)
                 if (dati.getGiroscopio().getInclinazioneX() >= 15) {
@@ -79,8 +82,8 @@ public class ThScatola extends Thread {
                 //dopo avere gestito il movimento resetto la sabbia persa
                 sabbia.resetDiminuzione();
 
-                //attendo 10ms
-                Thread.sleep(10);
+                System.out.println("idScatola" + idScatola + "  percSabbia" + sabbia.getPercentuale());
+
             }
 
         } catch (InterruptedException ex) {
@@ -94,52 +97,53 @@ public class ThScatola extends Thread {
         if (idDest != dati.getNumScatoleColonne()) {
             try {
                 //se ho della sabbia persa, la scatola e` piena di sabbia e la scatola precedente non ha piu sabbia, oppure, ho della sabbia persa, la scatola ha della sabbia e il destinatario non e` ancora pieno
-                if (((dim > 0) && (sabbia.getPercentuale() == 100) && (dati.getSabbie()[idScatola - 1].getPercentuale() == 0)) || ((dim > 0) && (sabbia.getPercentuale() > 0) && (dati.getSabbie()[idDest].getPercentuale() < 100))) {
+                if (((dim > 0) && (sabbia.getPercentuale() == 100) && (dati.getSabbiaById(idScatola - 1).getPercentuale() == 0)) || ((dim > 0) && (dati.getSabbiaById(idScatola - 1).getPercentuale() == 0) && (sabbia.getPercentuale() != 0) && (dati.getSabbiaById(idDest).getPercentuale() <= 100))) {
                     procedi(dim);//si procede alla  gestione dello spostamento
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
                 //se ho della sabbia persa e la scatola e` piena di sabbia
-                if ((dim > 0) && (sabbia.getPercentuale() == 100)) {
-                    procedi(dim);//si procede alla  gestione dello spostamento
+                if (((dim > 0) && (sabbia.getPercentuale() == 100)) || ((sabbia.getPercentuale() != 0) && (dati.getSabbiaById(idDest).getPercentuale() <= 100))) {
+                    procedi(dim);//si procede alla  gestione dello spostamento                }
                 }
             }
         }
     }
-    
     //gestione spostamento verso sx(inclinazione negativa)
+
     private void versoSinistra(float dim) {
         //se la scatola in cui devo spostare la sabbia persa esiste(idDest non puo essere uguale a -1 avendo id che va da 0 a numColonne-1)
         if (idDest != -1) {
             try {
                 //se ho della sabbia persa, la scatola e` piena di sabbia e la scatola successiva non ha piu sabbia, oppure, ho della sabbia persa, la scatola ha della sabbia e il destinatario non e` ancora pieno
-                if (((dim > 0) && (sabbia.getPercentuale() == 100) && (dati.getSabbie()[idScatola + 1].getPercentuale() == 0)) || ((dim > 0) && (sabbia.getPercentuale() > 0) && (dati.getSabbie()[idDest].getPercentuale() < 100))) {
+                if (((dim > 0) && (sabbia.getPercentuale() == 100) && (dati.getSabbiaById(idScatola + 1).getPercentuale() == 0)) || ((dim > 0) && (dati.getSabbiaById(idScatola + 1).getPercentuale() == 0) && (sabbia.getPercentuale() != 0) && (dati.getSabbiaById(idDest).getPercentuale() <= 100))) {
                     procedi(dim);//si procede alla  gestione dello spostamento
                 }
-            } catch (ArrayIndexOutOfBoundsException ex) {       
+            } catch (ArrayIndexOutOfBoundsException ex) {
                 //se ho della sabbia persa e la scatola e` piena di sabbia
-                if ((dim > 0) && (sabbia.getPercentuale() == 100)) {
+                if ((dim > 0) && (sabbia.getPercentuale() == 100) || ((sabbia.getPercentuale() != 0) && (dati.getSabbiaById(idDest).getPercentuale() <= 100))) {
                     procedi(dim);//si procede alla  gestione dello spostamento
+
                 }
             }
         }
     }
 
     //metodo che permette di continare a gestire lo spostamento della sabbia, in base alla percentuale di sabbia persa
-    private void procedi(float sm) { 
+    private void procedi(float sm) {
         int perc = sabbia.getPercentuale() - (int) sm;//nuova percentuale
         //se si perde piu sabbia di quella che si ha
-        if (perc <= 0) {
+        if (perc < 0) {
             sabbia.setPercentuale(0);//la scatola e` vuota
             sabbia.visualizzazioneSabbia(widthScatola);                         // aggiornamento larghezza sabbia
-            dati.getSabbie()[idDest].setPercentuale(100);// il destinatario sara pieno di sabbia
-            dati.getSabbie()[idDest].visualizzazioneSabbia(widthScatola);            // aggiornamento larghezza sabbia destinatario
+            dati.getSabbiaById(idDest).setPercentuale(100);// il destinatario sara pieno di sabbia
+            dati.getSabbiaById(idDest).visualizzazioneSabbia(widthScatola);            // aggiornamento larghezza sabbia destinatario
 
-        //altrimenti
+            //altrimenti
         } else {
             sabbia.setPercentuale(perc);//cambia la sabbia contenuta nella scatola con la nuova percentuale
             sabbia.visualizzazioneSabbia(widthScatola);                         // aggiornamento larghezza sabbia
-            dati.getSabbie()[idDest].aggiungiSabbia((int) sm);//aggiungo la percentuale di sabbia persa al destinatario
-            dati.getSabbie()[idDest].visualizzazioneSabbia(widthScatola);            // aggiornamento larghezza sabbia destinatario
+            dati.getSabbiaById(idDest).aggiungiSabbia((int) sm);//aggiungo la percentuale di sabbia persa al destinatario
+            dati.getSabbiaById(idDest).visualizzazioneSabbia(widthScatola);            // aggiornamento larghezza sabbia destinatario
         }
     }
 
@@ -174,7 +178,5 @@ public class ThScatola extends Thread {
     public void setBallP(boolean ballP) {
         dati.setPalline(idScatola, ballP);
     }
-    
-    
-    
+
 }
