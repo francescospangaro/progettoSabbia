@@ -20,29 +20,42 @@ public class DatiCondivisi {
     * 
     * @brief memorizza il numero di colonne
     */
-    int numScatoleColonne;
+    private int numScatoleColonne;
     
     /**
     * @author Riccardi Francesco
     * 
     * @brief indica se il gioco e` in corso
     */
-    boolean running;
+    private boolean running;
     
     /**
     * @author Riccardi Francesco
     * 
     * @brief vettore di oggetti sabbia
     */
-    Sabbia[] sabbie;
+    private Sabbia[] sabbie;
+    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @brief vettore di valori booleani
+    */
+    private boolean[] pallineP;
+    
+    /**
+     * @author Riccardi Francesco
+     *
+     * @brief Attributo boolean che indica se far avvenire lo spostamento.
+     */
+    private boolean sposta;
     
     /**
     * @author Riccardi Francesco
     * 
     * @brief sensore per salvare l`inclinazione
     */
-    Sensore giroscopio;
-
+    private Sensore giroscopio;    
     
     /**
     * @author Riccardi Francesco
@@ -61,6 +74,8 @@ public class DatiCondivisi {
         for(int i=0; i<numScatoleColonne; i++){  
             sabbie[i] = new Sabbia();
         }
+        
+        pallineP = new boolean[numScatoleColonne];
     }
     
   
@@ -72,7 +87,7 @@ public class DatiCondivisi {
     */
     public synchronized Sabbia getSabbiaById(int idScatola){
         return sabbie[idScatola];
-    }    
+    } 
 
     /**
     * @author Riccardi Francesco
@@ -91,5 +106,35 @@ public class DatiCondivisi {
     public void stop() {
         this.running = false;
     }    
+
+    public int getNumScatoleColonne() {
+        return numScatoleColonne;
+    }
+
+    public Sabbia[] getSabbie() {
+        return sabbie;
+    }
+
+    public Sensore getGiroscopio() {
+        return giroscopio;
+    }
+
+    public boolean isSposta() {
+        return sposta;
+    }
+
+    public void setSposta(boolean sposta) {
+        this.sposta = sposta;
+    }
+
+    public boolean getPalline(int p) {
+        return pallineP[p];
+    }
+    
+    public boolean setPalline(int pos, boolean v) {
+        return pallineP[pos]=v;
+    }
+    
+    
     
 }

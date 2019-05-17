@@ -70,7 +70,7 @@ public class SwingGui {
             @Override
             public void stateChanged(ChangeEvent ce) {
                 int val = inclinazione.getValue();                
-                dati.giroscopio.scriviInclinazioneX(val);
+                dati.getGiroscopio().scriviInclinazioneX(val);
                 valInclinazione.setText(String.valueOf(val)+"° ");
             }
         });
@@ -84,7 +84,7 @@ public class SwingGui {
         AddValue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazione.setValue((int) (dati.giroscopio.getInclinazioneX() + 1));
+                inclinazione.setValue((int) (dati.getGiroscopio().getInclinazioneX() + 1));
             }
         });
 
@@ -97,7 +97,7 @@ public class SwingGui {
         DecValue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazione.setValue((int) (dati.giroscopio.getInclinazioneX() - 1));
+                inclinazione.setValue((int) (dati.getGiroscopio().getInclinazioneX() - 1));
             }
         });
 

@@ -19,26 +19,26 @@ public class Sabbia {
     * 
     * @brief indica quanta sabbia è contenuta nella scatola
     */
-    int percentuale;
+    private int percentuale;
     /**
     * @author Riccardi Francesco
     * 
     * @brief permette di calacola la percentuale di sabbia persa in base all`inclinazione
     */
-    float diminuzione;
+    private float diminuzione;
 
     /**
     * @author Riccardi Francesco
     * 
     * @brief contiene la larghezza della sabbia
     */
-    int widthSabbia;
+    private int widthSabbia;
     /**
     * @author Riccardi Francesco
     * 
     * @brief contiene l'altezza della sabbia
     */
-    int heightSabbia;
+    private int heightSabbia;
 
     /**
     * @author Riccardi Francesco
@@ -127,4 +127,23 @@ public class Sabbia {
         }
     }
 
+    public int getPercentuale() {
+        return percentuale;
+    }
+
+    public float getDiminuzione() {
+        return diminuzione;
+    }
+
+    public int getWidthSabbia() {
+        return widthSabbia;
+    }
+
+    public int getHeightSabbia() {
+        return heightSabbia;
+    }
+
+    
+    
+    
 }
