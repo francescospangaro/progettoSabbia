@@ -15,33 +15,33 @@ import processing.core.PImage;
 public class Sabbia {
 
     /**
-    * @author Galimberti Francesco
+    * @author Riccardi Francesco
     * 
     * @brief indica quanta sabbia è contenuta nella scatola
     */
     int percentuale;
     /**
-    * @author Galimberti Francesco
+    * @author Riccardi Francesco
     * 
     * @brief permette di calacola la percentuale di sabbia persa in base all`inclinazione
     */
     float diminuzione;
 
     /**
-    * @author Galimberti Francesco
+    * @author Riccardi Francesco
     * 
     * @brief contiene la larghezza della sabbia
     */
     int widthSabbia;
     /**
-    * @author Galimberti Francesco
+    * @author Riccardi Francesco
     * 
     * @brief contiene l'altezza della sabbia
     */
     int heightSabbia;
 
     /**
-    * @author Galimberti Francesco
+    * @author Riccardi Francesco
     * 
     * @param percentuale contiene la percentuale aggiornata di sabbia
     * @briefil costruttore che inizializza gli attributi, in particolare la percentuale
@@ -53,7 +53,11 @@ public class Sabbia {
         this.widthSabbia = 0;
     }
 
-    //costruttore che inizializza gli attributi a 0
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @brief costruttore che inizializza gli attributi a 0
+    */
     public Sabbia() {
         this.percentuale = 0;
         this.heightSabbia = 0;
@@ -61,7 +65,13 @@ public class Sabbia {
         this.diminuzione = 0;
     }
 
-    //metodo che gestisce il movimento della sabbia in base all`inclinazione
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @param inclunazioneX contiene l'inclinazione dell'asse X
+    * @brief metodo che gestisce il movimento della sabbia in base all`inclinazione
+    */
+    //
     public void aggiornaSabbia(int inclinazioneX) {
         if (inclinazioneX >= 15) {
             diminuzione = (float) (0.05 * inclinazioneX);
@@ -70,21 +80,45 @@ public class Sabbia {
         }
     }
 
-    //metodo che setta la percentuale di sabbia persa a 0
+    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @brief metodo che setta la percentuale di sabbia persa a 0
+    */
     public void resetDiminuzione() {
         this.diminuzione = 0;
     }
     
-    //metodo per aggiornare la larghezza della sabbia    larghezzaSabbia(x) : larghezzaScatola = percentualeSabbia : 100
+    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @param wScatola contiene la larghezza della scatola
+    * @brief metodo per aggiornare la larghezza della sabbia    larghezzaSabbia(x) : larghezzaScatola = percentualeSabbia : 100
+    */
     public void visualizzazioneSabbia(int wScatola) {
         widthSabbia = (int) (percentuale * (((float) wScatola) / 100));
     }
 
+    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @param percentuale contiene la percentuale di sabbia
+    * @brief setta la percentuale
+    */
     public void setPercentuale(int percentuale) {
         this.percentuale = percentuale;
     }
 
-    //metodo che aggiunge alla sabbia una certa percentuale
+    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @param percentuale contiene la percentuale di sabbia
+    * @brief aggiunge alla sabbia una certa percentuale
+    */
     public void aggiungiSabbia(int percentuale) {
         this.percentuale += percentuale;
         //in caso la percentuale sia maggiore di 100(impossibile) viene riportata a 100

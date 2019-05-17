@@ -18,13 +18,39 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 /**
- *
  * @author Galimberti Francesco
+ * 
+ * @version Prototipo1.0
+ * @brief la classe collabora con la classe DatiCondivisi
  */
 public class SwingGui {
-    private DatiCondivisi dati;    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @brief crea i daticondivisi
+    */
+    private DatiCondivisi dati; 
+    
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @brief crea un frame che conterrà i componenti
+    */
     private JFrame frame;
 
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @param ptrDati contiene i dati condivisi aggiornati
+    * @brief crea un pannello che contiene:
+    * un pannello su cui aggiungere bottoni
+    * uno slider che regola l'inclinazione delle scatole
+    * una label per visualizzare il valore dell`inclinazione
+    * un bottone "STOP" che quando viene premuto ferma e chiude il gioco
+    * un bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+    */
     public SwingGui(DatiCondivisi ptrDati) {
         this.dati = ptrDati;
         
@@ -115,7 +141,11 @@ public class SwingGui {
         frame.setSize(500, 120);
     }
     
-    //il metodo permette di rendere visibile lo SwingGui
+    /**
+    * @author Riccardi Francesco
+    * 
+    * @brief il metodo permette di rendere visibile lo SwingGui
+    */
     public void show() {
         frame.setVisible(true);
     }
