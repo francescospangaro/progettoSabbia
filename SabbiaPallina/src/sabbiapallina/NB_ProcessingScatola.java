@@ -9,27 +9,47 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- *
  * @author Galimberti Francesco
+ * 
+ * @version Prototipo1.0
+ * @brief La classe collabora con le classi DatiCondivisi, SwingGui e ThScatola
  */
 public class NB_ProcessingScatola extends PApplet {
 
     /**
-     * @author Galimberti_Francesco
+     * @author Riccardi Francesco
      *
-     * Oggetto di tipo DatiCondivisi per accedere alle elementi condivisi ai Thread
+     *@brief Oggetto di tipo DatiCondivisi per accedere alle elementi condivisi ai Thread
      */
     static DatiCondivisi dati;
-    //vettore dei ThreadScatola
+    /**
+     * @author Riccardi Francesco
+     *
+     *@brief vettore dei ThreadScatola
+     */
     static ThScatola box[];
     
-    //larghezza della canvas(schermo di gioco)
+    /**
+     * @author Riccardi Francesco
+     *
+     *@brief contiene la larghezza della canvas(schermo di gioco)
+     */
+    //
     private static int WScreen;
-    //altezza della canvas(schermo di gioco)
+    
+    /**
+     * @author Riccardi Francesco
+     *
+     *@brief conteine l'altezza della canvas(schermo di gioco
+     */
     private static int HScreen;
 
     /**
-     * @param args the command line arguments
+     * @author Riccardi Francesco
+     *
+     *@brief il Main fa partire il disegno e il gioco
+     * 
+     * Il main inizializza le righe e le colonne, crea i dati condivisi e i thread scatola, modifica le dimensioni della canvas in base a righe e colonne
      */
     public static void main(String[] args) {
         int numScatoleRighe = 1;
@@ -57,7 +77,11 @@ public class NB_ProcessingScatola extends PApplet {
         swingGui.show();
     }
 
-    //metodo che setta le dimensioni della canvas e avvia i Thread
+    /**
+     * @author Riccardi Francesco
+     *
+     *@brief setta le dimensioni della canvas e avvia i Thread
+     */
     public void settings() {
         size(WScreen, HScreen);
         
@@ -66,13 +90,21 @@ public class NB_ProcessingScatola extends PApplet {
         }
     }
     
-    //metodo che inizializza la canvas
+    /**
+     * @author Riccardi Francesco
+     *
+     *@brief inizializza la canvas
+     */
     public void setup() {
         noStroke();
         frameRate(60);
     }
 
-    //metodo che gestisce la grafica
+    /**
+     * @author Riccardi Francesco
+     *
+     *@brief estisce la grafica se il programma è in running
+     */
     public void draw() {
         if (!dati.isRunning()) {
             exit();
@@ -83,24 +115,28 @@ public class NB_ProcessingScatola extends PApplet {
         }
     }
     
-    //metodo che permette di disegnare lo spostamneto della sabbia in base all`inclinazione
+    /**
+     * @author Riccardi Francesco
+     *
+     * @param s contiene i dati relativi alla sabbia
+     * @param id contiene l'id della scatola
+     *@brief permette di disegnare lo spostamneto della sabbia in base all`inclinazione
+     * 
+     *sposta , in base alla scatola, i punti in cui disegnare la sabbia, se l'inclunazione è positiva disegna da dx a sx, mentre
+     * se è negativa il contrario, cioè da sx a dx
+     */
     private void displaySabbia(Sabbia s, int id) {
         noStroke();
         PImage b;
         b = loadImage("image/sabbia.png");        
         
-        //lo spostamento serve a cambiare, in base alla scatola, i punti in cui disegnare la sabbia
         int spostamento = id*200;
-        //se inclinazione positiva(verso dx)
         if (dati.giroscopio.getInclinazioneX() >= 0) {
-            //la sabbia deve essere di segnata da dx verso sx, quindi dalla fine della scatola verso l`inizio in base alla larghezza della sabbia contenuta nella scatola
             for (int x = 200 + spostamento; x > (200 + spostamento - s.widthSabbia); x--) {
                 image(b, x, 0);
             }
-        //se inclinazione negativa(verso sx)
         } else {
-        //la sabbia deve essere di segnata da sx verso dx, quindi dall`inizio della scatola verso la fine in base alla larghezza della sabbia contenuta nella scatola
-            for (int x = spostamento; x < (spostamento + s.widthSabbia); x++) {
+        for (int x = spostamento; x < (spostamento + s.widthSabbia); x++) {
                 image(b, x, 0);
             }
         }

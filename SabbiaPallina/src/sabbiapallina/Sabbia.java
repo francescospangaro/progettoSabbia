@@ -8,21 +8,45 @@ package sabbiapallina;
 import processing.core.PImage;
 
 /**
- *
  * @author Galimberti Francesco
+ * 
+ * @version Prototipo1.0
  */
 public class Sabbia {
 
-    //indica quanta sabbia è contenuta nella scatola
+    /**
+    * @author Galimberti Francesco
+    * 
+    * @brief indica quanta sabbia è contenuta nella scatola
+    */
     int percentuale;
-    //permette di calacola la percentuale di sabbia persa in base all`inclinazione
+    /**
+    * @author Galimberti Francesco
+    * 
+    * @brief permette di calacola la percentuale di sabbia persa in base all`inclinazione
+    */
     float diminuzione;
 
-    //dimensione sabbia
+    /**
+    * @author Galimberti Francesco
+    * 
+    * @brief contiene la larghezza della sabbia
+    */
     int widthSabbia;
+    /**
+    * @author Galimberti Francesco
+    * 
+    * @brief contiene l'altezza della sabbia
+    */
     int heightSabbia;
 
-    //costruttore che inizializza gli attributi, in particolare la percentuale
+    /**
+    * @author Galimberti Francesco
+    * 
+    * @param percentuale contiene la percentuale aggiornata di sabbia
+    * @briefil costruttore che inizializza gli attributi, in particolare la percentuale
+    * 
+    */
     public Sabbia(int percentuale) {
         this.percentuale = percentuale;
         this.heightSabbia = 0;
