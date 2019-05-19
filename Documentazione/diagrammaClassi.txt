@@ -1,35 +1,37 @@
 @startuml
 class ThScatola{
 'oggetto che permette l'accesso agli elementi condivisi ai Thread
-DatiCondivisi dati
+-DatiCondivisi dati
 'salva l'id della sabbia(che corrisponde a quello della scatola in cui e` contenuta) in cui spostare la sabbia persa
-int idDest
+-int idDest
 'attributo che salva l`id assegnato alla scatola
-int idScatola
+-int idScatola
 'la scatola deve avere una certa dimesione
-int widthScatola
-int heightScatola
+-int widthScatola
+-int heightScatola
 'la scatola gestisce la sabbia contenuta in essa
-Sabbia sabbia
+-Sabbia sabbia
 
 'metodo rappresentatnte il main dei Thread
 +void run()
 'metodo che gestisce il movimento della sabbia verso dx
--void versoDestra(float diminuzione)
++void versoDestra(float diminuzione)
 'metodo che gestisce il movimento della sabbia verso sx
--void versoSinistra(float diminuzione)
++void versoSinistra(float diminuzione)
 'metodo che permette di continuare a gestire il movimento della sabbia(era comune ai metodi precedenti)
--void procedi(float diminuzione)
++void procedi(float diminuzione)
+'metodo che restituisce se la pallina è presente nella scatola
++boolean isBallP()
 }
 
 class Sabbia{
 'la sabbia occupa un certo volume della scatola
-int percentuale
+-int percentuale
 'serve a calcolare la percentuale di sabbia in spostamento
-float diminuzione
+-float diminuzione
 'la scatola deve avere una certa dimesione
-int widthSabbia
-int heightSabbia
+-int widthSabbia
+-int heightSabbia
 
 'il metodo permette di il movimento della sabbia in base all'inclinazione
 +void aggiornaSabbia(int inclinazioneX)
@@ -41,43 +43,85 @@ int heightSabbia
 +void aggiungiSabbia(int percentuale)
 }
 
-class Pallina{
-'la pallina occupa una certa posizioneX sulla sabbia che cambia in base alla velocitàX
--int posX
-'la pallina occupa una certa posizioneY sulla sabbia che cambia in base alla velocitàY
--int posY
-'la pallina ha una certa velocità sull'asse delle x che cambia in base all'inclinazione
--int velX
-'la pallina ha una certa velocità sull'asse delle y che cambia in base all'inclinazione
--int velY
+class ThPallina{
+'oggetto che permette l'accesso agli elementi condivisi ai Thread
+-DatiCondivisi dati
+'salva l'id della sabbia(che corrisponde a quello della scatola in cui e` contenuta) in cui spostare la sabbia persa
+-int idDest
+'attributo che salva l`id assegnato alla scatola
+-int idScatola
+'questo thread gestisce la pallina
+-Pallina pallina
 
-'il metodo permette di aggiornare la velocità sugli assi della pallina in base all'inclinazione
-+void aggiornaPallina(int inclinazione)
-'il metodo permette di visualizzare la pallina dopo ogni aggiornamento dell'inclinazione
-+void visualizzazionePallina()
+'metodo rappresentatnte il main dei Thread
++void run()
+'metodo che gestisce il movimento della pallina verso dx
++void versoDestra()
+'metodo che gestisce il movimento della sabbia verso sx
++void versoSinistra()
+'metodo che gestisce lo spostamento della pallina da una scatola all'altra
++void CambioPallina()
 }
 
-class ThSensore{
+class Pallina{
+'indica la posizione sull'asse delle ascisse della pallina'
+- float posX
+'indica la posizione sull'asse delle ordinate della pallina'
+- float posY
+'indica la velocità sull'asse delle ascisse della pallina'
+- float velX
+'indica la velocità sull'asse delle ordinate della pallina'
+- float velY
+'indica la direzione sull'asse delle ascisse della pallina'
+- int direzioneX
+'indica la direzione sull'asse delle ordinate della pallina'
+- int direzioneY
+'indica il raggio della pallina'
+- int raggio
+'oggetto della classe DatiCondivisi'
+- DatiCondivisi ptrDati
+'contatore usato per gestire la velocita' della pallina'
+- int cont
+
+'Metodo che permette alla pallina di muoversi'
++ void move(int idBox)
+'Metodo che aumenta la velocita' della pallina sull'asse delle ascisse'
++ void incrementaVelocitaX()
+'Metodo che aumenta la velocita' della pallina sull'asse delle ordinate'
++ void incrementaVelocitaY()
+'Metodo che diminuisce la velocita' della pallina sull'asse delle ascisse'
++ void decremantaVelocitaX()
+'Metodo che diminuisce la velocita' della pallina sull'asse delle oridnate'
++ void decremantaVelocitaY()
+'Metodo che mostra le informazione della pallina (usato per il debug)'
++ void visualizzaInfo()
+}
+
+class Sensore{
 'l'attributo memorizza il valore dell'inclinazione sull'asseX che permetterà di modificare le informazioni della sabbia e quindi di giocare
-int valInclinazioneX
+-int valInclinazioneX
 'l'attributo memorizza il valore dell'inclinazione sull'asseY che permetterà di modificare le informazioni della sabbia e quindi di giocare
-int valInclinazioneY
+-int valInclinazioneY
 
 'il metodo permette di apportare modifiche nelle informazioni legate all'inclinazioneX
 +void scriviInclinazioneX(int inclinazioneX)
 'il metodo permette di apportare modifiche nelle informazioni legate all'inclinazioneY
-+void scriviInclinazioneX(int inclinazioneX)
++void scriviInclinazioneY(int inclinazioneX)
 }
 
 class DatiCondivisi{
 'numero di colonne
-int numScatoleColonne
+-int numScatoleColonne
 'vettore di oggetti sabbia, contenute nelle scatola
-Sabbia[] sabbie
+-Sabbia[] sabbie
+'vettore di valori booleani che indica in quale scatola è presente la pallina
+-boolean[] pallineP
+'permette di spostare la pallina una volta raggiunta la velocità corretta
+-boolean sposta
 'l'attributo indica se si e` in gioco
-boolean running
+-boolean running
 'oggetto Sensore per salvare i valori dell'inclinazione
-Sensore giroscopio
+-Sensore giroscopio
 
 'metodo che ferma il gioco
 +void stop()
@@ -85,9 +129,9 @@ Sensore giroscopio
 
 class SwingGui{
 'l'attributo serve a gestire la finestra per l'utente
-JFrame frame
+-JFrame frame
 'oggetto che permette l'accesso agli elementi condivisi ai Thread
-DatiCondivisi dati
+-DatiCondivisi dati
 
 'il metodo permette di rendere visibile la finestra
 +void show()
@@ -114,11 +158,19 @@ class NB_ProcessingScatola{
 +void draw()
 'il metodo gestisce l'animazione della sabbia in base all'inclinazioneX
 -void displaySabbia()
+'il metodo gestisce l'animazione della pallina
+-void drawBall()
 }
 
 ThScatola "0..*" -- "1" Sabbia
-DatiCondivisi "1" -- "1" ThSensore
+DatiCondivisi "1" -- "1" SwingGui
 DatiCondivisi "1" -- "1" ThScatola
+Sensore "1" -- "1" SwingGui
+DatiCondivisi "1" -- "1" Sensore
+
+ThPallina "1" -- "1" Pallina
+DatiCondivisi "1" -- "1" ThPallina
+DatiCondivisi "1" -- "1" Pallina
 
 ThScatola "0..*" --* "1" NB_ProcessingScatola
 SwingGui "1" --* "1" NB_ProcessingScatola
