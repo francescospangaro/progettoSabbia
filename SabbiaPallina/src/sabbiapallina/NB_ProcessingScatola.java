@@ -133,10 +133,13 @@ public class NB_ProcessingScatola extends PApplet {
             for (int c = 0; c < dati.getNumScatoleColonne(); c++) {
                 drawSabbiaPixel(r, c, r * 200, c * 200);
                 //drawSabbia(box[r][c].getSabbia(), r, c);
-                if (box[r][c].isBallP()) {
-                    drawBall();
+                if(dati.isRunning()){
+                    if (box[r][c].isBallP()) {
+                        drawBall();
+                    }
+                }else{
+                    exit();
                 }
-
                 if (dati.getGiroscopio().getInclinazioneX() > 15 || dati.getGiroscopio().getInclinazioneX() < -15) {
                     dati.signalEseguiPallina();
                 }
@@ -158,6 +161,7 @@ public class NB_ProcessingScatola extends PApplet {
      * contrario, cioè da sx a dx
      */
     private void drawSabbia(Sabbia s, int r, int c) {
+        if(dati.isRunning()){
         noStroke();
         PImage b;
         b = loadImage("image/sabbia.png");
@@ -173,9 +177,12 @@ public class NB_ProcessingScatola extends PApplet {
                 image(b, x, spostamentoY);
             }
         }
-    }
-
+    }else{
+            exit();
+        }
+}
     public void drawSabbiaPixel(int r, int c, int riga, int colonna) {
+        if(dati.isRunning()){
         stroke(0, 0, 0);
 
         rect(colonna, riga, 200, 200);
@@ -201,7 +208,10 @@ public class NB_ProcessingScatola extends PApplet {
         }
         stroke(0, 0, 0);
         noFill();
-    }
+    }else{
+            exit();
+        }
+}
 
     /**
      * @author Riccardi Francesco

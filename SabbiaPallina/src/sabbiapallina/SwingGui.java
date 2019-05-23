@@ -53,6 +53,7 @@ public class SwingGui {
     public DatiCondivisi getDati(){
         return dati;
     }
+    
     public SwingGui() {
         
         
