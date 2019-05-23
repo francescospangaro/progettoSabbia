@@ -61,10 +61,13 @@ public class ThPallina extends Thread {
     @Override
     public void run() {
         while (true) {
+            try {
+                dati.waitEseguiPallina();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThPallina.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            //if (dati.getPalline(idScatola)) {    //Se nella scatola è presente la pallina
             pallina.Move(rigaScatola, colonnaScatola, dati.getGiroscopio().getInclinazioneX());         //La pallina viene mossa
-            //}
 
             try {
                 Thread.sleep(10);                        //provare 5 millisecondi

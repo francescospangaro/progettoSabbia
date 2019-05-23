@@ -132,6 +132,10 @@ public class NB_ProcessingScatola extends PApplet {
                 if (box[r][c].isBallP()) {
                     drawBall();
                 }
+
+                if (dati.getGiroscopio().getInclinazioneX() > 15 || dati.getGiroscopio().getInclinazioneX() < -15) {
+                    dati.signalEseguiPallina();
+                }
             }
         }
 

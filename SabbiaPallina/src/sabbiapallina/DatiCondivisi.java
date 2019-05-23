@@ -5,6 +5,8 @@
  */
 package sabbiapallina;
 
+import java.util.concurrent.Semaphore;
+
 
 
 /**
@@ -22,6 +24,8 @@ public class DatiCondivisi {
     */
     private int numScatoleColonne;
     private int numScatoleRighe;
+    
+    private Semaphore sincroEventoPallina;
     
     /**
     * @author Riccardi Francesco
@@ -71,6 +75,7 @@ public class DatiCondivisi {
         
         giroscopio=new Sensore();
         
+        sincroEventoPallina=new Semaphore(0);
         
         sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
         for (int r = 0; r < numScatoleRighe; r++) {
@@ -144,6 +149,13 @@ public class DatiCondivisi {
         return numScatoleRighe;
     }
     
+    public void waitEseguiPallina() throws InterruptedException {
+        sincroEventoPallina.acquire();
+    }
+    
+    public void signalEseguiPallina() {
+        sincroEventoPallina.release();
+    }
     
     
 }
