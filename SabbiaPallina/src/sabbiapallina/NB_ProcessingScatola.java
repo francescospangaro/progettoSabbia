@@ -57,12 +57,17 @@ public class NB_ProcessingScatola extends PApplet {
      * colonne
      */
     public static void main(String[] args) {
-        int numScatoleRighe = 3;
-        int numScatoleColonne = 5;
+        int numScatoleRighe;
+        int numScatoleColonne;
 
         //creazione dei dati condivisi
-        dati = new DatiCondivisi(numScatoleRighe, numScatoleColonne);
-
+        
+        SwingGui swingGui = new SwingGui();
+        swingGui.show();
+        
+        dati = swingGui.getDati();
+        numScatoleColonne= dati.getNumScatoleColonne();
+        numScatoleRighe = dati.getNumScatoleRighe();
         //creazione dei ThreadScatola
         box = new ThScatola[numScatoleRighe][numScatoleColonne];
 
@@ -83,8 +88,7 @@ public class NB_ProcessingScatola extends PApplet {
         HScreen = (numScatoleRighe * 200);
 
         PApplet.main(new String[]{"sabbiapallina.NB_ProcessingScatola"});
-        SwingGui swingGui = new SwingGui(dati);
-        swingGui.show();
+        
     }
 
     /**

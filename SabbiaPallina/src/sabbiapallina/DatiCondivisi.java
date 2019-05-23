@@ -156,6 +156,16 @@ public class DatiCondivisi {
     public void signalEseguiPallina() {
         sincroEventoPallina.release();
     }
+
+    public synchronized void setNumScatoleColonne(int numScatoleColonne) {
+        this.numScatoleColonne = numScatoleColonne;
+    }
+
+    public synchronized void setNumScatoleRighe(int numScatoleRighe) {
+        this.numScatoleRighe = numScatoleRighe;
+    }
+    
+    
     
     
 }

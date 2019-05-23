@@ -7,6 +7,7 @@ package sabbiapallina;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,8 +41,6 @@ public class SwingGui {
 
     /**
     * @author Riccardi Francesco
-    * 
-    * @param ptrDati contiene i dati condivisi aggiornati
     * @brief crea un pannello che contiene:
     * un pannello su cui aggiungere bottoni
     * uno slider che regola l'inclinazione delle scatole
@@ -51,8 +50,11 @@ public class SwingGui {
     * un bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
     * un bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
     */
-    public SwingGui(DatiCondivisi ptrDati) {
-        this.dati = ptrDati;
+    public DatiCondivisi getDati(){
+        return dati;
+    }
+    public SwingGui() {
+        
         
         frame = new JFrame("Controlli");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -128,8 +130,37 @@ public class SwingGui {
                dati.stop();
             }
         });
+        /**
+         * 
+         * Inserisce il numero di scatole sull'asse delle x
+         * 
+         */
+        TextField x = new TextField("5");
+        /**
+         * 
+         * Inserisce il numero di scatole sull'asse delle y
+         * 
+         */
+        TextField y = new TextField("3");
+        /** 
+         * 
+         * Conferma il numero delle scatole inserito dall'utente
+         * 
+         */
+        JButton conf = new JButton("CONFERMA SCATOLE");
+        stop.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               dati.setNumScatoleRighe(Integer.parseInt(x.getText()));
+               dati.setNumScatoleColonne(Integer.parseInt(y.getText()));
+            }
+        });
         
-        
+        this.dati = new DatiCondivisi(Integer.parseInt(y.getText()), (Integer.parseInt(x.getText())));
+        controls.add(conf);
+        controls.add(x);
+        controls.add(y);
         controls.add(DecValue); 
         controls.add(inclinazione);
         controls.add(valInclinazione);
