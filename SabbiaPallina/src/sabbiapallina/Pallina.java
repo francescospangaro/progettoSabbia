@@ -324,6 +324,8 @@ public class Pallina {
     
     /**
      * @author Galimberti Francesco
+     * @param rigaScatola Parametro che indica la riga identificativa della scatola in cui la pallina si muove.
+     * @param colonnaScatola Parametro che indica la colonna identificativa della scatola in cui la pallina si muove.
      *
      * @brief Metodo che si occupa di muovere la pallina.
      * 
@@ -331,10 +333,8 @@ public class Pallina {
      * Inoltre la posizione della pallina viene aggiornata in base alla velocitò di quest'ultima.
      * Più la scatola è inclinata più la pallina si sposterà velocemente.
      * Quando la pallina tocca il bordo della scatola, se ha una velocità sufficiente, passerà nell'altra scatola.
-     * 
-     * @param idBox Parametro che indica il codice identificativo della scatola in cui la pallina si muove.
      */
-    public void Move(int idBox, int inclinazioneX) {
+    public void Move(int rigaScatola,int colonnaScatola, int inclinazioneX) {
         if (inclinazioneX >= 15) {
             direzioneX = 1;
         }
@@ -344,23 +344,23 @@ public class Pallina {
 
         posX = posX + (float) ((velX * direzioneX) * (inclinazioneX / 10));      
         posY = posY + (float) (velY * direzioneY);                                        
-        if (posX >= (200 + ((200 * idBox) - (Raggio / 2)))) {             
+        if (posX >= (200 + ((200 * colonnaScatola) - (Raggio / 2)))) {             
 
             if ((velX * (inclinazioneX / 10)) > 1) {
                 dati.setSposta(true);
             }
 
-            posX = 200 + (200 * idBox) - (Raggio / 2);
+            posX = 200 + (200 * colonnaScatola) - (Raggio / 2);
             velX = 0;
         }
 
 
-        if ((posX <= (0 + (200 * idBox) + (Raggio / 2)))) {
+        if ((posX <= (0 + (200 * colonnaScatola) + (Raggio / 2)))) {
 
             if (((velX * (inclinazioneX / 10))* -1) < -1) {
                 dati.setSposta(true);
             }
-            posX = 0 + (200 * idBox) + (Raggio / 2);
+            posX = 0 + (200 * colonnaScatola) + (Raggio / 2);
             velX = 0;
         }
 
@@ -382,8 +382,8 @@ public class Pallina {
     public void IncrementaVelocitàX() {
         if (cont == 10) {                          //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
             velX += 0.05;
-            if (velX > 0.5) {
-                velX = 0.5;                       
+            if (velX > 0.6) {
+                velX = 0.6;                       
             }
             cont = 0;
         } else {
@@ -413,8 +413,8 @@ public class Pallina {
     public void DecrementaVelocitàX() {
         if (cont == 10) {                          //CONTATORE CHE SERVE PER DECREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
             velX -= 0.05;                        //DecrementaVelocitàX(), IN QUESTO MODO SI EVITA CHE LA VELOCITA NON DIMINUISCA TROPPO VELOCEMENTE
-            if (velX < -0.5) {
-                velX = -0.5;                      
+            if (velX < -0.6) {
+                velX = -0.6;                      
             }
             cont = 0;
         } else {

@@ -28,8 +28,8 @@ public class NB_ProcessingScatola extends PApplet {
      *
      * @brief vettore dei ThreadScatola
      */
-    static ThScatola box[];
-    
+    static ThScatola box[][];
+
     static ThPallina thPallina;
 
     /**
@@ -57,22 +57,25 @@ public class NB_ProcessingScatola extends PApplet {
      * colonne
      */
     public static void main(String[] args) {
-        int numScatoleRighe = 1;
-        int numScatoleColonne = 2;
+        int numScatoleRighe = 3;
+        int numScatoleColonne = 5;
 
         //creazione dei dati condivisi
-        dati = new DatiCondivisi(numScatoleColonne);
+        dati = new DatiCondivisi(numScatoleRighe, numScatoleColonne);
 
         //creazione dei ThreadScatola
-        box = new ThScatola[numScatoleColonne];
-        for (int i = 0; i < dati.getNumScatoleColonne(); i++) {
-            if (i == 0) {              //percentuale sabbia, datiCondivisi,larghezza e altezza scatola,presenza pallina
-                box[i] = new ThScatola(100, dati, i, 200, 200, true);
-            } else {
-                box[i] = new ThScatola(0, dati, i, 200, 200, false);
+        box = new ThScatola[numScatoleRighe][numScatoleColonne];
+
+        for (int r = 0; r < numScatoleRighe; r++) {
+            for (int c = 0; c < numScatoleColonne; c++) {
+                if (r == 0 && c == 0) {    //percentuale sabbia, datiCondivisi,larghezza e altezza scatola,presenza pallina
+                    box[r][c] = new ThScatola(100, dati, r, c, 200, 200, true);
+                } else {
+                    box[r][c] = new ThScatola(0, dati, r, c, 200, 200, false);
+                }
             }
         }
-        
+
         thPallina = new ThPallina(dati);
 
         //le dimensioni della canvas dipendono dal numero di righe e colonne
@@ -92,10 +95,12 @@ public class NB_ProcessingScatola extends PApplet {
     public void settings() {
         size(WScreen, HScreen);
 
-        for (int i = 0; i < dati.getNumScatoleColonne(); i++) {
-            box[i].start();
+        for (int r = 0; r < dati.getNumScatoleRighe(); r++) {
+            for (int c = 0; c < dati.getNumScatoleColonne(); c++) {
+                box[r][c].start();
+            }
         }
-        
+
         thPallina.start();
     }
 
@@ -118,15 +123,18 @@ public class NB_ProcessingScatola extends PApplet {
         if (!dati.isRunning()) {
             exit();
         }
-        background(0, 0, 0);
-        for (int i = 0; i < dati.getNumScatoleColonne(); i++) {
-            displaySabbia(box[i].getSabbia(), i);
+        background(100, 100, 100);
 
-            if (box[i].isBallP()) {
-                drawBall();
+        for (int r = 0; r < dati.getNumScatoleRighe(); r++) {
+            for (int c = 0; c < dati.getNumScatoleColonne(); c++) {
+                drawSabbiaPixel(r, c, r * 200, c * 200);
+                //drawSabbia(box[r][c].getSabbia(), r, c);
+                if (box[r][c].isBallP()) {
+                    drawBall();
+                }
             }
-
         }
+
     }
 
     /**
@@ -141,29 +149,59 @@ public class NB_ProcessingScatola extends PApplet {
      * l'inclunazione è positiva disegna da dx a sx, mentre se è negativa il
      * contrario, cioè da sx a dx
      */
-    private void displaySabbia(Sabbia s, int id) {
+    private void drawSabbia(Sabbia s, int r, int c) {
         noStroke();
         PImage b;
         b = loadImage("image/sabbia.png");
 
-        int spostamento = id * 200;
+        int spostamentoY = r * 200;
+        int spostamentoX = c * 200;
         if (dati.getGiroscopio().getInclinazioneX() >= 0) {
-            for (int x = 200 + spostamento; x > (200 + spostamento - s.getWidthSabbia()); x--) {
-                image(b, x, 0);
+            for (int x = 200 + spostamentoX; x > (200 + spostamentoX - s.getWidthSabbia()); x--) {
+                image(b, x, spostamentoY);
             }
         } else {
-            for (int x = spostamento; x < (spostamento + s.getWidthSabbia()); x++) {
-                image(b, x, 0);
+            for (int x = spostamentoX; x < (spostamentoX + s.getWidthSabbia()); x++) {
+                image(b, x, spostamentoY);
             }
         }
     }
-    
+
+    public void drawSabbiaPixel(int r, int c, int riga, int colonna) {
+        stroke(0, 0, 0);
+
+        rect(colonna, riga, 200, 200);
+
+        if (dati.getGiroscopio().getInclinazioneX() >= 0) {
+            colonna = colonna + 200 - 2;
+            for (int i = 0; i < dati.getSabbiaById(r, c).getWidthSabbia(); i++) {
+                noStroke();
+                fill(color(202, 188, 145));
+                rect(colonna, riga, 1, 199);
+                colonna--;
+            }
+        }
+
+        if (dati.getGiroscopio().getInclinazioneX() < 0) {
+            for (int i = 0; i < dati.getSabbiaById(r, c).getWidthSabbia(); i++) {
+                noStroke();
+                fill(color(202, 188, 145));
+                rect(colonna, riga, 1, 199);
+                colonna++;
+            }
+
+        }
+        stroke(0, 0, 0);
+        noFill();
+    }
+
     /**
      * @author Riccardi Francesco
      *
      * @brief Metodo che si occupa di disegnare la pallina.
-     * 
-     * In questo metodo la pallina viene disegnata in base al suo raggio e alla posizione.
+     *
+     * In questo metodo la pallina viene disegnata in base al suo raggio e alla
+     * posizione.
      */
     public void drawBall() {
         fill(color(255, 0, 0));

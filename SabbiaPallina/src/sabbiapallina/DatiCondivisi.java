@@ -21,6 +21,7 @@ public class DatiCondivisi {
     * @brief memorizza il numero di colonne
     */
     private int numScatoleColonne;
+    private int numScatoleRighe;
     
     /**
     * @author Riccardi Francesco
@@ -34,14 +35,14 @@ public class DatiCondivisi {
     * 
     * @brief vettore di oggetti sabbia
     */
-    private Sabbia[] sabbie;
+    private Sabbia[][] sabbie;
     
     /**
     * @author Riccardi Francesco
     * 
     * @brief vettore di valori booleani
     */
-    private boolean[] pallineP;
+    private boolean[][] pallineP;
     
     /**
      * @author Riccardi Francesco
@@ -63,30 +64,34 @@ public class DatiCondivisi {
     * @param numScatoleColonne contiene il numero di colonne
     * @brief La classe rende il gioco attivo e crea il vettore di sabbia con inizializzazione
     */
-    public DatiCondivisi(int numScatoleColonne) {
+    public DatiCondivisi(int numScatoleRighe, int numScatoleColonne) {
+        this.numScatoleRighe = numScatoleRighe;
         this.numScatoleColonne = numScatoleColonne;
         running=true;
         
         giroscopio=new Sensore();
         
         
-        sabbie = new Sabbia[numScatoleColonne];
-        for(int i=0; i<numScatoleColonne; i++){  
-            sabbie[i] = new Sabbia();
+        sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
+        for (int r = 0; r < numScatoleRighe; r++) {
+            for (int c = 0; c < numScatoleColonne; c++) {
+                sabbie[r][c] = new Sabbia();
+            }
         }
         
-        pallineP = new boolean[numScatoleColonne];
+        pallineP = new boolean[numScatoleRighe][numScatoleColonne];
     }
     
   
     /**
     * @author Riccardi Francesco
     * 
-    * @param idScatola contiene l'id della scatola selezionata
+    * @param riga contiene la riga della scatola selezionata
+    * @param colonna contiene la colonna della scatola selezionata
     * @brief permette ad ogni Thread scatola di prendere la propria sabbia in base all`id
     */
-    public synchronized Sabbia getSabbiaById(int idScatola){
-        return sabbie[idScatola];
+    public synchronized Sabbia getSabbiaById(int riga, int colonna){
+        return sabbie[riga][colonna];
     } 
 
     /**
@@ -111,7 +116,7 @@ public class DatiCondivisi {
         return numScatoleColonne;
     }
 
-    public Sabbia[] getSabbie() {
+    public Sabbia[][] getSabbie() {
         return sabbie;
     }
 
@@ -127,12 +132,16 @@ public class DatiCondivisi {
         this.sposta = sposta;
     }
 
-    public boolean getPalline(int p) {
-        return pallineP[p];
+    public boolean getPalline(int riga,int colonna) {
+        return pallineP[riga][colonna];
     }
     
-    public synchronized boolean setPalline(int pos, boolean v) {
-        return pallineP[pos]=v;
+    public synchronized boolean setPalline(int riga,int colonna, boolean v) {
+        return pallineP[riga][colonna]=v;
+    }
+
+    public int getNumScatoleRighe() {
+        return numScatoleRighe;
     }
     
     
