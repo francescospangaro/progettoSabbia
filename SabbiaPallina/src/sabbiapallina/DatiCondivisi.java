@@ -6,6 +6,8 @@
 package sabbiapallina;
 
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -26,7 +28,7 @@ public class DatiCondivisi {
     private int numScatoleRighe;
     
     private Semaphore sincroEventoPallina;
-    
+    private Semaphore sincroGuiMain;
     /**
     * @author Riccardi Francesco
     * 
@@ -87,6 +89,9 @@ public class DatiCondivisi {
         pallineP = new boolean[numScatoleRighe][numScatoleColonne];
     }
     
+    public DatiCondivisi(){        
+        sincroGuiMain=new Semaphore(0);
+    }
   
     /**
     * @author Riccardi Francesco
@@ -149,8 +154,12 @@ public class DatiCondivisi {
         return numScatoleRighe;
     }
     
-    public void waitEseguiPallina() throws InterruptedException {
-        sincroEventoPallina.acquire();
+    public void waitEseguiPallina(){
+        try {
+            sincroEventoPallina.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void signalEseguiPallina() {
@@ -166,6 +175,35 @@ public class DatiCondivisi {
     }
     
     
+    public void waitsincroGuiMain(){
+        try {
+            sincroGuiMain.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DatiCondivisi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void signalsincroGuiMain() {
+        sincroGuiMain.release();
+    }
+    
+    public void set(int righe,int colonne){
+        this.numScatoleRighe = righe;
+        this.numScatoleColonne = colonne;
+        running=true;
+        
+        giroscopio=new Sensore();
+        
+        sincroEventoPallina=new Semaphore(0);
+        
+        sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
+        for (int r = 0; r < numScatoleRighe; r++) {
+            for (int c = 0; c < numScatoleColonne; c++) {
+                sabbie[r][c] = new Sabbia();
+            }
+        }
+        
+        pallineP = new boolean[numScatoleRighe][numScatoleColonne];
+    }
     
 }

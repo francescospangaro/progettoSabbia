@@ -61,12 +61,15 @@ public class NB_ProcessingScatola extends PApplet {
         int numScatoleColonne;
 
         //creazione dei dati condivisi
-        
-        SwingGui swingGui = new SwingGui();
+        dati = new DatiCondivisi();
+
+        SwingGui swingGui = new SwingGui(dati);
         swingGui.show();
-        
+
+        dati.waitsincroGuiMain();
+
         dati = swingGui.getDati();
-        numScatoleColonne= dati.getNumScatoleColonne();
+        numScatoleColonne = dati.getNumScatoleColonne();
         numScatoleRighe = dati.getNumScatoleRighe();
         //creazione dei ThreadScatola
         box = new ThScatola[numScatoleRighe][numScatoleColonne];
@@ -88,7 +91,7 @@ public class NB_ProcessingScatola extends PApplet {
         HScreen = (numScatoleRighe * 200);
 
         PApplet.main(new String[]{"sabbiapallina.NB_ProcessingScatola"});
-        
+
     }
 
     /**
@@ -133,13 +136,11 @@ public class NB_ProcessingScatola extends PApplet {
             for (int c = 0; c < dati.getNumScatoleColonne(); c++) {
                 drawSabbiaPixel(r, c, r * 200, c * 200);
                 //drawSabbia(box[r][c].getSabbia(), r, c);
-                if(dati.isRunning()){
-                    if (box[r][c].isBallP()) {
-                        drawBall();
-                    }
-                }else{
-                    exit();
+
+                if (box[r][c].isBallP()) {
+                    drawBall();
                 }
+                
                 if (dati.getGiroscopio().getInclinazioneX() > 15 || dati.getGiroscopio().getInclinazioneX() < -15) {
                     dati.signalEseguiPallina();
                 }
@@ -161,57 +162,58 @@ public class NB_ProcessingScatola extends PApplet {
      * contrario, cioè da sx a dx
      */
     private void drawSabbia(Sabbia s, int r, int c) {
-        if(dati.isRunning()){
-        noStroke();
-        PImage b;
-        b = loadImage("image/sabbia.png");
+        if (dati.isRunning()) {
+            noStroke();
+            PImage b;
+            b = loadImage("image/sabbia.png");
 
-        int spostamentoY = r * 200;
-        int spostamentoX = c * 200;
-        if (dati.getGiroscopio().getInclinazioneX() >= 0) {
-            for (int x = 200 + spostamentoX; x > (200 + spostamentoX - s.getWidthSabbia()); x--) {
-                image(b, x, spostamentoY);
+            int spostamentoY = r * 200;
+            int spostamentoX = c * 200;
+            if (dati.getGiroscopio().getInclinazioneX() >= 0) {
+                for (int x = 200 + spostamentoX; x > (200 + spostamentoX - s.getWidthSabbia()); x--) {
+                    image(b, x, spostamentoY);
+                }
+            } else {
+                for (int x = spostamentoX; x < (spostamentoX + s.getWidthSabbia()); x++) {
+                    image(b, x, spostamentoY);
+                }
             }
         } else {
-            for (int x = spostamentoX; x < (spostamentoX + s.getWidthSabbia()); x++) {
-                image(b, x, spostamentoY);
-            }
-        }
-    }else{
             exit();
         }
-}
+    }
+
     public void drawSabbiaPixel(int r, int c, int riga, int colonna) {
-        if(dati.isRunning()){
-        stroke(0, 0, 0);
+        if (dati.isRunning()) {
+            stroke(0, 0, 0);
 
-        rect(colonna, riga, 200, 200);
+            rect(colonna, riga, 200, 200);
 
-        if (dati.getGiroscopio().getInclinazioneX() >= 0) {
-            colonna = colonna + 200 - 2;
-            for (int i = 0; i < dati.getSabbiaById(r, c).getWidthSabbia(); i++) {
-                noStroke();
-                fill(color(202, 188, 145));
-                rect(colonna, riga, 1, 199);
-                colonna--;
-            }
-        }
-
-        if (dati.getGiroscopio().getInclinazioneX() < 0) {
-            for (int i = 0; i < dati.getSabbiaById(r, c).getWidthSabbia(); i++) {
-                noStroke();
-                fill(color(202, 188, 145));
-                rect(colonna, riga, 1, 199);
-                colonna++;
+            if (dati.getGiroscopio().getInclinazioneX() >= 0) {
+                colonna = colonna + 200 - 2;
+                for (int i = 0; i < dati.getSabbiaById(r, c).getWidthSabbia(); i++) {
+                    noStroke();
+                    fill(color(202, 188, 145));
+                    rect(colonna, riga, 1, 199);
+                    colonna--;
+                }
             }
 
-        }
-        stroke(0, 0, 0);
-        noFill();
-    }else{
+            if (dati.getGiroscopio().getInclinazioneX() < 0) {
+                for (int i = 0; i < dati.getSabbiaById(r, c).getWidthSabbia(); i++) {
+                    noStroke();
+                    fill(color(202, 188, 145));
+                    rect(colonna, riga, 1, 199);
+                    colonna++;
+                }
+
+            }
+            stroke(0, 0, 0);
+            noFill();
+        } else {
             exit();
         }
-}
+    }
 
     /**
      * @author Riccardi Francesco

@@ -54,9 +54,9 @@ public class SwingGui {
         return dati;
     }
     
-    public SwingGui() {
+    public SwingGui(DatiCondivisi ptrdati) {
         
-        
+        this.dati = ptrdati;
         frame = new JFrame("Controlli");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -109,7 +109,7 @@ public class SwingGui {
          * Creazione del bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
          *
          */
-        JButton reset = new JButton("Reset");
+        JButton reset = new JButton("Reset Inclinazione");
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,41 +136,48 @@ public class SwingGui {
          * Inserisce il numero di scatole sull'asse delle x
          * 
          */
-        TextField x = new TextField("5");
+        JLabel colonneLabel = new JLabel("colonne: ");
+        TextField colonne = new TextField("0");
         /**
          * 
          * Inserisce il numero di scatole sull'asse delle y
          * 
          */
-        TextField y = new TextField("3");
+        JLabel righeLabel = new JLabel("righe: ");
+        TextField righe = new TextField("0");
         /** 
          * 
          * Conferma il numero delle scatole inserito dall'utente
          * 
          */
         JButton conf = new JButton("CONFERMA SCATOLE");
-        stop.addActionListener(new ActionListener() {
+        conf.addActionListener(new ActionListener() {
             
             @Override
-            public void actionPerformed(ActionEvent e) {
-               dati.setNumScatoleRighe(Integer.parseInt(x.getText()));
-               dati.setNumScatoleColonne(Integer.parseInt(y.getText()));
+            public void actionPerformed(ActionEvent e) {   
+               dati.set(Integer.parseInt(righe.getText()),Integer.parseInt(colonne.getText()));
+               
+               //System.out.println("ciao");
+               dati.signalsincroGuiMain();
             }
         });
         
-        this.dati = new DatiCondivisi(Integer.parseInt(y.getText()), (Integer.parseInt(x.getText())));
+        controls.add(colonneLabel);
+        controls.add(colonne);
+        controls.add(righeLabel);
+        controls.add(righe);
         controls.add(conf);
-        controls.add(x);
-        controls.add(y);
+        
         controls.add(DecValue); 
         controls.add(inclinazione);
         controls.add(valInclinazione);
-        controls.add(AddValue);       
+        controls.add(AddValue); 
+        
+        controls.add(stop);      
         controls.add(reset);
-        controls.add(stop);
         
         frame.add(controls);
-        frame.setSize(500, 120);
+        frame.setSize(450, 150);
     }
     
     /**
