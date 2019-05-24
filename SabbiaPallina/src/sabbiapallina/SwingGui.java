@@ -43,12 +43,12 @@ public class SwingGui {
     * @author Riccardi Francesco
     * @brief crea un pannello che contiene:
     * un pannello su cui aggiungere bottoni
-    * uno slider che regola l'inclinazione delle scatole
-    * una label per visualizzare il valore dell`inclinazione
+    * uno slider che regola l'inclinazionex delle scatole
+    * una label per visualizzare il valore dell`inclinazionex
     * un bottone "STOP" che quando viene premuto ferma e chiude il gioco
-    * un bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
-    * un bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
-    * un bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
     */
     public DatiCondivisi getDati(){
         return dati;
@@ -63,57 +63,90 @@ public class SwingGui {
         JPanel controls = new JPanel();  //aggiunge un pannello su cui aggiungere bottoni
         controls.setLayout(new FlowLayout());
 
-        JSlider inclinazione = new JSlider();  //slider che regola l'inclinazione delle scatole
-        inclinazione.setValue(0);
-        inclinazione.setMinimum(-90);
-        inclinazione.setMaximum(90);
-        JLabel valInclinazione = new JLabel(String.valueOf(inclinazione.getValue())+"° "); //label per visualizzare il valore dell`inclinazione
+        JSlider inclinazionex = new JSlider();  //slider che regola l'inclinazionex delle scatole
+        inclinazionex.setValue(0);
+        inclinazionex.setMinimum(-90);
+        inclinazionex.setMaximum(90);
+        JLabel valInclinazionex = new JLabel(String.valueOf(inclinazionex.getValue())+"° "); //label per visualizzare il valore dell`inclinazionex
         
-        inclinazione.addChangeListener(new ChangeListener() {
+        JSlider inclinazioney = new JSlider();  //slider che regola l'inclinazione delle scatole
+        inclinazioney.setValue(0);
+        inclinazioney.setMinimum(-90);
+        inclinazioney.setMaximum(90);
+        JLabel valInclinazioney = new JLabel(String.valueOf(inclinazioney.getValue())+"° "); //label per visualizzare il valore dell`inclinazioney
+        
+        
+        inclinazionex.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent ce) {
-                int val = inclinazione.getValue();                
+                int val = inclinazionex.getValue();                
                 dati.getGiroscopio().scriviInclinazioneX(val);
-                valInclinazione.setText(String.valueOf(val)+"° ");
+                valInclinazionex.setText(String.valueOf(val)+"° ");
+            }
+        });
+        
+        inclinazioney.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent ce) {
+                int val = inclinazioney.getValue();                
+                dati.getGiroscopio().scriviInclinazioneY(val);
+                valInclinazioney.setText(String.valueOf(val)+"° ");
+            }
+        });
+        
+        
+        /**
+         *
+         * Creazione del bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+         *
+         */
+        JButton AddValuex = new JButton("Aumenta X");
+        AddValuex.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inclinazionex.setValue((int) (dati.getGiroscopio().getInclinazioneX() + 1));
+            }
+        });
+
+        JButton AddValuey = new JButton("Aumenta Y");
+        AddValuey.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inclinazioney.setValue((int) (dati.getGiroscopio().getInclinazioneY() + 1));
+            }
+        });
+        /**
+         *
+         * Creazione del bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+         *
+         */
+        JButton DecValuex = new JButton("Decrementa X");
+        DecValuex.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inclinazionex.setValue((int) (dati.getGiroscopio().getInclinazioneX() - 1));
+            }
+        });
+
+        JButton DecValuey = new JButton("Decrementa Y");
+        DecValuey.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inclinazioney.setValue((int) (dati.getGiroscopio().getInclinazioneY() - 1));
             }
         });
         
         /**
          *
-         * Creazione del bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
-         *
-         */
-        JButton AddValue = new JButton("Aumenta");
-        AddValue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                inclinazione.setValue((int) (dati.getGiroscopio().getInclinazioneX() + 1));
-            }
-        });
-
-        /**
-         *
-         * Creazione del bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
-         *
-         */
-        JButton DecValue = new JButton("Decrementa");
-        DecValue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                inclinazione.setValue((int) (dati.getGiroscopio().getInclinazioneX() - 1));
-            }
-        });
-
-        /**
-         *
-         * Creazione del bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+         * Creazione del bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
          *
          */
         JButton reset = new JButton("Reset Inclinazione");
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazione.setValue(0);
+                inclinazionex.setValue(0);
+                inclinazioney.setValue(0);
             }
         });
         
@@ -168,16 +201,21 @@ public class SwingGui {
         controls.add(righe);
         controls.add(conf);
         
-        controls.add(DecValue); 
-        controls.add(inclinazione);
-        controls.add(valInclinazione);
-        controls.add(AddValue); 
+        controls.add(DecValuex); 
+        controls.add(inclinazionex);
+        controls.add(valInclinazionex);
+        controls.add(AddValuex); 
+        
+        controls.add(DecValuey); 
+        controls.add(inclinazioney);
+        controls.add(valInclinazioney);
+        controls.add(AddValuey); 
         
         controls.add(stop);      
         controls.add(reset);
         
         frame.add(controls);
-        frame.setSize(450, 150);
+        frame.setSize(462, 200);
     }
     
     /**
