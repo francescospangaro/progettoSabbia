@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 class ThScatola{
 'oggetto che permette l'accesso agli elementi condivisi ai Thread
 -DatiCondivisi dati
@@ -15,11 +15,15 @@ class ThScatola{
 'metodo rappresentatnte il main dei Thread
 +void run()
 'metodo che gestisce il movimento della sabbia verso dx
-+void versoDestra(float diminuzione)
++void versoDestra(float diminuzione, false)
 'metodo che gestisce il movimento della sabbia verso sx
-+void versoSinistra(float diminuzione)
++void versoSinistra(float diminuzione, false)
 'metodo che permette di continuare a gestire il movimento della sabbia(era comune ai metodi precedenti)
-+void procedi(float diminuzione)
++void procedi(float diminuzione, boolean controllo)
+'metodo che gestisce il movimento della pallina verso l'alto
++void versoAlto(float diminuzione, true)
+'metodo che gestisce il movimento della sabbia verso il basso
++void versoBasso(float diminuzione, true)
 'metodo che restituisce se la pallina è presente nella scatola
 +boolean isBallP()
 }
@@ -125,6 +129,8 @@ class DatiCondivisi{
 
 'metodo che ferma il gioco
 +void stop()
+'netodo che resetta i dati condivisi da zero
++void set()
 }
 
 class SwingGui{
@@ -162,7 +168,7 @@ class NB_ProcessingScatola{
 -void drawBall()
 }
 
-ThScatola "0..*" -- "1" Sabbia
+ThScatola "1..*" -- "1" Sabbia
 DatiCondivisi "1" -- "1" SwingGui
 DatiCondivisi "1" -- "1" ThScatola
 Sensore "1" -- "1" SwingGui
@@ -172,7 +178,7 @@ ThPallina "1" -- "1" Pallina
 DatiCondivisi "1" -- "1" ThPallina
 DatiCondivisi "1" -- "1" Pallina
 
-ThScatola "0..*" --* "1" NB_ProcessingScatola
+ThScatola "1..*" --* "1" NB_ProcessingScatola
 SwingGui "1" --* "1" NB_ProcessingScatola
 DatiCondivisi "1" --* "1" NB_ProcessingScatola
 @enduml
