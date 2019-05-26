@@ -25,7 +25,8 @@ public class Sabbia {
     * 
     * @brief permette di calacola la percentuale di sabbia persa in base all`inclinazione
     */
-    private float diminuzione;
+    private float diminuzioneX;
+    private float diminuzioneY;
 
     /**
     * @author Riccardi Francesco
@@ -62,23 +63,33 @@ public class Sabbia {
         this.percentuale = 0;
         this.heightSabbia = 0;
         this.widthSabbia = 0;
-        this.diminuzione = 0;
+        this.diminuzioneX = 0;
+        this.diminuzioneY = 0;
     }
 
     /**
     * @author Riccardi Francesco
     * 
-    * @param inclunazioneX contiene l'inclinazione dell'asse X
+    * @param inclinazioneX contiene l'inclinazione dell'asse X
     * @brief metodo che gestisce il movimento della sabbia in base all`inclinazione
     */
     //
-    public void aggiornaSabbia(int inclinazioneX) {
+    public void aggiornaSabbiaX(int inclinazioneX) {
         if (inclinazioneX >= 15) {
-            diminuzione = (float) (0.02 * inclinazioneX);
+            diminuzioneX = (float) (0.02 * inclinazioneX);
         } else if (inclinazioneX <= -15) {
-            diminuzione = -1*((float) (0.02 * inclinazioneX));//moltiplico per -1 altrimenti diminuzione sara` negativa
+            diminuzioneX = -1*((float) (0.02 * inclinazioneX));//moltiplico per -1 altrimenti diminuzione sara` negativa
         }
     }
+    
+    public void aggiornaSabbiaY(int inclinazioneY) {
+        if (inclinazioneY >= 15) {
+            diminuzioneY = (float) (0.02 * inclinazioneY);
+        } else if (inclinazioneY <= -15) {
+            diminuzioneY = -1*((float) (0.02 * inclinazioneY));//moltiplico per -1 altrimenti diminuzione sara` negativa
+        }
+    }
+    
 
     
     /**
@@ -87,7 +98,8 @@ public class Sabbia {
     * @brief metodo che setta la percentuale di sabbia persa a 0
     */
     public void resetDiminuzione() {
-        this.diminuzione = 0;
+        this.diminuzioneX = 0;
+        this.diminuzioneY = 0;
     }
     
     
@@ -97,10 +109,10 @@ public class Sabbia {
     * @param wScatola contiene la larghezza della scatola
     * @brief metodo per aggiornare la larghezza della sabbia    larghezzaSabbia(x) : larghezzaScatola = percentualeSabbia : 100
     */
-    public void visualizzazioneSabbia(int wScatola) {
+    public void visualizzazioneSabbia(int wScatola, int hScatola) {
         widthSabbia = (int) (percentuale * (((float) wScatola) / 100));
+        heightSabbia = (int) (percentuale * (((float) hScatola) / 100));
     }
-
     
     /**
     * @author Riccardi Francesco
@@ -131,8 +143,12 @@ public class Sabbia {
         return percentuale;
     }
 
-    public float getDiminuzione() {
-        return diminuzione;
+    public float getDiminuzioneX() {
+        return diminuzioneX;
+    }
+    
+    public float getDiminuzioneY() {
+        return diminuzioneY;
     }
 
     public int getWidthSabbia() {

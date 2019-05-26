@@ -68,7 +68,8 @@ public class Pallina {
      */
     private DatiCondivisi dati;
 
-    private int cont = 0;
+    private int contX = 0;
+    private int contY = 0;
 
     /**
      * @author Galimberti Francesco
@@ -154,8 +155,8 @@ public class Pallina {
      *
      * @brief Metodo get che fa ritornare il valore della variabile cont.
      */
-    public int getCont() {
-        return cont;
+    public int getContX() {
+        return contX;
     }
     
     /**
@@ -164,9 +165,19 @@ public class Pallina {
      * @brief Metodo set che imposta il valore della variabile cont.
      * 
      */
-    public void setCont(int cont) {
-        this.cont = cont;
+    public void setContX(int cont) {
+        this.contX = cont;
     }
+
+    public int getContY() {
+        return contY;
+    }
+
+    public void setContY(int contY) {
+        this.contY = contY;
+    }
+    
+    
     
     /**
      * @author Galimberti Francesco
@@ -334,7 +345,10 @@ public class Pallina {
      * Più la scatola è inclinata più la pallina si sposterà velocemente.
      * Quando la pallina tocca il bordo della scatola, se ha una velocità sufficiente, passerà nell'altra scatola.
      */
-    public void Move(int rigaScatola,int colonnaScatola, int inclinazioneX) {
+    public void Move(int rigaScatola,int colonnaScatola, int inclinazioneX, int inclinazioneY) {
+        /**
+         * Movimento sulle X
+         */
         if (inclinazioneX >= 15) {
             direzioneX = 1;
         }
@@ -363,11 +377,39 @@ public class Pallina {
             posX = 0 + (200 * colonnaScatola) + (Raggio / 2);
             velX = 0;
         }
-
-        /*if(posY>=HEIGHT_SCREEN-Raggio) {
-            posY=HEIGHT_SCREEN-Raggio;              //FUTURO
-        }       
+        
+        /**
+         * Movimento sulle Y
          */
+         
+        if (inclinazioneY >= 15) {
+            direzioneY = 1;
+        }
+        if (inclinazioneY <= -15) {
+            direzioneY = -1;
+        }
+
+        posY = posY + (float) ((velY * direzioneY) * (inclinazioneY / 10));      
+        posX = posX + (float) (velX * direzioneX);                                        
+        if (posY >= (200 + ((200 * rigaScatola) - (Raggio / 2)))) {             
+
+            if ((velY * (inclinazioneY / 10)) > 1) {
+                dati.setSposta(true);
+            }
+
+            posY = 200 + (200 * rigaScatola) - (Raggio / 2);
+            velY = 0;
+        }
+
+
+        if ((posY <= (0 + (200 * rigaScatola) + (Raggio / 2)))) {
+
+            if (((velY * (inclinazioneY / 10))* -1) < -1) {
+                dati.setSposta(true);
+            }
+            posY = 0 + (200 * rigaScatola) + (Raggio / 2);
+            velY = 0;
+        }
     }
     
     /**
@@ -380,14 +422,14 @@ public class Pallina {
      * Infine se la velocità sull'asse delle x è maggiore di 0.2, quest'ultima viene impostata a 0.2 (velocità massima verso destra).
      */
     public void IncrementaVelocitàX() {
-        if (cont == 10) {                          //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
+        if (contX == 10) {                          //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
             velX += 0.05;
             if (velX > 0.6) {
                 velX = 0.6;                       
             }
-            cont = 0;
+            contX = 0;
         } else {
-            cont++;
+            contX++;
         }
 
     }
@@ -398,7 +440,15 @@ public class Pallina {
      * @brief Metodo che incrementa la velocità della pallina sull'asse delle y.
      */
     public void IncrementaVelocitàY() {
-        velY += 0.3;
+        if (contY == 10) {                          //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
+            velX += 0.05;
+            if (velX > 0.6) {
+                velX = 0.6;                       
+            }
+            contY = 0;
+        } else {
+            contY++;
+        }
     }
     
     /**
@@ -411,14 +461,14 @@ public class Pallina {
      * Infine se la velocità sull'asse delle x è minore di -0.2, quest'ultima viene impostata a -0.2 (velocità massima verso sinistra). 
      */
     public void DecrementaVelocitàX() {
-        if (cont == 10) {                          //CONTATORE CHE SERVE PER DECREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
+        if (contX == 10) {                          //CONTATORE CHE SERVE PER DECREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
             velX -= 0.05;                        //DecrementaVelocitàX(), IN QUESTO MODO SI EVITA CHE LA VELOCITA NON DIMINUISCA TROPPO VELOCEMENTE
             if (velX < -0.6) {
                 velX = -0.6;                      
             }
-            cont = 0;
+            contX = 0;
         } else {
-            cont++;
+            contX++;
         }
     }
     
@@ -428,9 +478,14 @@ public class Pallina {
      * @brief Metodo che decrementa la velocità della pallina sull'asse delle y.
      */
     public void DecrementaVelocitàY() {
-        velY -= 0.3;
-        if (velY < 0) {
-            velY = 0;
+        if (contY == 10) {                          //CONTATORE CHE SERVE PER DECREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
+            velX -= 0.05;                        //DecrementaVelocitàX(), IN QUESTO MODO SI EVITA CHE LA VELOCITA NON DIMINUISCA TROPPO VELOCEMENTE
+            if (velX < -0.6) {
+                velX = -0.6;                      
+            }
+            contY = 0;
+        } else {
+            contY++;
         }
     }
 

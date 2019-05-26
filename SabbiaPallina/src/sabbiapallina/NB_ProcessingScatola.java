@@ -144,6 +144,10 @@ public class NB_ProcessingScatola extends PApplet {
                 if (dati.getGiroscopio().getInclinazioneX() > 15 || dati.getGiroscopio().getInclinazioneX() < -15) {
                     dati.signalEseguiPallina();
                 }
+                
+                if (dati.getGiroscopio().getInclinazioneY() > 15 || dati.getGiroscopio().getInclinazioneY() <- 15){
+                    dati.signalEseguiPallina();
+                }
             }
         }
 
