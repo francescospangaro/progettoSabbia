@@ -138,7 +138,7 @@ class SwingGui{
 -JFrame frame
 'oggetto che permette l'accesso agli elementi condivisi ai Thread
 -DatiCondivisi dati
-'attriguti per salvare in locale i valori delle inclinazioni di x e y
+'attributi per salvare in locale i valori delle inclinazioni di x e y
 -int valoreX
 -int valoreY
 
