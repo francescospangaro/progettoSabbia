@@ -5,8 +5,6 @@
  */
 package sabbiapallina;
 
-import processing.core.PImage;
-
 /**
  * @author Galimberti Francesco
  * 
@@ -66,15 +64,8 @@ public class Sabbia {
         this.diminuzioneX = 0;
         this.diminuzioneY = 0;
     }
-
-    /**
-    * @author Riccardi Francesco
-    * 
-    * @param inclinazioneX contiene l'inclinazione dell'asse X
-    * @brief metodo che gestisce il movimento della sabbia in base all`inclinazione
-    */
-    //
-    public void aggiornaSabbiaX(int inclinazioneX) {
+    
+    public void aggiornaXSabbia(int inclinazioneX) {
         if (inclinazioneX >= 15) {
             diminuzioneX = (float) (0.02 * inclinazioneX);
         } else if (inclinazioneX <= -15) {
@@ -82,14 +73,13 @@ public class Sabbia {
         }
     }
     
-    public void aggiornaSabbiaY(int inclinazioneY) {
+    public void aggiornaYSabbia(int inclinazioneY) {
         if (inclinazioneY >= 15) {
             diminuzioneY = (float) (0.02 * inclinazioneY);
         } else if (inclinazioneY <= -15) {
             diminuzioneY = -1*((float) (0.02 * inclinazioneY));//moltiplico per -1 altrimenti diminuzione sara` negativa
         }
     }
-    
 
     
     /**
@@ -109,10 +99,15 @@ public class Sabbia {
     * @param wScatola contiene la larghezza della scatola
     * @brief metodo per aggiornare la larghezza della sabbia    larghezzaSabbia(x) : larghezzaScatola = percentualeSabbia : 100
     */
-    public void visualizzazioneSabbia(int wScatola, int hScatola) {
+    public void aggiornamentoWidthHeightSabbia(int wScatola,int hScatola) {
         widthSabbia = (int) (percentuale * (((float) wScatola) / 100));
         heightSabbia = (int) (percentuale * (((float) hScatola) / 100));
     }
+    
+    public void aggiornamentoHeightSabbia() {
+        
+    }
+
     
     /**
     * @author Riccardi Francesco
@@ -146,7 +141,6 @@ public class Sabbia {
     public float getDiminuzioneX() {
         return diminuzioneX;
     }
-    
     public float getDiminuzioneY() {
         return diminuzioneY;
     }

@@ -41,7 +41,9 @@ public class DatiCondivisi {
     * 
     * @brief vettore di oggetti sabbia
     */
-    private Sabbia[][] sabbie;
+   // private Sabbia[][] sabbie;
+    
+    private Scatole scatole;
     
     /**
     * @author Riccardi Francesco
@@ -79,45 +81,90 @@ public class DatiCondivisi {
         
         sincroEventoPallina=new Semaphore(0);
         
+        /*
         sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
         for (int r = 0; r < numScatoleRighe; r++) {
             for (int c = 0; c < numScatoleColonne; c++) {
                 sabbie[r][c] = new Sabbia();
             }
-        }
+        }*/
+        
+        scatole=new Scatole(numScatoleRighe,numScatoleColonne);
         
         pallineP = new boolean[numScatoleRighe][numScatoleColonne];
     }
     
     public DatiCondivisi(){        
         sincroGuiMain=new Semaphore(0);
+    }    
+    
+    public void setInclinazioneX(int inclinazione){
+        giroscopio.scriviInclinazioneX(inclinazione);
+    }
+    
+    public void setInclinazioneY(int inclinazione){
+        giroscopio.scriviInclinazioneY(inclinazione);
     }
   
-    /**
-    * @author Riccardi Francesco
-    * 
-    * @param riga contiene la riga della scatola selezionata
-    * @param colonna contiene la colonna della scatola selezionata
-    * @brief permette ad ogni Thread scatola di prendere la propria sabbia in base all`id
-    */
-    public synchronized Sabbia getSabbiaById(int riga, int colonna){
-        return sabbie[riga][colonna];
-    } 
-
-    /**
-    * @author Riccardi Francesco
-    * 
-    * @brief permette di controllare se si e` in gioco o meno
-    */
+    
+    public synchronized void aggiornaXScatolaById(int riga, int colonna){
+        scatole.getScatola(riga, colonna).aggiornaXSabbia(giroscopio.getInclinazioneX());
+    }
+    
+    public synchronized void aggiornaYScatolaById(int riga, int colonna){
+        scatole.getScatola(riga, colonna).aggiornaYSabbia(giroscopio.getInclinazioneY());
+    }
+    
+    public synchronized float getDiminuzioneXSabbiaById(int riga, int colonna){
+        return scatole.getScatola(riga, colonna).getDiminuzioneX();
+    }
+    
+    public synchronized float getDiminuzioneYSabbiaById(int riga, int colonna){
+        return scatole.getScatola(riga, colonna).getDiminuzioneY();
+    }
+    
+    public synchronized void resetDiminuzioneSabbiaById(int riga, int colonna){
+        //scatole.getScatola(riga, colonna).getSabbia().resetDiminuzione();
+        scatole.getScatola(riga, colonna).resetDiminuzione();
+    }
+    
+    public synchronized int getPercentualeSabbiaById(int riga, int colonna){
+        //return scatole.getScatola(riga, colonna).getSabbia().getPercentuale();
+        return scatole.getScatola(riga, colonna).getPercentuale();
+    }
+    
+    public synchronized void setPercentualeSabbiaById(int riga, int colonna,int valore){
+        scatole.getScatola(riga, colonna).setPercentuale(valore);
+    }
+    
+    public synchronized void aggiornaWidthHeightSabbiaById(int riga, int colonna){
+        scatole.getScatola(riga, colonna).aggiornamentoWidthHeightSabbia();
+    }
+    
+    public synchronized void aggiungiSabbiaById(int riga, int colonna,int perc){
+        scatole.getScatola(riga, colonna).aggiungiSabbia(perc);
+    }
+    
+    public synchronized int getWidthSabbiaById(int riga, int colonna){
+        return scatole.getScatola(riga, colonna).getWidthSabbia();
+    }
+    
+    public synchronized int getHeightSabbiaById(int riga, int colonna){
+        return scatole.getScatola(riga, colonna).getHeightSabbia();
+    }
+    
+    public synchronized int getInclinazioneX(){
+        return giroscopio.getInclinazioneX();
+    }
+    
+    public synchronized int getInclinazioneY(){
+        return giroscopio.getInclinazioneY();
+    }
+    
     public synchronized boolean isRunning() {
         return running;
     }
-
-    /**
-    * @author Riccardi Francesco
-    * 
-    * @brief quando viene premuto il pulsante stop dallo SwingGui il gioco viene fermato
-    */
+    
     public void stop() {
         this.running = false;
     }    
@@ -126,13 +173,9 @@ public class DatiCondivisi {
         return numScatoleColonne;
     }
 
-    public Sabbia[][] getSabbie() {
-        return sabbie;
-    }
-
-    public Sensore getGiroscopio() {
-        return giroscopio;
-    }
+    public int getNumScatoleRighe() {
+        return numScatoleRighe;
+    } 
 
     public boolean isSposta() {
         return sposta;
@@ -141,17 +184,13 @@ public class DatiCondivisi {
     public void setSposta(boolean sposta) {
         this.sposta = sposta;
     }
-
+    
     public boolean getPalline(int riga,int colonna) {
         return pallineP[riga][colonna];
     }
     
     public synchronized boolean setPalline(int riga,int colonna, boolean v) {
         return pallineP[riga][colonna]=v;
-    }
-
-    public int getNumScatoleRighe() {
-        return numScatoleRighe;
     }
     
     public void waitEseguiPallina(){
@@ -195,13 +234,8 @@ public class DatiCondivisi {
         giroscopio=new Sensore();
         
         sincroEventoPallina=new Semaphore(0);
-        
-        sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
-        for (int r = 0; r < numScatoleRighe; r++) {
-            for (int c = 0; c < numScatoleColonne; c++) {
-                sabbie[r][c] = new Sabbia();
-            }
-        }
+                
+        scatole=new Scatole(numScatoleRighe,numScatoleColonne);
         
         pallineP = new boolean[numScatoleRighe][numScatoleColonne];
     }

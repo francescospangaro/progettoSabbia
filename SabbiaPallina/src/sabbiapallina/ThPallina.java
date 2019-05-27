@@ -60,18 +60,18 @@ public class ThPallina extends Thread {
      */
     @Override
     public void run() {
-        while (true) {
-            dati.waitEseguiPallina();
+        while (dati.isRunning()) {
+            dati.waitEseguiPallina();            
             
-            pallina.Move(rigaScatola, colonnaScatola, dati.getGiroscopio().getInclinazioneX(), dati.getGiroscopio().getInclinazioneY());         //La pallina viene mossa
-            
+            pallina.move(rigaScatola, colonnaScatola, dati.getInclinazioneX(),dati.getInclinazioneY());             
+
             try {
                 Thread.sleep(10);                        //provare 5 millisecondi
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThPallina.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (dati.getGiroscopio().getInclinazioneX() >= 15) {
+            if (dati.getInclinazioneX() >= 15) {
 
                 colonnaDest = colonnaScatola + 1;
                 rigaDest = rigaScatola;
@@ -79,21 +79,21 @@ public class ThPallina extends Thread {
                 VersoDestra();
             }
 
-            if (dati.getGiroscopio().getInclinazioneX() <= -15) {
+            if (dati.getInclinazioneX() <= -15) {
                 colonnaDest = colonnaScatola - 1;
                 rigaDest = rigaScatola;
                 
                 VersoSinistra();
             }
             
-            if (dati.getGiroscopio().getInclinazioneY() >=15) {
+            if (dati.getInclinazioneY() >=15) {
                 colonnaDest = colonnaScatola;
                 rigaDest = rigaScatola +1;
                 
                 VersoBasso();
             }
             
-            if (dati.getGiroscopio().getInclinazioneY() <= -15) {
+            if (dati.getInclinazioneY() <= -15) {
                 colonnaDest = colonnaScatola;
                 rigaDest = rigaScatola -1;
                 
@@ -119,12 +119,12 @@ public class ThPallina extends Thread {
         if (colonnaDest != dati.getNumScatoleColonne()) {
 
             if (pallina.getPosX() == (200 + (200 * colonnaScatola)) - (pallina.getRaggio() / 2)) {
-                if ((dati.getPalline(rigaScatola,colonnaScatola)) && (dati.isSposta()) && (dati.getSabbiaById(rigaScatola,colonnaScatola).getPercentuale() <= 100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
+                if ((dati.getPalline(rigaScatola,colonnaScatola)) && (dati.isSposta()) && ((dati.getPercentualeSabbiaById(rigaDest,colonnaDest) >= 50) && (dati.getPercentualeSabbiaById(rigaScatola,colonnaScatola) <= 100))) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
                     //System.out.println("idDest pallina" + colonnaDest);
                     
                     CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
 
-                    pallina = new Pallina(dati, 50+(colonnaDest * 200) + (pallina.getRaggio() / 2), 100);      //Creo nuova pallina in scatola successiva
+                    pallina = new Pallina(dati, 50+(colonnaDest * 200) + (pallina.getRaggio() / 2), pallina.getPosY());      //Creo nuova pallina in scatola successiva
                 }
             }
 
@@ -147,12 +147,48 @@ public class ThPallina extends Thread {
         if (colonnaDest != -1) {
 
             if (pallina.getPosX() == (200 * colonnaScatola) + (pallina.getRaggio() / 2)) {
-                if ((dati.getPalline(rigaScatola,colonnaScatola)) && (dati.isSposta()) && (dati.getSabbiaById(rigaScatola,colonnaScatola).getPercentuale() <= 100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
+                if ((dati.getPalline(rigaScatola,colonnaScatola)) && (dati.isSposta()) && ((dati.getPercentualeSabbiaById(rigaDest,colonnaDest) >= 50) && (dati.getPercentualeSabbiaById(rigaScatola,colonnaScatola) <= 100))) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
                     //System.out.println("idDest pallina" + colonnaDest);
                     
                     CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina                
                     
-                    pallina = new Pallina(dati, -50 + (200 + (colonnaDest * 200)) - (pallina.getRaggio() / 2), 100);
+                    pallina = new Pallina(dati, -50 + (200 + (colonnaDest * 200)) - (pallina.getRaggio() / 2), pallina.getPosY());
+                }
+            }
+
+        }
+    }
+    
+    private void VersoBasso() {
+        pallina.IncrementaVelocitàY();      //incremento velocità pallina se presente nella scatola
+        
+        if (rigaDest != dati.getNumScatoleRighe()) {
+            
+            if (pallina.getPosY() == (200 + (200 * rigaScatola)) - (pallina.getRaggio() / 2)) {
+                if ((dati.getPalline(rigaScatola,colonnaScatola)) && (dati.isSposta()) && ((dati.getPercentualeSabbiaById(rigaDest,colonnaDest) >= 50) && (dati.getPercentualeSabbiaById(rigaScatola,colonnaScatola) <= 100))) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
+                    //System.out.println("idDest pallina" + colonnaDest);
+                    
+                    CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
+
+                    pallina = new Pallina(dati, pallina.getPosX(), 50+(rigaDest * 200) + (pallina.getRaggio() / 2));      //Creo nuova pallina in scatola successiva
+                }
+            }
+
+        }
+    }
+    
+    private void VersoAlto() {
+        pallina.DecrementaVelocitàY();      //decremento velocità pallina se presente nella scatola
+
+        if (rigaDest != -1) {
+
+            if (pallina.getPosY() == (200 * rigaScatola) + (pallina.getRaggio() / 2)) {
+                if ((dati.getPalline(rigaScatola, colonnaScatola)) && (dati.isSposta()) && ((dati.getPercentualeSabbiaById(rigaDest,colonnaDest) >= 50) && (dati.getPercentualeSabbiaById(rigaScatola,colonnaScatola) <= 100))) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
+                    //System.out.println("idDest pallina" + colonnaDest);
+                    
+                    CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina                
+                    
+                    pallina = new Pallina(dati, pallina.getPosX(), -50 + (200 + (rigaDest * 200)) - (pallina.getRaggio() / 2));
                 }
             }
 
@@ -169,44 +205,6 @@ public class ThPallina extends Thread {
      * adiacente la presenza della stessa nella nuova scatola.
      *
      */
-    
-    private void VersoBasso() {
-        pallina.IncrementaVelocitàY();      //incremento velocità pallina se presente nella scatola
-        System.out.println("a");
-        if (rigaDest != dati.getNumScatoleRighe()) {
-            System.out.println("b");
-            if (pallina.getPosY() == (200 + (200 * rigaScatola)) - (pallina.getRaggio() / 2)) {
-                if ((dati.getPalline(rigaScatola,colonnaScatola)) && (dati.isSposta()) && (dati.getSabbiaById(rigaScatola,colonnaScatola).getPercentuale() <= 100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
-                    System.out.println("idDest pallina" + colonnaDest);
-                    
-                    CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina
-
-                    pallina = new Pallina(dati, 50+(rigaDest * 200) + (pallina.getRaggio() / 2), 100);      //Creo nuova pallina in scatola successiva
-                }
-            }
-
-        }
-    }
-    
-    private void VersoAlto() {
-        pallina.DecrementaVelocitàY();      //decremento velocità pallina se presente nella scatola
-
-        if (rigaDest != -1) {
-
-            if (pallina.getPosY() == (200 * rigaScatola) + (pallina.getRaggio() / 2)) {
-                if ((dati.getPalline(rigaScatola, colonnaScatola)) && (dati.isSposta()) && (dati.getSabbiaById(rigaScatola, colonnaScatola).getPercentuale() <= 100)) {     //se pallina è presente, se ha raggiunto una velocità sufficente e se tocca il bordo
-                    //System.out.println("idDest pallina" + colonnaDest);
-                    
-                    CambioPallina();        //Resetto ball e ballP della scatola in esecuzione, resetto l'attributo sposta e indico che la scatola successiva ha la pallina                
-                    
-                    pallina = new Pallina(dati, -50 + (200 + (rigaDest * 200)) - (pallina.getRaggio() / 2), 100);
-                }
-            }
-
-        }
-    }
-    
-    
     private void CambioPallina() {
         dati.setPalline(rigaScatola,colonnaScatola, false);
         dati.setPalline(rigaDest,colonnaDest, true);

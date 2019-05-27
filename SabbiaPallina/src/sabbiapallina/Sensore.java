@@ -16,14 +16,14 @@ public class Sensore{
     * 
     * @brief contiene l'inclinazione sull'asse x
     */
-    int inclinazioneX;
+    private int inclinazioneX;
     
     /**
     * @author Riccardi Francesco
     * 
     * @brief contiene l'inclinazione sull'asse y
     */
-    int inclinazioneY;
+    private int inclinazioneY;
 
     /**
     * @author Riccardi Francesco

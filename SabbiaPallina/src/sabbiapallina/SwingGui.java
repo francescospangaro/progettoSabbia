@@ -38,21 +38,25 @@ public class SwingGui {
     * @brief crea un frame che conterrà i componenti
     */
     private JFrame frame;
+    
+    private int valoreX;
+    
+    private int valoreY;
 
     /**
     * @author Riccardi Francesco
     * @brief crea un pannello che contiene:
     * un pannello su cui aggiungere bottoni
-    * uno slider che regola l'inclinazionex delle scatole
-    * una label per visualizzare il valore dell`inclinazionex
+    * uno slider che regola l'inclinazione delle scatole
+    * una label per visualizzare il valore dell`inclinazione
     * un bottone "STOP" che quando viene premuto ferma e chiude il gioco
-    * un bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
-    * un bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
-    * un bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
+    * un bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
     */
     public DatiCondivisi getDati(){
         return dati;
-    }
+    }     
     
     public SwingGui(DatiCondivisi ptrdati) {
         
@@ -63,11 +67,12 @@ public class SwingGui {
         JPanel controls = new JPanel();  //aggiunge un pannello su cui aggiungere bottoni
         controls.setLayout(new FlowLayout());
 
-        JSlider inclinazionex = new JSlider();  //slider che regola l'inclinazionex delle scatole
+        JSlider inclinazionex = new JSlider();  //slider che regola l'inclinazione delle scatole
         inclinazionex.setValue(0);
         inclinazionex.setMinimum(-90);
         inclinazionex.setMaximum(90);
-        JLabel valInclinazionex = new JLabel(String.valueOf(inclinazionex.getValue())+"° "); //label per visualizzare il valore dell`inclinazionex
+        JLabel valInclinazionex = new JLabel(String.valueOf(inclinazionex.getValue())+"° "); //label per visualizzare il valore dell`inclinazione
+        
         
         JSlider inclinazioney = new JSlider();  //slider che regola l'inclinazione delle scatole
         inclinazioney.setValue(0);
@@ -75,36 +80,40 @@ public class SwingGui {
         inclinazioney.setMaximum(90);
         JLabel valInclinazioney = new JLabel(String.valueOf(inclinazioney.getValue())+"° "); //label per visualizzare il valore dell`inclinazioney
         
-        
         inclinazionex.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent ce) {
-                int val = inclinazionex.getValue();                
-                dati.getGiroscopio().scriviInclinazioneX(val);
-                valInclinazionex.setText(String.valueOf(val)+"° ");
+                valoreY = 0;
+                inclinazioney.setValue(0);
+                valInclinazioney.setText(String.valueOf(valoreY)+"° ");                
+                
+                valoreX = (int) inclinazionex.getValue();                   
+                valInclinazionex.setText(String.valueOf(valoreX)+"° ");
             }
         });
         
         inclinazioney.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent ce) {
-                int val = inclinazioney.getValue();                
-                dati.getGiroscopio().scriviInclinazioneY(val);
-                valInclinazioney.setText(String.valueOf(val)+"° ");
+                valoreX = 0;
+                inclinazionex.setValue(0);
+                valInclinazionex.setText(String.valueOf(valoreX)+"° ");
+                
+                valoreY = (int) inclinazioney.getValue();    
+                valInclinazioney.setText(String.valueOf(valoreY)+"° ");
             }
         });
         
-        
         /**
          *
-         * Creazione del bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+         * Creazione del bottone "Aumenta" che quando viene premuto incrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
          *
          */
         JButton AddValuex = new JButton("Aumenta X");
         AddValuex.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazionex.setValue((int) (dati.getGiroscopio().getInclinazioneX() + 1));
+                inclinazionex.setValue((int) (valoreX + 1));
             }
         });
 
@@ -112,41 +121,43 @@ public class SwingGui {
         AddValuey.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazioney.setValue((int) (dati.getGiroscopio().getInclinazioneY() + 1));
+                inclinazioney.setValue((int) (valoreY + 1));
             }
         });
         /**
          *
-         * Creazione del bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+         * Creazione del bottone "Decrementa" che quando viene premuto decrementa di 1 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
          *
          */
         JButton DecValuex = new JButton("Decrementa X");
         DecValuex.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazionex.setValue((int) (dati.getGiroscopio().getInclinazioneX() - 1));
+                inclinazionex.setValue((int) (valoreX - 1));
             }
         });
-
+        
         JButton DecValuey = new JButton("Decrementa Y");
         DecValuey.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazioney.setValue((int) (dati.getGiroscopio().getInclinazioneY() - 1));
+                inclinazioney.setValue((int) (valoreY - 1));
             }
         });
-        
+
         /**
          *
-         * Creazione del bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazionex sull'asse delle x e setta con il nuovo valore lo slider.
+         * Creazione del bottone "Reset" che quando viene premuto riporta a 0 il valore dell'inclinazione sull'asse delle x e setta con il nuovo valore lo slider.
          *
          */
         JButton reset = new JButton("Reset Inclinazione");
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inclinazionex.setValue(0);
-                inclinazioney.setValue(0);
+                valoreX=0;
+                valoreY=0;
+                inclinazionex.setValue((int) (valoreX));
+                inclinazioney.setValue((int) (valoreY));
             }
         });
         
@@ -170,14 +181,14 @@ public class SwingGui {
          * 
          */
         JLabel colonneLabel = new JLabel("colonne: ");
-        TextField colonne = new TextField("0");
+        TextField colonne = new TextField("2");
         /**
          * 
          * Inserisce il numero di scatole sull'asse delle y
          * 
          */
         JLabel righeLabel = new JLabel("righe: ");
-        TextField righe = new TextField("0");
+        TextField righe = new TextField("2");
         /** 
          * 
          * Conferma il numero delle scatole inserito dall'utente
@@ -190,7 +201,6 @@ public class SwingGui {
             public void actionPerformed(ActionEvent e) {   
                dati.set(Integer.parseInt(righe.getText()),Integer.parseInt(colonne.getText()));
                
-               //System.out.println("ciao");
                dati.signalsincroGuiMain();
             }
         });
@@ -227,4 +237,16 @@ public class SwingGui {
         frame.setVisible(true);
     }
 
+    public int getValoreX() {
+        return valoreX;
+    }
+
+    public int getValoreY() {
+        return valoreY;
+    }
+    
+    
+
+    
+    
 }
