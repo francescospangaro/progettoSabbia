@@ -61,10 +61,10 @@ public class ThPallina extends Thread {
     @Override
     public void run() {
         while (dati.isRunning()) {
-            dati.waitEseguiPallina();            
-            
+                       
             pallina.move(rigaScatola, colonnaScatola, dati.getInclinazioneX(),dati.getInclinazioneY());             
-
+            
+            dati.waitEseguiPallina();  
             try {
                 Thread.sleep(10);                        //provare 5 millisecondi
             } catch (InterruptedException ex) {
@@ -127,7 +127,6 @@ public class ThPallina extends Thread {
                     pallina = new Pallina(dati, 50+(colonnaDest * 200) + (pallina.getRaggio() / 2), pallina.getPosY());      //Creo nuova pallina in scatola successiva
                 }
             }
-
         }
     }
 

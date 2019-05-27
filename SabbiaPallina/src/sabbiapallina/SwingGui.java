@@ -154,8 +154,8 @@ public class SwingGui {
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                valoreX=0;
-                valoreY=0;
+                valoreX = 0;
+                valoreY = 0;
                 inclinazionex.setValue((int) (valoreX));
                 inclinazioney.setValue((int) (valoreY));
             }
