@@ -99,7 +99,6 @@ public class SwingGui {
                   valoreX = (int) inclinazionex.getValue();                   
                   valInclinazionex.setText(String.valueOf(valoreX)+"° ");
                 }else{
-                    dati.stop();
                 }
             }
         });
@@ -115,7 +114,6 @@ public class SwingGui {
                     valoreY = (int) inclinazioney.getValue();    
                     valInclinazioney.setText(String.valueOf(valoreY)+"° ");
                 }else{
-                    dati.stop();
                 }
             }
         });
