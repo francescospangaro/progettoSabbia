@@ -11,30 +11,43 @@ participant Pallina
 participant Sabbia
 participant Sensore
 participant SwingGui
+participant ThSensore
+participant Scatola
+participant Scatole
 
 Utente -> NB_ProcessingScatola : Avvio programma
+activate NB_ProcessingScatola
 
 NB_ProcessingScatola -> DatiCondivisi : new DatiCondivisi
 NB_ProcessingScatola -> SwingGui : passa DatiCondivisi
 NB_ProcessingScatola -> SwingGui : Avvio interfaccia utente
+activate SwingGui
 NB_ProcessingScatola -> DatiCondivisi : Wait sincroGuiMain
+Utente -> SwingGui : Inserimento num scatole
 SwingGui -> DatiCondivisi : Salvataggio num scatole
 SwingGui -> DatiCondivisi : aggiornamento DatiCondivisi
 SwingGui -> DatiCondivisi : Signal sincroGuiMain
 NB_ProcessingScatola <- DatiCondivisi : Riattiva thread
 DatiCondivisi -> NB_ProcessingScatola : aggiornamento DatiCondivisi
 NB_ProcessingScatola -> ThScatola : new ThScatola[][]
+NB_ProcessingScatola -> ThSensore : new ThSensore
 ThScatola -> Sabbia : Aggiornamento posizione sabbia[][]
 NB_ProcessingScatola -> ThPallina : new ThPallina
 NB_ProcessingScatola -> DatiCondivisi : dimensioni schermo
 NB_ProcessingScatola -> NB_ProcessingScatola : aggiorna variabili schermo
 NB_ProcessingScatola -> Utente : creazione Scatole con pallina
-SwingGui -> DatiCondivisi : aggiornamento inclinazioni
-DatiCondivisi -> NB_ProcessingScatola : aggiornamento inclinazioni
-NB_ProcessingScatola -> ThScatola : thScatola[][].start
-NB_ProcessingScatola -> ThPallina : thPallina.start
 
-SwingGui -> DatiCondivisi : aggiornamento inclinazioni
+NB_ProcessingScatola -> ThSensore  : thSensore.start
+activate ThSensore
+NB_ProcessingScatola -> ThScatola : thScatola[][].start
+activate ThScatola
+NB_ProcessingScatola -> ThPallina : thPallina.start
+activate ThPallina
+SwingGui -> ThSensore : aggiornamento inclinazioni
+ThSensore -> Sensore : aggiornamento inclinazioni
+ThSensore -> DatiCondivisi : aggiornamento inclinazioni
+DatiCondivisi -> NB_ProcessingScatola : aggiornamento inclinazioni
+
 DatiCondivisi -> ThScatola : aggiornamento inclinazioni
 ThScatola -> ThScatola : aggiornamento inclinazione
 ThScatola -> Sabbia : aggiornamento posizione sabbia
@@ -49,14 +62,20 @@ ThPallina -> ThPallina : draw pallina
 
 Utente -> SwingGui : stop
 SwingGui -> DatiCondivisi : stop
+DatiCondivisi -> ThSensore : stop
+ThSensore -> NB_ProcessingScatola : join
+deactivate ThSensore
 DatiCondivisi -> ThScatola : stop
 ThScatola -> NB_ProcessingScatola : join
+deactivate ThScatola
 DatiCondivisi -> ThPallina : stop
 ThPallina -> NB_ProcessingScatola : join
+deactivate ThPallina
 DatiCondivisi -> SwingGui : stop
 DatiCondivisi -> NB_ProcessingScatola : stop
 SwingGui -> SwingGui : exit
-NB_ProcessingScatola -> NB_ProcessingScatola : exit
+deactivate SwingGui
 NB_ProcessingScatola -> Utente : chiusura programma
+deactivate NB_ProcessingScatola
 
 @enduml

@@ -138,6 +138,9 @@ class SwingGui{
 -JFrame frame
 'oggetto che permette l'accesso agli elementi condivisi ai Thread
 -DatiCondivisi dati
+'attriguti per salvare in locale i valori delle inclinazioni di x e y
+-int valoreX
+-int valoreY
 
 'il metodo permette di rendere visibile la finestra
 +void show()
@@ -168,6 +171,39 @@ class NB_ProcessingScatola{
 -void drawBall()
 }
 
+class Scatola{
+-int altezzaScatola
+-int larghezzaScatola
+-int lunghezzaScatola
+-int posX
+-int posY
+-Sabbia sabbia
+
++void aggiornaXSabbia(int width)
++void aggiornaYSabbia(int height)
++void resetDiminuzione()
++void aggiornamentoWidthHeightSabbia()
++void aggiungiSabbia(int p)
+}
+
+class Scatole{
+-Scatola array[][]
+
++Scatola getScatola(int riga, int colonna)
+}
+
+class ThSensore{
+-DatiCondivisi dati
+-SwingGui swingGui
+
+'aggiorna in tempo reale un giroscopio presente nei datiCondivisi
++void run()
+}
+
+ThSensore "1" -- "1" DatiCondivisi
+ThSensore "1" -- "1" SwingGui
+Scatola "1..*" --* "1" Scatole
+Scatole "1" -- "1"  DatiCondivisi
 ThScatola "1..*" -- "1" Sabbia
 DatiCondivisi "1" -- "1" SwingGui
 DatiCondivisi "1" -- "1" ThScatola
