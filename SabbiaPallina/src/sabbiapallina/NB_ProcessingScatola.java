@@ -6,8 +6,6 @@
 package sabbiapallina;
 
 import processing.core.PApplet;
-import processing.core.PImage;
-
 /**
  * @author Galimberti Francesco
  *

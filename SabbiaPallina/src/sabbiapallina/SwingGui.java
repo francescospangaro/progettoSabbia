@@ -43,6 +43,7 @@ public class SwingGui {
     
     private int valoreY;
 
+    private boolean controllo;
     /**
     * @author Riccardi Francesco
     * @brief crea un pannello che contiene:
@@ -60,6 +61,13 @@ public class SwingGui {
     
     public SwingGui(DatiCondivisi ptrdati) {
         
+        /**
+         * controllo viene settato a false,
+         * variabile utilizzata in caso gli slider vengano modificati prima
+         * della conferma del numero delle scatole
+         *
+         */
+        this.controllo = false;
         this.dati = ptrdati;
         frame = new JFrame("Controlli");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,24 +91,32 @@ public class SwingGui {
         inclinazionex.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent ce) {
-                valoreY = 0;
-                inclinazioney.setValue(0);
-                valInclinazioney.setText(String.valueOf(valoreY)+"° ");                
+                if(controllo){
+                   valoreY = 0;
+                    inclinazioney.setValue(0);
+                    valInclinazioney.setText(String.valueOf(valoreY)+"° ");                
                 
-                valoreX = (int) inclinazionex.getValue();                   
-                valInclinazionex.setText(String.valueOf(valoreX)+"° ");
+                  valoreX = (int) inclinazionex.getValue();                   
+                  valInclinazionex.setText(String.valueOf(valoreX)+"° ");
+                }else{
+                    dati.stop();
+                }
             }
         });
         
         inclinazioney.addChangeListener(new ChangeListener() {
-            @Override
+            @Override 
             public void stateChanged(ChangeEvent ce) {
-                valoreX = 0;
-                inclinazionex.setValue(0);
-                valInclinazionex.setText(String.valueOf(valoreX)+"° ");
+                if(controllo){
+                    valoreX = 0;
+                    inclinazionex.setValue(0);
+                    valInclinazionex.setText(String.valueOf(valoreX)+"° ");
                 
-                valoreY = (int) inclinazioney.getValue();    
-                valInclinazioney.setText(String.valueOf(valoreY)+"° ");
+                    valoreY = (int) inclinazioney.getValue();    
+                    valInclinazioney.setText(String.valueOf(valoreY)+"° ");
+                }else{
+                    dati.stop();
+                }
             }
         });
         
@@ -200,7 +216,7 @@ public class SwingGui {
             @Override
             public void actionPerformed(ActionEvent e) {   
                dati.set(Integer.parseInt(righe.getText()),Integer.parseInt(colonne.getText()));
-               
+               controllo = true;
                dati.signalsincroGuiMain();
             }
         });
