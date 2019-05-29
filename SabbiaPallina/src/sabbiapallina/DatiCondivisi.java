@@ -26,9 +26,11 @@ public class DatiCondivisi {
     */
     private int numScatoleColonne;
     private int numScatoleRighe;
+    private int valoreZ;
     
     private Semaphore sincroEventoPallina;
     private Semaphore sincroGuiMain;
+    private Semaphore sincroSalta;
     /**
     * @author Riccardi Francesco
     * 
@@ -65,6 +67,7 @@ public class DatiCondivisi {
     * @brief sensore per salvare l`inclinazione
     */
     private Sensore giroscopio;    
+    private Pallina pallina;
     
     /**
     * @author Riccardi Francesco
@@ -76,10 +79,13 @@ public class DatiCondivisi {
         this.numScatoleRighe = numScatoleRighe;
         this.numScatoleColonne = numScatoleColonne;
         running=true;
+        this.pallina = new Pallina();
         
         giroscopio=new Sensore();
         
         sincroEventoPallina=new Semaphore(0);
+        sincroSalta = new Semaphore(0);
+        
         
         /*
         sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
@@ -97,6 +103,14 @@ public class DatiCondivisi {
     public DatiCondivisi(){        
         sincroGuiMain=new Semaphore(0);
     }    
+
+    public Pallina getPallina() {
+        return pallina;
+    }
+
+    public void setPallina(Pallina pallina) {
+        this.pallina = pallina;
+    }
     
     public void setInclinazioneX(int inclinazione){
         giroscopio.scriviInclinazioneX(inclinazione);
@@ -226,6 +240,14 @@ public class DatiCondivisi {
         sincroGuiMain.release();
     }
     
+    public int getZ(){
+        return valoreZ;
+    }
+    
+    public void setValoreZ(int z){
+        this.valoreZ = z;
+    }
+    
     public void set(int righe,int colonne){
         this.numScatoleRighe = righe;
         this.numScatoleColonne = colonne;
@@ -234,9 +256,11 @@ public class DatiCondivisi {
         giroscopio=new Sensore();
         
         sincroEventoPallina=new Semaphore(0);
-                
+        sincroSalta = new Semaphore(0);        
+        
         scatole=new Scatole(numScatoleRighe,numScatoleColonne);
         
+        this.pallina = new Pallina();
         pallineP = new boolean[numScatoleRighe][numScatoleColonne];
     }
     

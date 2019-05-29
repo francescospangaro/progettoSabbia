@@ -68,7 +68,6 @@ public class Pallina {
      * @brief Oggetto di tipo DatiCondivisi che serve per richiamare i metodi
      * della classe DatiCondivisi.
      */
-    private DatiCondivisi dati;
 
     private int contX = 0;
     private int contY = 0;
@@ -80,8 +79,7 @@ public class Pallina {
      * programma posiziona la pallina al centro della scatola e imposta le sue
      * velocità a 0.
      */
-    public Pallina(DatiCondivisi ptrdati) {
-        this.dati = ptrdati;
+    public Pallina() {
         this.Raggio = 20;
         this.posX = 100;          //Cambiare in base a lunghezza della scatola
         this.posY = 100;          //Cambiare in base a larghezza della scatola
@@ -115,7 +113,6 @@ public class Pallina {
     }
 
     public Pallina(DatiCondivisi ptrdati, float posX, float posY) {
-        this.dati = ptrdati;
         this.Raggio = 20;
         this.posX = posX;          //Cambiare in base a lunghezza della scatola
         this.posY = posY;          //Cambiare in base a larghezza della scatola
@@ -173,6 +170,9 @@ public class Pallina {
      * pallina si sposterà velocemente. Quando la pallina tocca il bordo della
      * scatola, se ha una velocità sufficiente, passerà nell'altra scatola.
      */
+    
+    
+    
     public void move(int rigaScatola, int colonnaScatola, int inclinazioneX, int inclinazioneY) {
         /**
          * Movimento sulle X
@@ -239,6 +239,15 @@ public class Pallina {
         }       
          */
     }
+    
+    public void jumpUP(){
+        this.Raggio +=1;
+    }
+    
+    public void jumpDOWN(){
+        this.Raggio-=1;
+    }
+
 
     public float getPosX() {
         return posX;

@@ -6,6 +6,7 @@
 package sabbiapallina;
 
 import processing.core.PApplet;
+
 /**
  * @author Galimberti Francesco
  *
@@ -34,6 +35,7 @@ public class NB_ProcessingScatola extends PApplet {
 
     static SwingGui swingGui;
 
+    private int contZ = 0;
     /**
      * @author Riccardi Francesco
      *
@@ -142,7 +144,13 @@ public class NB_ProcessingScatola extends PApplet {
                     drawBall();
                 }
 
-                if (dati.getInclinazioneX() > 15 || dati.getInclinazioneX() < -15 || dati.getInclinazioneY() > 15 || dati.getInclinazioneY() <- 15) {
+                if (dati.getZ() == 1) {
+                    dati.setValoreZ(0);
+                    drawBallSalto();
+                    
+                }
+
+                if (dati.getInclinazioneX() > 15 || dati.getInclinazioneX() < -15 || dati.getInclinazioneY() > 15 || dati.getInclinazioneY() < - 15) {
                     dati.signalEseguiPallina();
                 }
             }
@@ -231,6 +239,20 @@ public class NB_ProcessingScatola extends PApplet {
         fill(color(255, 0, 0));
         stroke(0, 0, 0);
         ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio(), thPallina.getPallina().getRaggio());
+        noFill();
+    }
+
+    public void drawBallSalto() {
+        fill(color(255, 0, 0));
+        stroke(0, 0, 0);                         //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
+            for (int i = 0; i < 50; i++) {
+                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio() + 1, thPallina.getPallina().getRaggio() + 1);
+            }
+
+            for (int i = 0; i < 50; i++) {
+                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio() - 1, thPallina.getPallina().getRaggio() - 1);
+            }
+        this.swingGui.cambia();
         noFill();
     }
 }

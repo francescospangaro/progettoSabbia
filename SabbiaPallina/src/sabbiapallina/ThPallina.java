@@ -45,7 +45,7 @@ public class ThPallina extends Thread {
         this.dati = ptrDati;
         this.colonnaScatola = 0;
         this.rigaScatola = 0;
-        pallina = new Pallina(dati);
+        pallina = dati.getPallina();
     }
 
     /**
