@@ -7,8 +7,6 @@ package sabbiapallina;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import processing.core.PApplet;
-import static sabbiapallina.NB_ProcessingScatola.dati;
 
 /**
  *

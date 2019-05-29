@@ -5,8 +5,9 @@
  */
 package sabbiapallina;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import processing.core.PApplet;
-import javax.swing.Timer;
 
 /**
  * @author Galimberti Francesco
@@ -35,7 +36,7 @@ public class NB_ProcessingScatola extends PApplet {
     static ThSensore thSensore;
 
     static SwingGui swingGui;
-    
+
     /**
      * @author Riccardi Francesco
      *
@@ -85,7 +86,6 @@ public class NB_ProcessingScatola extends PApplet {
             }
         }
 
-        
         thSensore = new ThSensore(dati, swingGui);
         thPallina = new ThPallina(dati);
 
@@ -145,9 +145,10 @@ public class NB_ProcessingScatola extends PApplet {
                 }
 
                 if (dati.getZ() == 1) {
+                    System.out.println("ciao");
                     dati.setValoreZ(0);
                     drawBallSalto();
-                    
+
                 }
 
                 if (dati.getInclinazioneX() > 15 || dati.getInclinazioneX() < -15 || dati.getInclinazioneY() > 15 || dati.getInclinazioneY() < - 15) {
@@ -243,21 +244,42 @@ public class NB_ProcessingScatola extends PApplet {
     }
 
     public void drawBallSalto() {
-        fill(color(255, 0, 0));
-        stroke(0, 0, 0);                         //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
-            for (int i = 0; i < 50; i++) {
-                try{
-                    Thread.sleep(10);
-                }catch(Exception e){}
-                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), (thPallina.getPallina().getRaggio() + 1), (thPallina.getPallina().getRaggio() + 1));
-            }
+        float raggio1 = thPallina.getPallina().getRaggio();
+        float raggio2 = thPallina.getPallina().getRaggio();
 
-            for (int i = 0; i < 50; i++) {
-                try{
-                    Thread.sleep(10);
-                }catch(Exception e){}
-                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), (thPallina.getPallina().getRaggio() - 1), (thPallina.getPallina().getRaggio() - 1));
-            }
+        fill(color(255, 0, 0));
+        stroke(0, 0, 0);                         
+        /**
+         * ingrandisco le dimensioni del raggio della pallina lasciandola
+         * alla sua posizione attuale
+         */
+        
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(500);
+                System.out.println("asd1");
+                raggio1 = raggio1 + 2;
+                raggio2 = raggio2 + 2;
+                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), 100, 100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(NB_ProcessingScatola.class.getName()).log(Level.SEVERE, null, ex);
+            }        
+        }
+        /**
+         * Riporto le dimesnsioni della pallina a come erano prima,
+         * tramite animazione a discesa
+         */
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(500);
+                System.out.println("asd2");
+                raggio1 = raggio1 - 2;
+                raggio2 = raggio2 - 2;
+                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), 10, 10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(NB_ProcessingScatola.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+        }
         this.swingGui.cambia();
         noFill();
     }
