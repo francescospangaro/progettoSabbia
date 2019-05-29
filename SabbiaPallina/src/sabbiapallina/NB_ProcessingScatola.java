@@ -6,6 +6,7 @@
 package sabbiapallina;
 
 import processing.core.PApplet;
+import javax.swing.Timer;
 
 /**
  * @author Galimberti Francesco
@@ -34,8 +35,7 @@ public class NB_ProcessingScatola extends PApplet {
     static ThSensore thSensore;
 
     static SwingGui swingGui;
-
-    private int contZ = 0;
+    
     /**
      * @author Riccardi Francesco
      *
@@ -85,6 +85,7 @@ public class NB_ProcessingScatola extends PApplet {
             }
         }
 
+        
         thSensore = new ThSensore(dati, swingGui);
         thPallina = new ThPallina(dati);
 
@@ -93,7 +94,6 @@ public class NB_ProcessingScatola extends PApplet {
         HScreen = (numScatoleRighe * 200);
 
         PApplet.main(new String[]{"sabbiapallina.NB_ProcessingScatola"});
-
     }
 
     /**
@@ -246,11 +246,17 @@ public class NB_ProcessingScatola extends PApplet {
         fill(color(255, 0, 0));
         stroke(0, 0, 0);                         //CONTATORE CHE SERVE PER INCREMENTARE LA VELOCITA DELLA PALLINA SOLO 1 VOLTA OGNI 20 RICHIAMI DEL METODO
             for (int i = 0; i < 50; i++) {
-                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio() + 1, thPallina.getPallina().getRaggio() + 1);
+                try{
+                    Thread.sleep(10);
+                }catch(Exception e){}
+                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), (thPallina.getPallina().getRaggio() + 1), (thPallina.getPallina().getRaggio() + 1));
             }
 
             for (int i = 0; i < 50; i++) {
-                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio() - 1, thPallina.getPallina().getRaggio() - 1);
+                try{
+                    Thread.sleep(10);
+                }catch(Exception e){}
+                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), (thPallina.getPallina().getRaggio() - 1), (thPallina.getPallina().getRaggio() - 1));
             }
         this.swingGui.cambia();
         noFill();
