@@ -244,9 +244,11 @@ public class SwingGui {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(controllo == false){
                 dati.set(Integer.parseInt(righe.getText()), Integer.parseInt(colonne.getText()));
                 controllo = true;
                 dati.signalsincroGuiMain();
+                }
             }
         });
 
