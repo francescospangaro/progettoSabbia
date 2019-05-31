@@ -51,7 +51,7 @@ public class NB_ProcessingScatola extends PApplet {
      * @brief conteine l'altezza della canvas(schermo di gioco
      */
     private static int HScreen;
-
+    private int r1 = 0;
     /**
      * @author Riccardi Francesco
      *
@@ -143,12 +143,41 @@ public class NB_ProcessingScatola extends PApplet {
                 if (box[r][c].isBallP()) {
                     drawBall();
                 }
+                
+                
+                boolean controllo;
+                if (dati.getZ() == 1) {    
+                    controllo = true;
+                    fill(color(255, 0, 0));
+                    stroke(0, 0, 0);
+                    if (controllo) {
 
-                if (dati.getZ() == 1) {
-                    System.out.println("ciao");
+                        /**
+                         * ingrandisco le dimensioni del raggio della pallina
+                         * lasciandola alla sua posizione attuale
+                         */
+                        System.out.println("salta");
+                        ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio()+1, thPallina.getPallina().getRaggio()+1);
+                        if(thPallina.getPallina().getRaggio() == 100){
+                            controllo = false;
+                            dati.setValoreZ(0);
+                            r1 = thPallina.getPallina().getRaggio();
+                        }
+                    }else if (controllo == false) {
+                        /**
+                         * Riporto le dimensioni della pallina a come erano
+                         * prima, tramite animazione a discesa
+                         */
+                        if(r1 != thPallina.getPallina().getRaggio()){
+                        System.out.println("scendi");
+                        ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio()-1, thPallina.getPallina().getRaggio()-1);
+                        }
+                    }
+                    this.swingGui.cambia();
+                    noFill();
+                }else{
+                    controllo = false;
                     dati.setValoreZ(0);
-                    drawBallSalto();
-
                 }
 
                 if (dati.getInclinazioneX() > 15 || dati.getInclinazioneX() < -15 || dati.getInclinazioneY() > 15 || dati.getInclinazioneY() < - 15) {
@@ -156,7 +185,6 @@ public class NB_ProcessingScatola extends PApplet {
                 }
             }
         }
-
     }
 
     public void drawSabbiaPixel(int r, int c, int riga, int colonna) {
@@ -248,12 +276,12 @@ public class NB_ProcessingScatola extends PApplet {
         float raggio2 = thPallina.getPallina().getRaggio();
 
         fill(color(255, 0, 0));
-        stroke(0, 0, 0);                         
+        stroke(0, 0, 0);
         /**
-         * ingrandisco le dimensioni del raggio della pallina lasciandola
-         * alla sua posizione attuale
+         * ingrandisco le dimensioni del raggio della pallina lasciandola alla
+         * sua posizione attuale
          */
-        
+
         for (int i = 0; i < 10; i++) {
             try {
                 Thread.sleep(500);
@@ -263,11 +291,11 @@ public class NB_ProcessingScatola extends PApplet {
                 ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), 100, 100);
             } catch (InterruptedException ex) {
                 Logger.getLogger(NB_ProcessingScatola.class.getName()).log(Level.SEVERE, null, ex);
-            }        
+            }
         }
         /**
-         * Riporto le dimesnsioni della pallina a come erano prima,
-         * tramite animazione a discesa
+         * Riporto le dimesnsioni della pallina a come erano prima, tramite
+         * animazione a discesa
          */
         for (int i = 0; i < 10; i++) {
             try {
@@ -278,7 +306,7 @@ public class NB_ProcessingScatola extends PApplet {
                 ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), 10, 10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(NB_ProcessingScatola.class.getName()).log(Level.SEVERE, null, ex);
-            }            
+            }
         }
         this.swingGui.cambia();
         noFill();
