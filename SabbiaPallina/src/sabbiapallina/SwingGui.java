@@ -47,11 +47,12 @@ public class SwingGui {
     private int valoreX;
 
     private int valoreY;
-    
+
     private boolean controllo;
 
     private JButton jump;
     private JButton reset;
+
     /**
      * @author Riccardi Francesco
      * @brief crea un pannello che contiene: un pannello su cui aggiungere
@@ -122,7 +123,6 @@ public class SwingGui {
 
                     valoreY = (int) inclinazioney.getValue();
                     valInclinazioney.setText(String.valueOf(valoreY) + "° ");
-                } else {
                 }
             }
         });
@@ -198,13 +198,11 @@ public class SwingGui {
                 valoreY = 0;
                 inclinazionex.setValue((int) (valoreX));
                 inclinazioney.setValue((int) (valoreY));
-                
-                dati.setValoreZ(1);                
+
+                dati.setSaltaPallina(true);
                 jump.setBackground(Color.yellow);
             }
         });
-        
-        
 
         /**
          *
@@ -244,10 +242,10 @@ public class SwingGui {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(controllo == false){
-                dati.set(Integer.parseInt(righe.getText()), Integer.parseInt(colonne.getText()));
-                controllo = true;
-                dati.signalsincroGuiMain();
+                if (controllo == false) {
+                    dati.set(Integer.parseInt(righe.getText()), Integer.parseInt(colonne.getText()));
+                    controllo = true;
+                    dati.signalsincroGuiMain();
                 }
             }
         });
@@ -284,8 +282,8 @@ public class SwingGui {
     public void show() {
         frame.setVisible(true);
     }
-    
-    public void cambia(){
+
+    public void cambiaColoreButtonSalta() {
         jump.setBackground(reset.getBackground());
     }
 

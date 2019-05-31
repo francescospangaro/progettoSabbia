@@ -26,11 +26,10 @@ public class DatiCondivisi {
     */
     private int numScatoleColonne;
     private int numScatoleRighe;
-    private int valoreZ;
+    private boolean saltaPallina;
     
     private Semaphore sincroEventoPallina;
     private Semaphore sincroGuiMain;
-    private Semaphore sincroSalta;
     /**
     * @author Riccardi Francesco
     * 
@@ -83,17 +82,7 @@ public class DatiCondivisi {
         
         giroscopio=new Sensore();
         
-        sincroEventoPallina=new Semaphore(0);
-        sincroSalta = new Semaphore(0);
-        
-        
-        /*
-        sabbie = new Sabbia[numScatoleRighe][numScatoleColonne];
-        for (int r = 0; r < numScatoleRighe; r++) {
-            for (int c = 0; c < numScatoleColonne; c++) {
-                sabbie[r][c] = new Sabbia();
-            }
-        }*/
+        sincroEventoPallina=new Semaphore(0);       
         
         scatole=new Scatole(numScatoleRighe,numScatoleColonne);
         
@@ -240,12 +229,12 @@ public class DatiCondivisi {
         sincroGuiMain.release();
     }
     
-    public int getZ(){
-        return valoreZ;
+    public boolean isSaltaPallina(){
+        return saltaPallina;
     }
     
-    public void setValoreZ(int z){
-        this.valoreZ = z;
+    public void setSaltaPallina(boolean z){
+        this.saltaPallina = z;
     }
     
     public void set(int righe,int colonne){
@@ -255,8 +244,7 @@ public class DatiCondivisi {
         
         giroscopio=new Sensore();
         
-        sincroEventoPallina=new Semaphore(0);
-        sincroSalta = new Semaphore(0);        
+        sincroEventoPallina=new Semaphore(0);      
         
         scatole=new Scatole(numScatoleRighe,numScatoleColonne);
         

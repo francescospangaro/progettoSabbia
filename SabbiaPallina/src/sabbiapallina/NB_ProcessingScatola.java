@@ -51,8 +51,9 @@ public class NB_ProcessingScatola extends PApplet {
      * @brief conteine l'altezza della canvas(schermo di gioco
      */
     private static int HScreen;
-    private int r1 = 0;
-    private boolean controllo = true;
+    
+    
+    private boolean controlloSalto = true;
 
     /**
      * @author Riccardi Francesco
@@ -146,7 +147,7 @@ public class NB_ProcessingScatola extends PApplet {
                     drawBall();
                 }
 
-                if (dati.getZ() == 1) {
+                if (dati.isSaltaPallina()) {
                     drawBallSalto();
                 }
 
@@ -217,25 +218,25 @@ public class NB_ProcessingScatola extends PApplet {
         fill(color(255, 0, 0));
         stroke(0, 0, 0);
 
-        if (controllo == true) {
+        if (controlloSalto == true) {
             thPallina.incRaggioPallina();
             ellipse(thPallina.getPosXPallina(), thPallina.getPosYPallina(), thPallina.getRaggioPallina(), thPallina.getRaggioPallina());
 
-            if (thPallina.getRaggioPallina() >= 50) {
-                controllo = false;
+            if (thPallina.getRaggioPallina() >= 40) {
+                controlloSalto = false;
             }
         }
 
-        if (controllo == false) {
+        if (controlloSalto == false) {
 
             thPallina.decRaggioPallina();
             ellipse(thPallina.getPosXPallina(), thPallina.getPosYPallina(), thPallina.getRaggioPallina(), thPallina.getRaggioPallina());
 
             if (thPallina.getRaggioPallina() <= 20) {
-                controllo = true;
-
-                dati.setValoreZ(0);
-                this.swingGui.cambia();
+                controlloSalto = true;
+                dati.setSaltaPallina(false);
+                
+                this.swingGui.cambiaColoreButtonSalta();
             }
         }
         noFill();
