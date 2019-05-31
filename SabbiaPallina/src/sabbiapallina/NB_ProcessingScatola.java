@@ -52,6 +52,8 @@ public class NB_ProcessingScatola extends PApplet {
      */
     private static int HScreen;
     private int r1 = 0;
+    private boolean controllo = true;
+
     /**
      * @author Riccardi Francesco
      *
@@ -143,41 +145,9 @@ public class NB_ProcessingScatola extends PApplet {
                 if (box[r][c].isBallP()) {
                     drawBall();
                 }
-                
-                
-                boolean controllo;
-                if (dati.getZ() == 1) {    
-                    controllo = true;
-                    fill(color(255, 0, 0));
-                    stroke(0, 0, 0);
-                    if (controllo) {
 
-                        /**
-                         * ingrandisco le dimensioni del raggio della pallina
-                         * lasciandola alla sua posizione attuale
-                         */
-                        System.out.println("salta");
-                        ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio()+1, thPallina.getPallina().getRaggio()+1);
-                        if(thPallina.getPallina().getRaggio() == 100){
-                            controllo = false;
-                            dati.setValoreZ(0);
-                            r1 = thPallina.getPallina().getRaggio();
-                        }
-                    }else if (controllo == false) {
-                        /**
-                         * Riporto le dimensioni della pallina a come erano
-                         * prima, tramite animazione a discesa
-                         */
-                        if(r1 != thPallina.getPallina().getRaggio()){
-                        System.out.println("scendi");
-                        ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio()-1, thPallina.getPallina().getRaggio()-1);
-                        }
-                    }
-                    this.swingGui.cambia();
-                    noFill();
-                }else{
-                    controllo = false;
-                    dati.setValoreZ(0);
+                if (dati.getZ() == 1) {
+                    drawBallSalto();
                 }
 
                 if (dati.getInclinazioneX() > 15 || dati.getInclinazioneX() < -15 || dati.getInclinazioneY() > 15 || dati.getInclinazioneY() < - 15) {
@@ -227,35 +197,7 @@ public class NB_ProcessingScatola extends PApplet {
         stroke(0, 0, 0);
         noFill();
     }
-
-    /*
-    public void drawSabbiaPixel(int r, int c, int riga, int colonna) {
-        stroke(0, 0, 0);
-
-        rect(colonna, riga, 200, 200);
-
-        if (dati.getInclinazioneX() >= 0) {
-            colonna = colonna + 200 - 2;
-            for (int i = 0; i < dati.getWidthSabbiaById(r, c); i++) {
-                noStroke();
-                fill(color(202, 188, 145));
-                rect(colonna, riga, 1, 199);
-                colonna--;
-            }
-        }
-
-        if (dati.getInclinazioneX() < 0) {
-            for (int i = 0; i < dati.getWidthSabbiaById(r, c); i++) {
-                noStroke();
-                fill(color(202, 188, 145));
-                rect(colonna, riga, 1, 199);
-                colonna++;
-            }
-
-        }
-        stroke(0, 0, 0);
-        noFill();
-    }*/
+    
     /**
      * @author Riccardi Francesco
      *
@@ -267,48 +209,35 @@ public class NB_ProcessingScatola extends PApplet {
     public void drawBall() {
         fill(color(255, 0, 0));
         stroke(0, 0, 0);
-        ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), thPallina.getPallina().getRaggio(), thPallina.getPallina().getRaggio());
+        ellipse(thPallina.getPosXPallina(), thPallina.getPosYPallina(), thPallina.getRaggioPallina(), thPallina.getRaggioPallina());
         noFill();
     }
 
     public void drawBallSalto() {
-        float raggio1 = thPallina.getPallina().getRaggio();
-        float raggio2 = thPallina.getPallina().getRaggio();
-
         fill(color(255, 0, 0));
         stroke(0, 0, 0);
-        /**
-         * ingrandisco le dimensioni del raggio della pallina lasciandola alla
-         * sua posizione attuale
-         */
 
-        for (int i = 0; i < 10; i++) {
-            try {
-                Thread.sleep(500);
-                System.out.println("asd1");
-                raggio1 = raggio1 + 2;
-                raggio2 = raggio2 + 2;
-                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), 100, 100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(NB_ProcessingScatola.class.getName()).log(Level.SEVERE, null, ex);
+        if (controllo == true) {
+            thPallina.incRaggioPallina();
+            ellipse(thPallina.getPosXPallina(), thPallina.getPosYPallina(), thPallina.getRaggioPallina(), thPallina.getRaggioPallina());
+
+            if (thPallina.getRaggioPallina() >= 50) {
+                controllo = false;
             }
         }
-        /**
-         * Riporto le dimesnsioni della pallina a come erano prima, tramite
-         * animazione a discesa
-         */
-        for (int i = 0; i < 10; i++) {
-            try {
-                Thread.sleep(500);
-                System.out.println("asd2");
-                raggio1 = raggio1 - 2;
-                raggio2 = raggio2 - 2;
-                ellipse(thPallina.getPallina().getPosX(), thPallina.getPallina().getPosY(), 10, 10);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(NB_ProcessingScatola.class.getName()).log(Level.SEVERE, null, ex);
+
+        if (controllo == false) {
+
+            thPallina.decRaggioPallina();
+            ellipse(thPallina.getPosXPallina(), thPallina.getPosYPallina(), thPallina.getRaggioPallina(), thPallina.getRaggioPallina());
+
+            if (thPallina.getRaggioPallina() <= 20) {
+                controllo = true;
+
+                dati.setValoreZ(0);
+                this.swingGui.cambia();
             }
         }
-        this.swingGui.cambia();
         noFill();
     }
 }

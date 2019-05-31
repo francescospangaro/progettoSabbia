@@ -211,9 +211,25 @@ public class ThPallina extends Thread {
         rigaScatola = rigaDest;
         colonnaScatola = colonnaDest;
     }
-
-    public Pallina getPallina() {
-        return pallina;
+    
+    public void incRaggioPallina(){
+        pallina.incRaggio();
+    }
+    
+    public void decRaggioPallina(){
+        pallina.decRaggio();
+    }
+    
+    public float getPosXPallina(){
+        return pallina.getPosX();
+    }
+    
+    public float getPosYPallina(){
+        return pallina.getPosY();
+    }
+    
+    public int getRaggioPallina(){
+        return pallina.getRaggio();
     }
 
 }

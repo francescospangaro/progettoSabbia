@@ -145,18 +145,6 @@ public class Pallina {
 
     /**
      * @author Galimberti Francesco
-     *
-     * @brief Metodo get che fa ritornare il valore del raggio della pallina.
-     *
-     * @return Raggio attributo che rappresenta il raggio di grandezza della
-     * pallina.
-     */
-    public int getRaggio() {
-        return Raggio;
-    }
-
-    /**
-     * @author Galimberti Francesco
      * @param rigaScatola Parametro che indica la riga identificativa della
      * scatola in cui la pallina si muove.
      * @param colonnaScatola Parametro che indica la colonna identificativa
@@ -239,6 +227,20 @@ public class Pallina {
         }       
          */
     }
+
+    public void incRaggio() {
+        this.Raggio +=1;
+    }
+    
+    public void decRaggio() {
+        this.Raggio -=1;
+    }
+
+    public int getRaggio() {
+        return Raggio;
+    }
+    
+    
     
     public void jumpUP(){
         this.Raggio +=1;
