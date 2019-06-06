@@ -84,7 +84,7 @@ public class SwingGui {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel controls = new JPanel();  //aggiunge un pannello su cui aggiungere bottoni
-        controls.setLayout(new FlowLayout());
+        controls.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         JSlider inclinazionex = new JSlider();  //slider che regola l'inclinazione delle scatole
         inclinazionex.setValue(0);
@@ -104,10 +104,10 @@ public class SwingGui {
                 if (controllo) {
                     valoreY = 0;
                     inclinazioney.setValue(0);
-                    valInclinazioney.setText(String.valueOf(valoreY) + "° ");
+                    valInclinazioney.setText(String.valueOf(valoreY));
 
                     valoreX = (int) inclinazionex.getValue();
-                    valInclinazionex.setText(String.valueOf(valoreX) + "° ");
+                    valInclinazionex.setText(String.valueOf(valoreX));
                 } else {
                 }
             }
@@ -119,10 +119,10 @@ public class SwingGui {
                 if (controllo) {
                     valoreX = 0;
                     inclinazionex.setValue(0);
-                    valInclinazionex.setText(String.valueOf(valoreX) + "° ");
+                    valInclinazionex.setText(String.valueOf(valoreX) );
 
                     valoreY = (int) inclinazioney.getValue();
-                    valInclinazioney.setText(String.valueOf(valoreY) + "° ");
+                    valInclinazioney.setText(String.valueOf(valoreY));
                 }
             }
         });
